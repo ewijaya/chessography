@@ -38,6 +38,17 @@ Fraunces (display font) lacks ♞ — it rendered as a blob in the masthead unti
 the glyph span got font-family: var(--serif-body). Check pictographic glyphs
 against the actual font stack, not the editor preview.
 
+## Stockfish on Pages: use the single-threaded lite build
+Multi-threaded stockfish.js needs SharedArrayBuffer → COOP/COEP headers, which
+Cloudflare Pages doesn't send by default. `stockfish-18-lite-single` (21KB js +
+7MB wasm) runs in a plain Worker with no headers. Files are copied from
+node_modules to public/engine at pre{dev,build} — never committed (gitignored).
+
+## react-chessboard squareStyles land on a child of [data-square]
+E2E checks that look for the style on the `[data-square]` element itself find
+nothing; query descendants too. Click-to-move = onSquareClick + squareStyles
+(selected ring, radial-gradient dots on legal targets, ring on captures).
+
 ## Endgames are unreachable by normal play in a demo
 Added demo presets (FEN/moves) so recognizers 2 and 3 are demonstrable without
 playing 40 moves. This was the only way to make the MVP reviewable.

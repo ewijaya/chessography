@@ -31,3 +31,4 @@ dist-ssr
 credentials*.json
 token*.json
 .dev.vars
+public/engine

@@ -9,13 +9,15 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
-    "prebuild": "node scripts/build-openings.mjs"
+    "prebuild": "node scripts/build-openings.mjs && node scripts/copy-engine.mjs",
+    "predev": "node scripts/copy-engine.mjs"
   },
   "dependencies": {
     "chess.js": "^1.4.0",
     "react": "^19.2.7",
     "react-chessboard": "^5.10.0",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "stockfish": "^18.0.8"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",
