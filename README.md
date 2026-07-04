@@ -1,5 +1,7 @@
 # ♞ Chessography
 
+**[chessography.pages.dev](https://chessography.pages.dev)**
+
 A chess app where every named move carries its story. Play on the board and,
 after each move, the app resolves the most specific named thing that applies —
 opening line, pawn structure, or endgame pattern — and tells you the story
@@ -36,6 +38,9 @@ The opening dataset is rebuilt from `data/*.tsv` (lichess chess-openings,
 CC0) by `scripts/build-openings.mjs` on every build.
 
 ## Deploy
+
+Pushes to `main` auto-deploy to Cloudflare Pages via GitHub Actions
+(`.github/workflows/deploy.yml`). For a manual one-off deploy:
 
 ```bash
 bash scripts/deploy.sh   # Cloudflare Pages; reads credentials from ~/.secrets
