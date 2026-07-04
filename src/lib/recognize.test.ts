@@ -1,6 +1,8 @@
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { Chess } from 'chess.js';
-import { matchOpening } from './openings';
+import { loadBook, matchOpening } from './openings';
+
+beforeAll(() => loadBook());
 import { detectStructure } from './structures';
 import { detectEndgame } from './endgames';
 import { recognize } from './recognize';
@@ -101,12 +103,16 @@ describe('structure detection', () => {
     expect(detectStructure(play(preset.moves!))?.id).toBe('stonewall');
   });
 
+  it('detects the French chain from the Advance Variation', () => {
+    expect(detectStructure(play(['e4', 'e6', 'd4', 'd5', 'e5']))?.id).toBe('french-chain');
+  });
+
   it('detects nothing in the start position', () => {
     expect(detectStructure(new Chess())).toBeNull();
   });
 
   it('every detected structure has a story', () => {
-    for (const id of ['iqp', 'hanging-pawns', 'carlsbad', 'maroczy-bind', 'hedgehog', 'stonewall']) {
+    for (const id of ['iqp', 'hanging-pawns', 'carlsbad', 'maroczy-bind', 'hedgehog', 'stonewall', 'french-chain']) {
       expect(getPatternStory(id), id).toBeDefined();
     }
   });
