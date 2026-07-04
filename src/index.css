@@ -20,6 +20,46 @@
   --mono: 'IBM Plex Mono', 'Courier New', monospace;
 }
 
+/* Light mode — the club by daylight: warm reading-room cream instead of
+   evening felt. The book page (--paper/--ink) reads well on both. */
+:root[data-theme='light'] {
+  --felt: #efe6d2;
+  --felt-dark: #e4d8bf;
+  --felt-line: #cbbc9c;
+  --felt-text: #4a4232;
+  --felt-text-dim: #837860;
+
+  --paper: #faf5e8;
+  --paper-edge: #eadfc6;
+
+  --brass: #8a6425;
+  --stamp: #99392b;
+}
+
+:root[data-theme='light'] .masthead h1 {
+  color: var(--ink);
+}
+
+:root[data-theme='light'] .scoresheet .san {
+  color: var(--ink);
+}
+
+:root[data-theme='light'] .board-frame {
+  border-color: #8a6b4a;
+  box-shadow: 0 8px 28px rgba(90, 70, 40, 0.3);
+}
+
+:root[data-theme='light'] .page {
+  box-shadow:
+    0 1px 0 var(--paper-edge) inset,
+    0 10px 30px rgba(90, 70, 40, 0.25);
+}
+
+:root[data-theme='light'] .controls button:hover:not(:disabled),
+:root[data-theme='light'] .presets summary:hover {
+  color: var(--ink);
+}
+
 * {
   box-sizing: border-box;
 }

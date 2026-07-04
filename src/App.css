@@ -37,6 +37,25 @@
   color: var(--felt-text-dim);
 }
 
+.masthead .theme-toggle {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--felt-line);
+  border-radius: 999px;
+  color: var(--felt-text);
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.masthead .theme-toggle:hover {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+
 /* ---------- layout ---------- */
 
 .layout {
@@ -64,6 +83,77 @@
   border: 6px solid #3a2b1c;
   border-radius: 4px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* opponent picker */
+
+.opponent-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.opponent-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--felt-text-dim);
+}
+
+.opponent-modes {
+  display: flex;
+  gap: 6px;
+}
+
+.opponent-modes button,
+.level-select {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  background: transparent;
+  color: var(--felt-text);
+  border: 1px solid var(--felt-line);
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.opponent-modes button:hover {
+  border-color: var(--brass);
+}
+
+.opponent-modes button.active {
+  border-color: var(--brass);
+  color: var(--brass);
+  font-weight: 600;
+}
+
+.level-select {
+  border-radius: 3px;
+}
+
+/* status line under the board */
+
+.game-status {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--brass);
+  text-align: center;
+  padding: 2px 0;
+}
+
+.game-status.thinking {
+  color: var(--felt-text-dim);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
 }
 
 .controls {
