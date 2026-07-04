@@ -1,0 +1,13 @@
+import { chromium } from 'playwright-core';
+const browser = await chromium.launch({ executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox'] });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+await page.goto('http://localhost:4173/', { waitUntil: 'networkidle' });
+await page.click('[data-square="e2"]'); await page.waitForTimeout(150);
+await page.click('[data-square="e4"]'); await page.waitForTimeout(400);
+await page.screenshot({ path: '/home/ubuntu/screenshots/mobile-top.png' });
+await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+await page.waitForTimeout(200);
+await page.screenshot({ path: '/home/ubuntu/screenshots/mobile-bottom.png' });
+const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+console.log('horizontal overflow px:', overflow);
+await browser.close();

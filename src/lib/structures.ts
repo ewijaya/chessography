@@ -36,6 +36,12 @@ export function detectStructure(chess: Chess): PatternMatch | null {
     return { id: 'stonewall', name: 'Stonewall Structure', detail: 'Black pawn wedge on d5, e6, f5 — iron grip on e4, at the cost of a hole on e5.' };
   }
 
+  // French chain: the locked d4/e5 vs d5/e6 duel (or the mirrored e4/d5 vs
+  // e5/d6 King's Indian-style chain is NOT this — French is d/e files only).
+  if (wp.has('d4') && wp.has('e5') && bp.has('d5') && bp.has('e6')) {
+    return { id: 'french-chain', name: 'French Pawn Chain', detail: 'Locked chains: White d4–e5 against Black d5–e6. Play runs along the chains — White attacks kingside where e5 points, Black strikes the base with ...c5 and ...f6.' };
+  }
+
   // Hedgehog: black pawns crouched on the 6th rank behind White's c4 space.
   if (bp.has('a6') && bp.has('b6') && bp.has('d6') && bp.has('e6') && !bf.has('c') && wp.has('c4')) {
     return { id: 'hedgehog', name: 'Hedgehog Structure', detail: 'Black pawns on a6, b6, d6, e6 with the c-pawn exchanged — coiled behind the third rank, waiting for ...b5 or ...d5.' };

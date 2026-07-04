@@ -56,6 +56,27 @@
   color: var(--brass);
 }
 
+@media (max-width: 600px) {
+  .app {
+    padding: 16px 12px 48px;
+  }
+
+  .masthead {
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 6px;
+  }
+
+  .masthead .theme-toggle {
+    margin-left: auto;
+  }
+
+  .masthead .tagline {
+    order: 3;
+    flex-basis: 100%;
+  }
+}
+
 /* ---------- layout ---------- */
 
 .layout {
@@ -79,10 +100,113 @@
   gap: 14px;
 }
 
+.board-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
 .board-frame {
   border: 6px solid #3a2b1c;
   border-radius: 4px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+/* eval bar */
+
+.eval-bar {
+  position: relative;
+  width: 16px;
+  border-radius: 3px;
+  background: #2e2e2e;
+  border: 1px solid var(--felt-line);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.eval-white {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: #e8e2d0;
+  transition: height 400ms ease;
+}
+
+.eval-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  pointer-events: none;
+}
+
+.eval-label.on-white {
+  bottom: 4px;
+  color: #333;
+}
+
+.eval-label.on-black {
+  top: 4px;
+  color: #ddd;
+}
+
+/* promotion picker */
+
+.promo-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.promo-picker {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 4px;
+  padding: 14px 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.promo-title {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.promo-choices {
+  display: flex;
+  gap: 8px;
+}
+
+.promo-choices button {
+  font-size: 2rem;
+  line-height: 1;
+  width: 52px;
+  height: 52px;
+  background: transparent;
+  border: 1px solid rgba(92, 81, 64, 0.35);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.promo-choices button:hover {
+  border-color: var(--brass);
+  background: rgba(179, 135, 62, 0.12);
 }
 
 /* opponent picker */
@@ -151,6 +275,115 @@
   animation: pulse 1.2s ease-in-out infinite;
 }
 
+.game-status.viewing {
+  color: var(--felt-text-dim);
+  font-style: italic;
+}
+
+/* PGN import panel */
+
+.pgn-import {
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pgn-import textarea {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  background: transparent;
+  color: var(--felt-text);
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 8px;
+  resize: vertical;
+}
+
+.pgn-error {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--stamp);
+}
+
+.pgn-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.pgn-actions button {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  background: transparent;
+  color: var(--felt-text);
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.pgn-actions button:hover:not(:disabled) {
+  border-color: var(--brass);
+}
+
+.pgn-actions button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* atlas explorer */
+
+.atlas-body {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.atlas-search {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  background: transparent;
+  color: var(--felt-text);
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 7px 10px;
+  width: 100%;
+}
+
+.atlas-list {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.presets button.atlas-row {
+  padding: 4px 6px;
+}
+
+.atlas-eco {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--brass);
+  margin-right: 6px;
+}
+
+.atlas-more {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--felt-text-dim);
+  padding: 8px 6px 2px;
+  font-style: italic;
+}
+
+/* controls: eval toggle active state */
+
+.controls button.active {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.45; }
@@ -207,9 +440,28 @@
   margin-right: 2px;
 }
 
-.scoresheet .san {
+.scoresheet button.san {
   margin-right: 10px;
   color: var(--paper);
+  background: none;
+  border: none;
+  padding: 0 2px;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.scoresheet button.san:hover {
+  color: var(--brass);
+}
+
+.scoresheet button.san.current {
+  background: rgba(179, 135, 62, 0.25);
+  color: var(--brass);
+}
+
+:root[data-theme='light'] .scoresheet button.san {
+  color: var(--ink);
 }
 
 .scoresheet .empty {

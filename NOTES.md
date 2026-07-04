@@ -33,6 +33,17 @@ devDep, launched with executablePath /usr/bin/chromium-browser + --no-sandbox)
 drives the real app; scripts must live/run inside the project dir or ESM can't
 resolve the package. `vite preview --port 4173` serves dist for these checks.
 
+## Two engine workers, not one
+The eval bar and the opponent both need `go` commands; a single UCI worker can
+only run one search at a time, so the app keeps two Engine instances (opponent
++ eval). The 7MB wasm is fetched once (HTTP cache) but instantiated twice —
+acceptable on desktop, and eval is toggleable for weaker devices.
+
+## Lazy opening book pattern
+openings.ts keeps a module-level `book` filled by loadBook() (dynamic import);
+matchOpening stays synchronous and just misses until loaded. App re-renders on
+bookReady, tests call loadBook() in beforeAll. Main chunk: 1.1MB → 401KB.
+
 ## Chess glyphs need a font fallback
 Fraunces (display font) lacks ♞ — it rendered as a blob in the masthead until
 the glyph span got font-family: var(--serif-body). Check pictographic glyphs

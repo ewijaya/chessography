@@ -1,6 +1,7 @@
-// Thin UCI wrapper around the Stockfish web worker. One instance per app;
-// strength is set via Skill Level and per-level movetime so weak levels
-// both blunder (skill) and think less (time).
+// Thin UCI wrapper around the Stockfish web worker. The app runs two
+// instances: one plays as the opponent, one continuously evaluates the
+// displayed position for the eval bar (a single worker can only run one
+// `go` at a time, and eval must not block the opponent's thinking).
 
 export type EngineLevel = 'casual' | 'club' | 'strong' | 'master';
 
@@ -11,10 +12,14 @@ export const LEVELS: Record<EngineLevel, { label: string; skill: number; movetim
   master: { label: 'Master', skill: 20, movetimeMs: 1200 },
 };
 
+/** Centipawns from White's point of view, or a forced mate in N. */
+export type Eval = { cp: number } | { mateIn: number };
+
 export class Engine {
   private worker: Worker;
   private ready: Promise<void>;
   private pendingBestMove: ((move: string) => void) | null = null;
+  private lastInfoScore: { cp?: number; mate?: number } = {};
 
   constructor() {
     this.worker = new Worker('/engine/stockfish-18-lite-single.js');
@@ -22,6 +27,12 @@ export class Engine {
       const onMessage = (e: MessageEvent<string>) => {
         const line = String(e.data);
         if (line === 'uciok') resolve();
+        if (line.startsWith('info ')) {
+          const cp = / score cp (-?\d+)/.exec(line);
+          const mate = / score mate (-?\d+)/.exec(line);
+          if (cp) this.lastInfoScore = { cp: Number(cp[1]) };
+          else if (mate) this.lastInfoScore = { mate: Number(mate[1]) };
+        }
         if (line.startsWith('bestmove')) {
           const move = line.split(' ')[1];
           this.pendingBestMove?.(move);
@@ -43,6 +54,27 @@ export class Engine {
       this.pendingBestMove = resolve;
       this.worker.postMessage(`go movetime ${movetimeMs}`);
     });
+  }
+
+  /**
+   * Quick fixed-depth evaluation of `fen`, normalized to White's point of
+   * view (UCI scores are from the side to move). Serializes on the same
+   * bestmove wait as bestMove(), so use a dedicated instance for eval.
+   */
+  async evaluate(fen: string, depth = 12): Promise<Eval> {
+    await this.ready;
+    this.worker.postMessage(`setoption name Skill Level value 20`);
+    this.worker.postMessage(`position fen ${fen}`);
+    this.lastInfoScore = {};
+    await new Promise<void>((resolve) => {
+      this.pendingBestMove = () => resolve();
+      this.worker.postMessage(`go depth ${depth}`);
+    });
+    const whiteToMove = fen.split(' ')[1] === 'w';
+    const sign = whiteToMove ? 1 : -1;
+    const s = this.lastInfoScore;
+    if (s.mate !== undefined) return { mateIn: s.mate * sign };
+    return { cp: (s.cp ?? 0) * sign };
   }
 
   dispose() {

@@ -58,6 +58,17 @@ export const structureStories: Story[] = [
     notableGames: ['Andersson\'s hedgehog grinds of the 1970s–80s', 'Kasparov–Andersson, Tilburg 1981'],
   },
   {
+    id: 'french-chain',
+    aliases: ['French Pawn Chain', 'Locked Center', 'e5 Chain'],
+    eponym: 'Named for the French Defense, whose advance variations lock this chain onto the board by move three — though the chain itself belongs to structure theory, not to any one opening.',
+    origin: 'The structure is as old as 1...e6 itself, but its theory was written by Nimzowitsch in "My System" (1925), where the French chain is THE demonstration piece for his doctrine of the pawn-chain base.',
+    story:
+      'When White plays e5 against the French, the center dies and both players inherit a fate: the pawns on d4–e5 and e6–d5 interlock like fingers, no piece can pass, and the game\'s whole geography is decided. Nimzowitsch made this structure the centerpiece of his chain theory — attack the chain at its BASE, not its head. For Black that means ...c5 hammering d4 (and later, ...f6 hammering e5); for White it means the chain points kingside, so that is where the pieces go. Every French Defense player lives this script from move three: White builds an attack where the pawns aim, Black plays a lifetime of ...c5, ...Qb6, ...cxd4 against the base, and the game becomes a race between a kingside mating attack and queenside demolition. The chain teaches the deepest positional lesson there is: pawns determine where both players are ALLOWED to play.',
+    significance:
+      'The canonical locked-center structure and the textbook for Nimzowitsch\'s base-attack doctrine. Understanding it explains not just the French but every position where pawn chains point in opposite directions — including its cousin, the King\'s Indian center.',
+    notableGames: ['Nimzowitsch–Salwe, Carlsbad 1911 (the chain lecture in game form)', 'Botvinnik\'s French structures', 'Short–Timman, Tilburg 1991 (the king walk along the chain\'s safe squares)'],
+  },
+  {
     id: 'stonewall',
     aliases: ['Stonewall Structure', 'Stonewall Attack', 'Stonewall Dutch'],
     eponym: 'Named for what it is: a wall of stone — pawns on d4/e3/f4 (or d5/e6/f5) that no piece can ever dislodge.',
