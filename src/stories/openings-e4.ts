@@ -1,0 +1,308 @@
+import type { Story } from '../types';
+
+/** Stories for 1.e4 openings. Keys are exact lichess dataset names. */
+export const e4Stories: Story[] = [
+  {
+    id: 'King\'s Pawn Game',
+    aliases: ['King\'s Pawn Opening', '1.e4'],
+    eponym: 'No person — named for the pawn in front of the king, the oldest first move in recorded chess.',
+    origin: 'As old as modern chess itself: nearly every line in the Göttingen manuscript (c. 1490) and Lucena\'s 1497 book begins 1.e4.',
+    story:
+      'For four centuries 1.e4 simply WAS chess — the romantic era\'s gambits, Morphy\'s open games and Fischer\'s entire career were built on it. Fischer called it "best by test," and when he finally deviated (game 6 vs Spassky, 1972, playing 1.c4) it made headlines precisely because he never had. It stakes a claim in the center, opens lines for the bishop and queen at once, and invites the sharpest fight chess has to offer.',
+    significance:
+      'White grabs central space and rapid development. Every Black reply is itself a named world: 1...e5 (the Open Games), 1...c5 (Sicilian), 1...e6 (French), 1...c6 (Caro-Kann) — the first branching point of the whole naming tree.',
+    notableGames: ['Fischer beat nearly everyone with it; see any Morphy brilliancy, e.g. the Opera Game (Paris 1858)'],
+  },
+  {
+    id: 'Ruy Lopez',
+    aliases: ['Spanish Game', 'Spanish Opening'],
+    eponym:
+      'Ruy López de Segura (c. 1530–c. 1580), a Spanish priest from Zafra, Extremadura — the strongest player of his age and confessor at the court of Philip II.',
+    origin:
+      'Analyzed in his 1561 book "Libro de la invención liberal y arte del juego del axedrez", one of the first serious chess treatises in Europe.',
+    story:
+      'López travelled to Rome on church business in 1560, discovered the Italians\' chess literature, and came home to write a better book. In it he recommended 3.Bb5 — attacking the knight that defends e5 — as White\'s most testing try. The move was actually known before him, but his analysis gave it life, and outside the English-speaking world the opening still carries his homeland\'s name: the Spanish Game. Legend adds that he advised placing the board so the sun shone in your opponent\'s eyes — the man was a competitor. Four and a half centuries later, his move order remains the main battlefield of 1.e4 e5 at every World Championship.',
+    significance:
+      '3.Bb5 pressures the defender of e5 and poses a question Black must answer for the next twenty moves. It is chess\'s longest-running argument: virtually every classical plan — the Marshall, the Berlin, the Closed labyrinths — lives inside it.',
+    notableGames: [
+      'Kasparov–Karpov, many World Championship games (1985–1990)',
+      'Kramnik\'s Berlin Wall vs Kasparov, London 2000',
+      'Capablanca–Marshall, New York 1918 (the Marshall Attack unveiled)',
+    ],
+  },
+  {
+    id: 'Ruy Lopez: Morphy Defense',
+    aliases: ['Spanish, 3...a6'],
+    eponym: 'Paul Morphy (1837–1884), the New Orleans prodigy who crushed Europe\'s best in 1858–59 and then walked away from chess.',
+    origin: 'Morphy played 3...a6 consistently in his 1858 Paris matches, and his authority made it the main line forever after.',
+    story:
+      'Before Morphy, Black usually defended e5 directly. Morphy\'s little pawn move asks the bishop a question a move early: retreat or take? If 4.Bxc6 dxc6 5.Nxe5, Black regains the pawn with Qd4 — so the "threat" against e5 is an illusion, and Black gains the option of ...b5 for free. It is the quintessential Morphy idea: an apparently modest move that seizes long-term flexibility. Nearly every Ruy Lopez played today passes through 3...a6.',
+    significance:
+      'The insertion of ...a6 and Ba4 defines the modern Spanish: Black keeps the b5 tempo-gainer in reserve, and White keeps the bishop aimed at the kingside. The whole Closed Ruy Lopez complex grows from here.',
+    notableGames: ['Anderssen–Morphy, Paris 1858', 'Fischer–Spassky, Reykjavík 1972 (game 10)'],
+  },
+  {
+    id: 'Ruy Lopez: Berlin Defense',
+    aliases: ['Berlin Wall', 'Spanish, 3...Nf6'],
+    eponym: 'The Berlin school of the mid-1800s — the "Pleiades" masters around Ludwig Bledow and Paul Rudolf von Bilguer, who analyzed 3...Nf6 in their handbooks.',
+    origin: 'A respected 19th-century defense that slept for a century until Vladimir Kramnik resurrected it in London, 2000.',
+    story:
+      'Kramnik needed a way to neutralize Garry Kasparov — the most feared attacking player alive — in their 2000 World Championship match. He dusted off the antique 3...Nf6 and steered into the queenless "Berlin endgame" (4.O-O Nxe4 5.d4 Nd6 6.Bxc6 dxc6 7.dxe5 Nf5 8.Qxd8+ Kxd8). Kasparov battered it for the whole match, won nothing, and lost the crown without winning a single game. Journalists called it the Berlin Wall, and this time the wall went up. It has been an elite mainstay ever since.',
+    significance:
+      'Black accepts doubled pawns and loses castling rights but gets the bishop pair and a fortress-like structure. It converted the Ruy Lopez from an attacking arena into a test of endgame technique — and shifted opening fashion at the top for two decades.',
+    notableGames: ['Kasparov–Kramnik, London 2000 (games 1 and 3)', 'Carlsen–Caruana, London 2018 (multiple Berlins)'],
+  },
+  {
+    id: 'Ruy Lopez: Marshall Attack',
+    aliases: ['Marshall Gambit (Spanish)'],
+    eponym: 'Frank James Marshall (1877–1944), U.S. Champion for 27 years and one of history\'s great attacking players.',
+    origin: 'Unveiled against Capablanca at New York 1918 — allegedly saved up for years, waiting for the right victim.',
+    story:
+      'The legend: Marshall kept 8...d5!? secret for nearly a decade, refusing 1.e4 e5 lines in order to spring it on José Raúl Capablanca himself. Capablanca, facing a prepared sacrificial storm over the board, navigated it with legendary coolness and won — yet the gambit was so sound that it outlived the game that introduced it. A century of analysis has established that Black\'s piece activity fully compensates the pawn, and today the main line often forces White into razor-edge theory or "anti-Marshall" sidesteps.',
+    significance:
+      'Black gives a center pawn for a standing kingside initiative — an entire complex where the gambiteer is the strategically respectable side. Its soundness is why 8.a4 and other anti-Marshall moves dominate modern elite play.',
+    notableGames: ['Capablanca–Marshall, New York 1918', 'Aronian and Svidler as modern Marshall specialists'],
+  },
+  {
+    id: 'Ruy Lopez: Exchange Variation',
+    aliases: ['Spanish Exchange'],
+    eponym: 'Not an eponym — named for the exchange 4.Bxc6, giving up the "Spanish bishop" at once.',
+    origin: 'Played by Emanuel Lasker with deadly effect around 1900; revived single-handedly by Bobby Fischer at the Havana Olympiad, 1966.',
+    story:
+      'Lasker used 4.Bxc6 to reach endgames where White\'s healthy kingside pawn majority ground Black down — his win over Capablanca at St. Petersburg 1914, in front of a stunned crowd, is the archetype. The line then gathered dust as "drawish" until Fischer uncorked it three times at Havana 1966, scoring wins with fresh ideas (5.O-O!) and proving the endgame was a real weapon, not a peace offer.',
+    significance:
+      'White trades the pride of the Spanish for structural profit: after ...dxc6 Black\'s queenside majority is crippled, so every simplification favors White. A permanent, teachable lesson in playing against pawn structure.',
+    notableGames: ['Lasker–Capablanca, St. Petersburg 1914', 'Fischer–Portisch, Havana Olympiad 1966'],
+  },
+  {
+    id: 'Italian Game',
+    aliases: ['Giuoco Italiano'],
+    eponym: 'Named for the Italian masters of the 16th–17th centuries — Polerio, Greco and their school — who first analyzed it deeply.',
+    origin: 'Among the oldest recorded openings: lines with Bc4 appear in the Göttingen manuscript (c. 1490) and dominate Greco\'s celebrated games (1620s).',
+    story:
+      'When chess\'s modern rules settled in the late 1400s, the Italians built the first great school of play, and their favorite attacking scheme aimed the bishop at f7 — the weakest point in Black\'s camp. Gioachino Greco\'s manuscript games, essentially the first chess bestsellers, spread these attacks across Europe. The Italian was eventually eclipsed by the Ruy Lopez for two centuries, then returned to the absolute elite in the 2010s when engines showed the quiet d3 systems were as rich as any Spanish.',
+    significance:
+      '3.Bc4 develops toward f7 and keeps every option open: the quiet Giuoco Piano, the romantic Evans Gambit, or the tactical chaos of the Two Knights. Today it is arguably the main line of 1.e4 e5 again — a 500-year-old opening back in fashion.',
+    notableGames: ['Greco\'s model attacks (1620s)', 'Carlsen, Caruana and So reviving the Giuoco Pianissimo (2015–present)'],
+  },
+  {
+    id: 'Italian Game: Giuoco Piano',
+    aliases: ['Quiet Game', 'Italian, 3...Bc5'],
+    eponym: 'Italian for "quiet game" — a name that is half description, half irony, since its gambit lines are anything but.',
+    origin: 'The symmetric 3...Bc5 tabiya is one of the oldest recorded positions in chess, analyzed continuously since the 15th century.',
+    story:
+      'The name distinguished the "quiet" 3...Bc5 development from the wild countergambits of the era, but history keeps playing jokes with it: the sharpest lines (4.c3 and d4, the Møller Attack) produce some of the most violent theory in the open games, while the modern grandmaster treatment — the "Giuoco Pianissimo," the very quiet game — wins by maneuvering an eyelash at a time. Five centuries on, both personalities of the opening are alive.',
+    significance:
+      'Black develops the bishop to its most active diagonal, mirroring White\'s claim. The central question — will White build with c3+d4 or squeeze with d3 — defines two entire eras of chess style.',
+    notableGames: ['Greco vs NN, 1620 (the classic bishop sacrifice patterns)', 'Carlsen–Karjakin, WCh 2016 (Pianissimo battles)'],
+  },
+  {
+    id: 'Italian Game: Evans Gambit',
+    aliases: ['Evans'],
+    eponym: 'Captain William Davies Evans (1790–1872), a Welsh sea captain who also invented colored signal lights for shipping.',
+    origin: 'Conceived around 1827, reputedly while Evans commanded a mail steamer between Milford Haven and Waterford; he beat Alexander McDonnell with it in London, 1829.',
+    story:
+      'A sailor with time to think at sea produced the most romantic pawn sacrifice in chess: 4.b4!? offers a wing pawn to drag the bishop off course and build a monster center with tempo. It became the darling of the 19th century — the Evergreen Game, Anderssen\'s immortal attacking masterpiece of 1852, is an Evans — until Lasker\'s defensive method cooled it. Then in 1995 Garry Kasparov played it against Anand and Piket, won brilliantly, and proved the old captain\'s idea still bites even in the computer age.',
+    significance:
+      'The purest lesson in time-versus-material in the open games: White invests a pawn for two tempi and a broad center. Its rise, refutation and rebirth trace the entire history of attacking theory.',
+    notableGames: ['Anderssen–Dufresne, Berlin 1852 (the Evergreen Game)', 'Kasparov–Anand, Riga 1995'],
+  },
+  {
+    id: 'Italian Game: Two Knights Defense',
+    aliases: ['Prussian Defense'],
+    eponym: 'Named for Black\'s two developed knights — though its soul belongs to the Italians who analyzed it and to Chigorin, its great champion.',
+    origin: 'Analyzed by Giulio Cesare Polerio in the 1580s; the critical 4.Ng5 assault on f7 has been debated ever since.',
+    story:
+      '3...Nf6 is less a defense than a counterattack — Bronstein suggested it should be called the "Two Knights Counterattack," since Black invites 4.Ng5, when the sound reply 4...d5 leads to positions where Black sacrifices a pawn (the Polerio/main line) for furious activity. The greedy alternative 5...Nxd5?! walks into the Fried Liver Attack, 6.Nxf7!?, dragging the king into the center — four hundred years of scholastic players have learned that lesson the hard way. Steinitz insisted 4.Ng5 was a "duffer\'s move"; Fischer disagreed; the argument is still running.',
+    significance:
+      'The sharpest branch of the Italian complex: Black refuses passivity and fights for the initiative from move three. A rite of passage for every improving player learning about f7, tempo and the price of pawn-grabbing.',
+    notableGames: ['Polerio\'s 16th-century analysis', 'Morphy\'s Two Knights games', 'Fischer–Bisguier, New York 1963'],
+  },
+  {
+    id: 'Sicilian Defense',
+    aliases: ['1...c5'],
+    eponym: 'Named for Sicily: the 17th-century Sicilian priest and player Pietro Carrera analyzed it, and English writer Jacob Sarratt\'s 1813 translation of an Italian manuscript fixed the name "the Sicilian" in print.',
+    origin: 'Known to Polerio by the 1590s; a minor guest for centuries until the 20th century made it Black\'s most feared reply to 1.e4.',
+    story:
+      'For 300 years 1...c5 was considered slightly disreputable — it concedes the center\'s first rank and accepts a cramped game for the promise of counterplay. The hypermoderns rehabilitated it, but it was the post-war generation — Najdorf, Tal, Fischer, then Kasparov — who turned it into the fighting defense: an asymmetric battlefield where Black plays for a win from move one. By the Fischer and Kasparov eras it was scoring better for Black than any other defense, and "Open Sicilian or chicken?" became the eternal taunt at every level of play.',
+    significance:
+      'The defining asymmetry of modern chess: Black trades a c-pawn for White\'s d-pawn, gets a half-open c-file and long-term queenside play, and dares White to attack first. Roughly a quarter of all recorded games begin with it.',
+    notableGames: ['Fischer\'s Najdorfs vs the world', 'Kasparov–Topalov, Wijk aan Zee 1999 (a Sicilian-adjacent immortal)', 'Tal\'s sacrificial Sicilians of the 1950s'],
+  },
+  {
+    id: 'Sicilian Defense: Najdorf Variation',
+    aliases: ['Najdorf'],
+    eponym: 'Miguel Najdorf (1910–1997), Polish-Argentine grandmaster — born Mojsze Najdorf, he stayed in Buenos Aires when WWII broke out during the 1939 Olympiad; his family perished in the Holocaust.',
+    origin: 'Developed in Argentine tournaments of the 1940s; 5...a6 became the spine of Black\'s Sicilian repertoire within a decade.',
+    story:
+      'Najdorf rebuilt his life in Argentina — selling insurance, giving blindfold exhibitions of staggering size partly in hope his family in Poland would read of them — and gave his name to the most analyzed opening variation in chess. The unassuming 5...a6 prepares ...e5 and queenside expansion while taking b5 from White\'s pieces. Fischer adopted it as a "personal religion"; Kasparov called it the Rolls-Royce of openings and made it his lifelong weapon. Its theory now runs deeper than any other line in the game — thirty-move forced sequences are routine.',
+    significance:
+      'The gold standard of fighting defenses: flexible, theoretically dense, and never refuted despite more analytical firepower than any opening in history. Playing the Najdorf well is a professional credential in itself.',
+    notableGames: ['Fischer–Spassky, Reykjavík 1972 (game 7... and Spassky\'s Bxh7 win, game 11)', 'Kasparov\'s career-long Najdorfs', 'The "Poisoned Pawn" debates: Spassky–Fischer 1972, rehabilitated by engines'],
+  },
+  {
+    id: 'Sicilian Defense: Dragon Variation',
+    aliases: ['Dragon'],
+    eponym: 'Named by Russian master Fyodor Dus-Chotimirsky around 1901 — an amateur astronomer, he thought Black\'s d6–e7–f7–g6–h7 pawn silhouette resembled the constellation Draco, the Dragon.',
+    origin: 'The fianchetto Sicilian existed in the 19th century, but the name — and the ferocious theory — are 20th-century creations.',
+    story:
+      'The Dragon is chess\'s best-named opening and its most honest: both sides announce their intentions and race. White castles long and storms the h-file ("pry open the h-file, sac, sac... mate," as Fischer cheerfully summarized his 1961 demolition of Larsen); Black\'s dragon bishop on g7 breathes fire down the long diagonal while the c-file counterattack arrives. The Yugoslav Attack turned the whole variation into a single forcing argument that has raged for seventy years, with computer analysis keeping both dragons and dragon-slayers in business.',
+    significance:
+      'The archetype of opposite-side castling races and the g7-bishop\'s power. Its theory is a shared cultural artifact — every chess generation learns the Dragon\'s moves the way musicians learn scales.',
+    notableGames: ['Fischer–Larsen, Portorož Interzonal 1958 ("sac, sac, mate")', 'Karpov–Korchnoi, Moscow 1974 (game 2, the model h-file win)', 'Topalov and Carlsen\'s modern Dragon revivals'],
+  },
+  {
+    id: 'Sicilian Defense: Alapin Variation',
+    aliases: ['c3 Sicilian', 'Anti-Sicilian 2.c3'],
+    eponym: 'Semyon Alapin (1856–1923), a Lithuanian-born Russian master, railway engineer and opening theoretician with a taste for unfashionable ideas.',
+    origin: 'Advocated by Alapin around the turn of the 20th century; carried into the modern era by Evgeny Sveshnikov, its lifelong apostle.',
+    story:
+      'Alapin\'s pragmatic 2.c3 sidesteps the entire Open Sicilian: White simply prepares d4 and says "no" to thirty years of your Najdorf files. Dismissed for decades as harmless, it was Sveshnikov — ironically also the author of Black\'s sharpest Sicilian system — who insisted "2.c3 and White is better" and built the modern theory proving it at least fully respectable. It became the workhorse anti-Sicilian for players who would rather understand structures than memorize refutations.',
+    significance:
+      'The premier "opt-out" of Sicilian theory: play transposes toward IQP or advance-French structures where ideas beat memory. A lesson that opening choice is also a negotiation about whose preparation gets used.',
+    notableGames: ['Sveshnikov\'s decades of 2.c3 wins', 'Deep Blue–Kasparov, 1996 (game 3, a 2.c3 Sicilian)'],
+  },
+  {
+    id: 'Sicilian Defense: Closed',
+    aliases: ['Closed Sicilian'],
+    eponym: 'Not an eponym — "Closed" because White declines to open the center with d4, keeping the pawn chains locked.',
+    origin: 'A 19th-century approach systematized in the 20th; Vasily Smyslov and, above all, Boris Spassky made it a weapon.',
+    story:
+      'Instead of detonating the center, White builds quietly — Nc3, g3, Bg2, d3 — and then rolls the f-pawn at Black\'s king. Spassky used it as a change-of-pace weapon with devastating effect, including in his 1968–69 candidates run: opponents booked to the teeth in Open Sicilians found themselves in a slow kingside squeeze where general understanding, not memory, decided. It remains the classic recommendation for club players facing Sicilian specialists.',
+    significance:
+      'Demonstrates the strategic alternative to the theoretical arms race: pawn-structure play, kingside space, and the f4–f5 lever. The eternal second weapon of 1.e4 players.',
+    notableGames: ['Spassky–Geller, Sukhumi 1968 (candidates match, model kingside attack)'],
+  },
+  {
+    id: 'French Defense',
+    aliases: ['1...e6'],
+    eponym: 'Named for France — specifically the Paris team whose 1...e6 won a celebrated correspondence match against London, 1834–36.',
+    origin: 'The move is older (Lucena mentions it, and Philidor\'s contemporaries knew it), but the Paris–London match gave it identity and a nation.',
+    story:
+      'When the chess clubs of Paris and London played their grand correspondence match in the 1830s, the Parisians met 1.e4 with 1...e6 and won so convincingly that the defense has been "French" ever since. It is chess\'s great acquired taste: Black voluntarily shuts in the light-squared bishop — the "French bishop," the opening\'s eternal problem child — in exchange for an unbreakable pawn chain and the promise of counterblows ...c5 and ...f6 against White\'s proud center. Botvinnik, Korchnoi and Petrosian built careers on its stubbornness.',
+    significance:
+      'The classic counterattacking structure: White gets space, Black gets a plan. Every French player learns the same eternal trade-offs — bad bishop versus solid chain, cramped now versus breaking later — which makes it one of the most instructive defenses in chess.',
+    notableGames: ['London–Paris correspondence 1834–36', 'Korchnoi\'s lifelong French battles', 'Short–Timman, Tilburg 1991 (the immortal king walk, born from a French)'],
+  },
+  {
+    id: 'French Defense: Winawer Variation',
+    aliases: ['Winawer', 'Nimzowitsch Variation'],
+    eponym: 'Szymon Winawer (1838–1919), Polish master and merchant who stunned Europe by tying for second at Paris 1867 while barely known.',
+    origin: 'Winawer essayed 3...Bb4 in the 1860s–80s; Botvinnik\'s adoption in the 1930s–50s made it the French\'s main line.',
+    story:
+      '3...Bb4 pins the knight and threatens to inflict doubled c-pawns — and after the main line 4.e5 c5 5.a3 Bxc3+ 6.bxc3, both sides get exactly what they asked for: White owns the dark squares and attacking chances, Black owns the crippled queenside pawns as targets forever. Botvinnik, the great scientist of chess, was willing to defend Black\'s side against the world for twenty years, and the Winawer became the sharpest strategic argument in the French — "positionally unsound but tactically justified," as one wit put it, or possibly the reverse.',
+    significance:
+      'A structural bargain in its purest form: bishop pair and pawn weaknesses traded against dark-square control and attacking chances. The Poisoned Pawn line (7.Qg4) remains one of the sharpest strategic gambles in mainstream theory.',
+    notableGames: ['Botvinnik\'s Winawers across three decades', 'Fischer–Tal, Leipzig Olympiad 1960 (a legendary Winawer draw)'],
+  },
+  {
+    id: 'Caro-Kann Defense',
+    aliases: ['1...c6'],
+    eponym: 'Horatio Caro (1862–1920), an English master living in Berlin, and Marcus Kann (1820–1886), a Viennese master — who analyzed 1...c6 together.',
+    origin: 'Their joint analysis appeared in the German magazine Brüderschaft in 1886; Kann had already beaten world-class Jacques Mieses with it in 1885.',
+    story:
+      'Caro and Kann\'s modest pawn move solves the French Defense\'s eternal problem: Black supports ...d5 with the c-pawn instead of the e-pawn, so the light-squared bishop gets out BEFORE the door closes. For a century it wore the "solid but passive" label — then Capablanca and later Karpov showed that its solidity was a weapon, grinding wins from microscopic advantages. Modern engines adore it, and it has quietly become one of the most trusted defenses at every level, from beginners taught it for its clear plans to World Championship matches.',
+    significance:
+      'The structurally soundest reply to 1.e4: no weaknesses, free development for every piece, endgames a shade more pleasant for Black. Its price — a tempo here, a shade of passivity there — is the cheapest rent in opening theory.',
+    notableGames: ['Capablanca\'s Caro-Kann endgames', 'Karpov\'s career-long advocacy', 'Deep Blue–Kasparov, 1997 (game 6 — the Caro-Kann Bxe6 disaster that ended the match)'],
+  },
+  {
+    id: 'Scandinavian Defense',
+    aliases: ['Center Counter Defense', '1...d5'],
+    eponym: 'Named for the Scandinavian masters — especially Danes and Swedes around Ludvig and Gustav Collijn — whose analysis revived it in the late 19th century.',
+    origin: 'The oldest recorded Black defense: 1.e4 d5 appears in the Valencian poem "Scachs d\'amor" (c. 1475), the first game of modern chess ever written down.',
+    story:
+      'Black\'s most direct retort — challenge e4 immediately, before White adds a second center pawn. The cost is famous: after 2.exd5 Qxd5 3.Nc3 the queen must move again, and every beginner is warned about it. The Scandinavians of the 1880s showed the lost tempo buys a French-like structure with the good bishop free, and the defense has been periodically respectable ever since — never more so than when Anand used it against Kasparov in their 1995 World Championship match and drew comfortably.',
+    significance:
+      'The simplest solution to 1.e4 in existence: one forcing sequence, one solid structure, minimal theory. A standing demonstration that a tempo can be worth less than a plan.',
+    notableGames: ['Scachs d\'amor, Valencia c. 1475 (the first recorded game)', 'Kasparov–Anand, New York WCh 1995 (game 14)'],
+  },
+  {
+    id: 'Alekhine Defense',
+    aliases: ['1...Nf6 vs 1.e4'],
+    eponym: 'Alexander Alekhine (1892–1946), the fourth World Champion — attacking genius, exile from revolutionary Russia, and the only champion to die holding the title.',
+    origin: 'Introduced by Alekhine at Budapest 1921, in the first flush of hypermodernism.',
+    story:
+      'The most provocative defense in chess: Black attacks e4 with a knight and then lets it be kicked across the board — 2.e5 Nd5 3.d4 d6 4.c4 Nb6 5.f4 building White the biggest pawn center imaginable. Alekhine\'s wager, pure hypermodern doctrine, is that the center is not strength but target: Black will spend the middlegame demolishing what White spent the opening building. It shocked the chess world in 1921, gave the new hypermodern school its most vivid slogan, and found its greatest later champion in Fischer, who used it twice against Spassky in Reykjavík 1972.',
+    significance:
+      'The purest expression of "the center as a target" — an entire strategic philosophy in one knight tour. Rare at the top but immortal in the textbooks, because no opening teaches the tension between space and overextension better.',
+    notableGames: ['Sämisch–Alekhine, Budapest 1921', 'Spassky–Fischer, Reykjavík 1972 (games 13 and 19)'],
+  },
+  {
+    id: 'Pirc Defense',
+    aliases: ['Pirc-Ufimtsev', '1...d6 & ...g6'],
+    eponym: 'Vasja Pirc (1907–1980), Slovenian grandmaster and five-time Yugoslav champion; Soviet master Anatoly Ufimtsev developed it independently, and eastern literature hyphenates them.',
+    origin: 'Worked out in the 1930s–40s; entered mainstream practice in the 1960s as hypermodern ideas became household tools.',
+    story:
+      'The Pirc invites White to take the whole center — then aims the g7 bishop and the ...e5/...c5 breaks at it. Long considered borderline insolent (Tarrasch would have fainted), it matured into a respected counterpuncher\'s weapon: flexible, low on forced theory, rich in transpositional tricks. Its most famous moment is also its most painful — Fischer chose it for game 17 of Reykjavík 1972, and it appeared in the fateful last game of that match, when Spassky\'s title ended in a Pirc.',
+    significance:
+      'The workhorse "system defense" against 1.e4: Black\'s setup barely changes whatever White does, which makes it beloved of players who prize understanding over memorization — and of anyone needing a fighting game against a booked-up opponent.',
+    notableGames: ['Spassky–Fischer, Reykjavík 1972 (game 21, the title-clincher)'],
+  },
+  {
+    id: 'Philidor Defense',
+    aliases: ['1...e5 2...d6'],
+    eponym: 'François-André Danican Philidor (1726–1795) — the greatest player of the 18th century and simultaneously France\'s leading opera composer.',
+    origin: 'Advocated in his epochal 1749 book "Analyse du jeu des Échecs", the first work to treat chess strategically.',
+    story:
+      'Philidor learned chess waiting around the Versailles chapel as a boy chorister and became so strong he gave the world\'s best players odds — while writing operas the same decade. His famous dictum, "the pawns are the soul of chess," was revolutionary in an age that saw pawns as furniture, and his 2...d6 was doctrine in action: support the e5 strongpoint with pawns rather than expose a knight to attack on c6. Posterity found the defense a bit modest, but the man himself towered so far above his era that he played blindfold simuls that newspapers covered as miracles.',
+    significance:
+      'Cramped but tough, with the modern "Hanham" setup (…Nd7, …Be7) still a playable surprise weapon. Its real legacy is conceptual: the first defense ever built on a pawn-structure philosophy.',
+    notableGames: ['Philidor\'s blindfold exhibitions, London 1783', 'Morphy vs Duke Karl / Count Isouard, Paris 1858 — the Opera Game — began as a Philidor'],
+  },
+  {
+    id: 'Petrov\'s Defense',
+    aliases: ['Russian Game', 'Petroff Defense'],
+    eponym: 'Alexander Petrov (1794–1867), Russia\'s first great master, unbeaten in his homeland for half a century.',
+    origin: 'Analyzed by Petrov and Carl Jaenisch in the 1840s — the first major Russian contribution to opening theory, hence its other name, the Russian Game.',
+    story:
+      'Instead of defending e5, Black counterattacks e4 symmetrically: 2...Nf6. The point is a tactical trap older than the theory — 3.Nxe5 Nxe4? loses to 4.Qe2, so Black must first insert 3...d6 — but the strategic point is deeper: perfect symmetry is remarkably hard to break. The Petrov became the fortress of choice for defensive virtuosos from Marshall (who used it as well as his gambit) to Karpov, Kramnik and, above all, Fabiano Caruana, whose Petrov in the late 2010s was so impregnable that elite players largely stopped testing it with 1.e4.',
+    significance:
+      'The defense that measures White\'s ambition: it concedes nothing structurally and dares White to prove anything at all. Its reputation for dryness is half-deserved and half-slander — the Cochrane Gambit (4.Nxf7!?) lives inside it.',
+    notableGames: ['Caruana\'s candidate-winning Petrovs, 2018', 'Marshall\'s Petrov draws vs Lasker and Capablanca'],
+  },
+  {
+    id: 'King\'s Gambit',
+    aliases: ['2.f4'],
+    eponym: 'Not an eponym — the king\'s pawn\'s neighbor (the f-pawn, the king\'s bishop\'s pawn in old notation) is gambited.',
+    origin: 'Analyzed by Ruy López in 1561 and central to chess for three hundred years; the signature opening of the Romantic era.',
+    story:
+      'For centuries this WAS attacking chess: White rips open the f-file at the cost of a pawn and his own king\'s shelter, and every gentleman was expected to accept. The Immortal Game (Anderssen–Kieseritzky, London 1851), where White sacrificed both rooks, the bishop and the queen, is a King\'s Gambit. Steinitz\'s positional revolution wounded it; Fischer, furious after losing to Spassky\'s King\'s Gambit in 1960, published "A Bust to the King\'s Gambit" declaring 1.e4 e5 2.f4 exf4 3.Nf3 d6! winning for Black — then cheekily played the gambit himself, once, and won. It survives today as chess\'s most romantic anachronism, dangerous in fast games and beloved forever.',
+    significance:
+      'The historical vehicle of sacrifice-first chess and still the best classroom for open lines, lead in development, and king safety as a currency. Objectively dubious at the top; practically venomous everywhere else.',
+    notableGames: ['Anderssen–Kieseritzky, London 1851 (the Immortal Game)', 'Spassky–Fischer, Mar del Plata 1960', 'Spassky–Bronstein, Leningrad 1960 (the "James Bond" game, shown in From Russia with Love)'],
+  },
+  {
+    id: 'King\'s Gambit Accepted',
+    aliases: ['KGA'],
+    eponym: 'Not an eponym — Black accepts the offered f-pawn, as three centuries of etiquette demanded.',
+    origin: 'The main battlefield of chess from the 16th to the mid-19th century; whole families of named sub-gambits (Muzio, Kieseritzky, Allgaier…) live here.',
+    story:
+      'Taking the pawn is principled: Black grabs material and dares White to prove the attack. The resulting theory is a museum of romantic-era violence — in the Muzio Gambit White sacrifices a full knight on move five for nothing but open lines, and analysis says it is nearly sound. Every named line records a 19th-century personality: Kieseritzky the café professional, Allgaier the Viennese theorist whose knight sacrifice on f7 still wins miniatures two centuries on.',
+    significance:
+      'The KGA is chess\'s laboratory of initiative: it taught the game that time and open lines can outweigh material — the insight underneath every sacrifice since.',
+    notableGames: ['Anderssen–Kieseritzky, London 1851', 'Short–Kasparov, London blitz 1993 (a modern KGA massacre)'],
+  },
+  {
+    id: 'Vienna Game',
+    aliases: ['2.Nc3'],
+    eponym: 'Named for Vienna, whose coffee-house masters — Carl Hamppe above all — analyzed it in the mid-19th century.',
+    origin: 'Hamppe\'s games from the 1840s–50s established 2.Nc3; the Vienna Gambit (2.Nc3 and 3.f4) was its fighting form.',
+    story:
+      'Vienna\'s chess cafés — the Café Central chief among them — were an institution: Hamppe, a government official, ruled them for decades, and the city\'s opening deferred the f4 break by one move so it could be played without allowing the equalizing ...d5 counter. The delayed King\'s Gambit proved a clever container for romantic ideas in a slightly safer bottle, and the Frankenstein–Dracula Variation (a monstrous piece-sacrifice tangle named by Tim Harding in 1975) still lurks inside it as one of chess\'s wildest named lines.',
+    significance:
+      'A flexible cousin of the King\'s Gambit: White keeps the attack in reserve. Enjoying a genuine modern revival as a surprise weapon with real bite (the Vienna Gambit scores brutally below master level).',
+    notableGames: ['Hamppe–Meitner, Vienna 1872 (the "Immortal Draw")'],
+  },
+  {
+    id: 'Scotch Game',
+    aliases: ['Scotch Opening'],
+    eponym: 'Named for Scotland — the Edinburgh Chess Club adopted 3.d4 in its 1824–28 correspondence match against London and won with it.',
+    origin: 'Known to Ercole del Rio in 1750; christened by the Edinburgh–London match; resurrected at the highest level by Kasparov in 1990.',
+    story:
+      'The Scotch settles the central question immediately — 3.d4, no waiting. The 19th century enjoyed it, then it spent a hundred years in the drawer marked "harmless: releases the tension too soon." Kasparov, hunting for ways to dodge Karpov\'s bottomless Ruy Lopez preparation in their 1990 World Championship match, pulled it out, won crucial games, and made the chess world relearn the opening overnight — the most famous opening resurrection of the modern era. It has stayed a respected elite weapon ever since.',
+    significance:
+      'Immediate central clarification into rich, slightly offbeat middlegames — the standing alternative for 1.e4 players who want open-game activity without Ruy Lopez theory. Proof that no sound opening ever really dies.',
+    notableGames: ['Edinburgh–London correspondence 1824–28', 'Kasparov–Karpov, Lyon/New York WCh 1990 (games 14 and 16)'],
+  },
+];

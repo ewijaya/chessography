@@ -1,0 +1,166 @@
+import type { Recognition, Story } from '../types';
+import { getOpeningStory, getPatternStory } from '../stories';
+
+function StorySections({ story }: { story: Story }) {
+  return (
+    <>
+      {story.aliases && story.aliases.length > 0 && (
+        <p className="aka">also known as: {story.aliases.join(' · ')}</p>
+      )}
+      <div className="story-section">
+        <h3>Named after</h3>
+        <p>{story.eponym}</p>
+      </div>
+      <div className="story-section">
+        <h3>Origin</h3>
+        <p>{story.origin}</p>
+      </div>
+      <div className="story-section">
+        <h3>The story</h3>
+        <p>{story.story}</p>
+      </div>
+      <div className="story-section">
+        <h3>Why it matters</h3>
+        <p>{story.significance}</p>
+      </div>
+      {story.notableGames && story.notableGames.length > 0 && (
+        <div className="story-section">
+          <h3>Notable games</h3>
+          <ul>
+            {story.notableGames.map((g) => (
+              <li key={g}>{g}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
+  );
+}
+
+function plyLabel(ply: number): string {
+  const moveNo = Math.ceil(ply / 2);
+  return ply % 2 === 1 ? `${moveNo}.` : `${moveNo}…`;
+}
+
+function OpeningView({ recognition }: { recognition: Recognition }) {
+  const opening = recognition.opening!;
+  const { entry, lineage, inBook, atPly } = opening;
+  const storyResult = getOpeningStory(lineage);
+
+  return (
+    <div className="story-fade" key={entry.name + String(inBook)}>
+      <div className="eyebrow">
+        <span className="eco-stamp">{entry.eco}</span>
+        <span>Opening · named line</span>
+      </div>
+      <h2>{entry.name}</h2>
+      {!inBook && (
+        <p className="departed">
+          left the book after move {Math.ceil(atPly / 2)} — this is the last named position reached
+        </p>
+      )}
+      {lineage.length > 1 && (
+        <div className="ledger">
+          <div className="ledger-title">Naming lineage — how the name narrowed</div>
+          <ol>
+            {lineage.map((l, i) => (
+              <li key={l.name} className={i === lineage.length - 1 ? 'current' : ''}>
+                <span className="ply">{plyLabel(l.ply)}</span>
+                <span className="line-name">{l.name}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+      {storyResult ? (
+        <>
+          {storyResult.inherited && (
+            <div className="inherited-note">
+              story of the parent line “{storyResult.story.id}” — the deeper branch “{entry.name}” has its
+              name recorded, its own story is still to be written
+            </div>
+          )}
+          <StorySections story={storyResult.story} />
+        </>
+      ) : (
+        <p className="no-story">
+          This line’s name is recorded in the atlas ({entry.eco}), but its story has not been written yet.
+          Every name has one — this page is waiting for it.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function PatternView({ recognition, kind }: { recognition: Recognition; kind: 'structure' | 'endgame' }) {
+  const match = kind === 'structure' ? recognition.structure! : recognition.endgame!;
+  const story = getPatternStory(match.id);
+  return (
+    <div className="story-fade" key={match.id}>
+      <div className="eyebrow">
+        <span className="eco-stamp">{kind === 'structure' ? 'PATTERN' : 'ENDGAME'}</span>
+        <span>{kind === 'structure' ? 'pawn structure · detected on the board' : 'named endgame · recognized from the position'}</span>
+      </div>
+      <h2>{match.name}</h2>
+      <p className="detected-detail">{match.detail}</p>
+      {story ? (
+        <StorySections story={story} />
+      ) : (
+        <p className="no-story">Recognized, but its story has not been written yet.</p>
+      )}
+    </div>
+  );
+}
+
+export default function StoryPanel({
+  recognition,
+  view,
+  onSelectView,
+}: {
+  recognition: Recognition;
+  view: 'opening' | 'structure' | 'endgame';
+  onSelectView: (v: 'opening' | 'structure' | 'endgame') => void;
+}) {
+  const available: ('opening' | 'structure' | 'endgame')[] = [];
+  if (recognition.opening) available.push('opening');
+  if (recognition.structure) available.push('structure');
+  if (recognition.endgame) available.push('endgame');
+
+  if (available.length === 0) {
+    return (
+      <section className="page" aria-live="polite">
+        <div className="blank-page">
+          <span className="big-knight">♞</span>
+          <p>
+            Make a move. The moment the game reaches anything with a name — an opening, a pawn structure, a
+            famous endgame — its story appears on this page.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  const active = available.includes(view) ? view : available[0];
+
+  return (
+    <section className="page" aria-live="polite">
+      {available.length > 1 && (
+        <div className="tabs" role="tablist">
+          {available.map((v) => (
+            <button
+              key={v}
+              role="tab"
+              aria-selected={active === v}
+              className={active === v ? 'active' : ''}
+              onClick={() => onSelectView(v)}
+            >
+              {v}
+            </button>
+          ))}
+        </div>
+      )}
+      {active === 'opening' && <OpeningView recognition={recognition} />}
+      {active !== 'opening' && <PatternView recognition={recognition} kind={active} />}
+    </section>
+  );
+}

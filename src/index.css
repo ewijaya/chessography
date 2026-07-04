@@ -1,0 +1,59 @@
+:root {
+  /* the club table */
+  --felt: #1b2c22;
+  --felt-dark: #122018;
+  --felt-line: #2c4234;
+  --felt-text: #cfc6ac;
+  --felt-text-dim: #8fa392;
+
+  /* the book on it */
+  --paper: #f0e8d4;
+  --paper-edge: #e2d6ba;
+  --ink: #2b2418;
+  --ink-soft: #5c5140;
+
+  --brass: #b3873e;
+  --stamp: #99392b;
+
+  --serif-display: 'Fraunces', 'Georgia', serif;
+  --serif-body: 'Literata', 'Georgia', serif;
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--felt-dark);
+  background-image: radial-gradient(ellipse 120% 90% at 50% -10%, var(--felt) 0%, var(--felt-dark) 78%);
+  background-attachment: fixed;
+  color: var(--felt-text);
+  font-family: var(--serif-body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
