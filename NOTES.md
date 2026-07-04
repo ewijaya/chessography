@@ -26,6 +26,18 @@ Grep data/*.tsv for the exact spelling before authoring (e.g. lichess calls Petr
 "Russian Game", uses "Defense" not "Defence"). Unstoried named lines fall back to
 nearest storied ancestor in the lineage.
 
+## Headless verification pipeline that works on this box
+Snap chromium can only WRITE screenshots to non-hidden $HOME paths (writing to
+~/.claude/... fails with Permission denied). playwright-core (installed as
+devDep, launched with executablePath /usr/bin/chromium-browser + --no-sandbox)
+drives the real app; scripts must live/run inside the project dir or ESM can't
+resolve the package. `vite preview --port 4173` serves dist for these checks.
+
+## Chess glyphs need a font fallback
+Fraunces (display font) lacks ♞ — it rendered as a blob in the masthead until
+the glyph span got font-family: var(--serif-body). Check pictographic glyphs
+against the actual font stack, not the editor preview.
+
 ## Endgames are unreachable by normal play in a demo
 Added demo presets (FEN/moves) so recognizers 2 and 3 are demonstrable without
 playing 40 moves. This was the only way to make the MVP reviewable.
