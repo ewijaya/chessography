@@ -4,6 +4,9 @@ import type { OpeningEntry, OpeningMatch } from '../types';
 
 const book = openingsJson as Record<string, OpeningEntry>;
 
+/** Number of named positions in the opening atlas. */
+export const bookSize = Object.keys(book).length;
+
 /** Position key: FEN piece placement + side to move + castling rights. */
 export function positionKey(fen: string): string {
   return fen.split(' ').slice(0, 3).join(' ');

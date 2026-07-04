@@ -3,6 +3,7 @@ import { Chess } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
 import StoryPanel from './components/StoryPanel';
 import { recognize } from './lib/recognize';
+import { bookSize } from './lib/openings';
 import { presets, type Preset } from './lib/presets';
 import { storyCounts } from './stories';
 import './App.css';
@@ -61,6 +62,12 @@ export default function App() {
     }
     chessRef.current = chess;
     sync();
+    // A preset promises its group ("Pawn structures" → structure story), so
+    // open that tab if the recognizer found it, even while still in book.
+    const r = recognize(chess, chess.history());
+    if ((p.group === 'structure' && r.structure) || (p.group === 'endgame' && r.endgame)) {
+      setView(p.group);
+    }
   };
 
   const moves = history;
@@ -143,7 +150,8 @@ export default function App() {
 
       <footer className="footer">
         {storyCounts.openings} opening stories · {storyCounts.structures} structures ·{' '}
-        {storyCounts.endgames} endgames · 3,732 named positions from the lichess opening atlas (CC0)
+        {storyCounts.endgames} endgames · {bookSize.toLocaleString()} named positions from the lichess
+        opening atlas (CC0)
       </footer>
     </div>
   );
