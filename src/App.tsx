@@ -10,6 +10,8 @@ import { loadBook, bookSize } from './lib/openings';
 import { presets, type Preset } from './lib/presets';
 import { Engine, LEVELS, type EngineLevel, type Eval } from './lib/engine';
 import { buildAdvice, type MoveAdvice } from './lib/advice';
+import { detectEnding, journeyMilestones } from './lib/postmortem';
+import Postmortem from './components/Postmortem';
 import { playSound } from './lib/sound';
 import { storyCounts } from './stories';
 import type { OpeningEntry } from './types';
@@ -32,6 +34,7 @@ export default function App() {
   const engineRef = useRef<Engine | null>(null);
   const evalEngineRef = useRef<Engine | null>(null);
   const adviceEngineRef = useRef<Engine | null>(null);
+  const postmortemEngineRef = useRef<Engine | null>(null);
   const startFenRef = useRef(START_FEN);
   const [fen, setFen] = useState(chessRef.current.fen());
   const [history, setHistory] = useState<string[]>([]);
@@ -389,6 +392,17 @@ export default function App() {
     }
   };
 
+  // ---------- post-mortem chronicle ----------
+
+  // Appears when the LIVE game is finished (even while browsing history):
+  // the ending named with its history, the game's named milestones, and an
+  // on-demand engine annotation of the finale.
+  const ending = useMemo(() => detectEnding(chessRef.current), [fen]); // eslint-disable-line react-hooks/exhaustive-deps
+  const milestones = useMemo(
+    () => (ending ? journeyMilestones(history, startFenRef.current) : []),
+    [ending, history],
+  );
+
   // ---------- check / checkmate callout ----------
 
   // Follows the DISPLAYED position, so it also fires while stepping through
@@ -572,6 +586,18 @@ export default function App() {
           )}
 
           {status && <div className={`game-status${thinking && isLive ? ' thinking' : ''}${!isLive ? ' viewing' : ''}`}>{status}</div>}
+
+          {ending && (
+            <Postmortem
+              key={`${fen}-${history.length}`}
+              ending={ending}
+              milestones={milestones}
+              fens={fens}
+              sans={history}
+              getEngine={() => (postmortemEngineRef.current ??= new Engine())}
+              onGoToPly={goToPly}
+            />
+          )}
 
           <div className="controls">
             <button onClick={() => newGame()} disabled={moves.length === 0 && fen === START_FEN}>

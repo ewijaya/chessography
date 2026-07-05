@@ -152,6 +152,20 @@ await page.click('[data-square="d4"]');
 await page.waitForTimeout(400);
 (await page.$('.advice-card')) ? fail('advice card should clear after moving') : ok('advice card cleared after the move');
 
+// --- post-mortem chronicle on a finished game ---
+await page.click('text=Import PGN');
+await page.fill('.pgn-import textarea', '1. e4 e5 2. Bc4 Nc6 3. Qh5 Nf6 4. Qxf7#');
+await page.click('text=Load game');
+await page.waitForSelector('.postmortem', { timeout: 5000 });
+const pm = await page.textContent('.postmortem');
+pm?.includes('Checkmate') && pm?.includes('shāh māt') ? ok('post-mortem names the ending with its history') : fail(`post-mortem wrong: ${pm?.slice(0, 80)}`);
+pm?.includes('journey') ? ok('post-mortem lists the journey milestones') : fail('journey milestones missing');
+await page.click('button:has-text("Annotate the finale")');
+await page.waitForSelector('.pm-finale', { timeout: 30000 });
+const glyphs = await page.textContent('.pm-moves');
+glyphs?.includes('??') ? ok(`finale annotated with glyphs (${glyphs?.trim().slice(0, 60)}…)`) : fail(`no blunder glyph in finale: ${glyphs}`);
+await page.screenshot({ path: shot('verify-postmortem') });
+
 // --- theme toggle ---
 const before = await page.evaluate(() => document.documentElement.dataset.theme);
 await page.click('.theme-toggle');
