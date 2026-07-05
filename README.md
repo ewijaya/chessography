@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://chessography.pages.dev">
+    <img src="docs/chessography-hero.webp" alt="Chessography — every named move carries a story. An antique map styled as a chessboard, its territories named for openings, pawn structures and endgames, flanked by the historical figures they honour." width="100%">
+  </a>
+</p>
+
 # ♞ Chessography
 
 **[chessography.pages.dev](https://chessography.pages.dev)**
