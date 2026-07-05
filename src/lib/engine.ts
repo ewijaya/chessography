@@ -15,11 +15,20 @@ export const LEVELS: Record<EngineLevel, { label: string; skill: number; movetim
 /** Centipawns from White's point of view, or a forced mate in N. */
 export type Eval = { cp: number } | { mateIn: number };
 
+/** Full-strength analysis result: best move, its eval, and the line behind it. */
+export interface Advice {
+  uci: string;
+  ev: Eval;
+  /** Principal variation as UCI moves, starting with `uci`. */
+  pv: string[];
+}
+
 export class Engine {
   private worker: Worker;
   private ready: Promise<void>;
   private pendingBestMove: ((move: string) => void) | null = null;
   private lastInfoScore: { cp?: number; mate?: number } = {};
+  private lastInfoPv: string[] = [];
 
   constructor() {
     this.worker = new Worker('/engine/stockfish-18-lite-single.js');
@@ -32,6 +41,8 @@ export class Engine {
           const mate = / score mate (-?\d+)/.exec(line);
           if (cp) this.lastInfoScore = { cp: Number(cp[1]) };
           else if (mate) this.lastInfoScore = { mate: Number(mate[1]) };
+          const pv = / pv (.+)$/.exec(line);
+          if (pv) this.lastInfoPv = pv[1].split(' ');
         }
         if (line.startsWith('bestmove')) {
           const move = line.split(' ')[1];
@@ -75,6 +86,28 @@ export class Engine {
     const s = this.lastInfoScore;
     if (s.mate !== undefined) return { mateIn: s.mate * sign };
     return { cp: (s.cp ?? 0) * sign };
+  }
+
+  /**
+   * Full-strength search for the hint feature: best move plus its score
+   * (White's point of view) and principal variation. Serializes on the same
+   * bestmove wait as the other calls, so use a dedicated instance.
+   */
+  async advise(fen: string, movetimeMs = 1000): Promise<Advice> {
+    await this.ready;
+    this.worker.postMessage(`setoption name Skill Level value 20`);
+    this.worker.postMessage(`position fen ${fen}`);
+    this.lastInfoScore = {};
+    this.lastInfoPv = [];
+    const uci = await new Promise<string>((resolve) => {
+      this.pendingBestMove = resolve;
+      this.worker.postMessage(`go movetime ${movetimeMs}`);
+    });
+    const sign = fen.split(' ')[1] === 'w' ? 1 : -1;
+    const s = this.lastInfoScore;
+    const ev: Eval = s.mate !== undefined ? { mateIn: s.mate * sign } : { cp: (s.cp ?? 0) * sign };
+    const pv = this.lastInfoPv[0] === uci ? this.lastInfoPv : [uci];
+    return { uci, ev, pv };
   }
 
   dispose() {

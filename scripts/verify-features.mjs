@@ -23,6 +23,11 @@ await page.goto('http://localhost:4173/', { waitUntil: 'networkidle' });
 await page.waitForFunction(() => document.querySelector('.footer')?.textContent?.includes('3,732'), { timeout: 10000 });
 ok('lazy book loaded (footer shows 3,732 named positions)');
 
+// The app defaults to playing the engine; the board-mechanics checks below
+// move both sides by hand, so switch to a two-player board first.
+await page.click('text=Two players');
+await page.waitForTimeout(200);
+
 // --- click-to-move hints ---
 await page.click('[data-square="e2"]');
 await page.waitForTimeout(200);
@@ -124,6 +129,21 @@ await page.waitForTimeout(150);
 await page.click('[data-square="e4"]');
 await page.waitForFunction(() => document.querySelectorAll('.scoresheet button.san').length >= 2, { timeout: 20000 });
 ok(`engine replied — ${(await page.textContent('.scoresheet'))?.trim()}`);
+
+// --- advice: best-move hint with explanation ---
+await page.click('button:has-text("Advice")');
+await page.waitForSelector('.advice-card', { timeout: 20000 });
+const adviceText = await page.textContent('.advice-card');
+adviceText?.includes('Best move:') ? ok(`advice card shown — "${adviceText?.slice(0, 70).trim()}…"`) : fail('advice card missing Best move');
+const arrowDrawn = await page.evaluate(() => Boolean(document.querySelector('svg polygon, svg marker')));
+arrowDrawn ? ok('advice arrow drawn on the board') : fail('no advice arrow on board');
+await page.screenshot({ path: shot('verify-advice') });
+// advice clears once a move is played
+await page.click('[data-square="d2"]');
+await page.waitForTimeout(150);
+await page.click('[data-square="d4"]');
+await page.waitForTimeout(400);
+(await page.$('.advice-card')) ? fail('advice card should clear after moving') : ok('advice card cleared after the move');
 
 // --- theme toggle ---
 const before = await page.evaluate(() => document.documentElement.dataset.theme);

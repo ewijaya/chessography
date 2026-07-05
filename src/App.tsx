@@ -9,6 +9,7 @@ import { recognize } from './lib/recognize';
 import { loadBook, bookSize } from './lib/openings';
 import { presets, type Preset } from './lib/presets';
 import { Engine, LEVELS, type EngineLevel, type Eval } from './lib/engine';
+import { buildAdvice, type MoveAdvice } from './lib/advice';
 import { playSound } from './lib/sound';
 import { storyCounts } from './stories';
 import type { OpeningEntry } from './types';
@@ -30,6 +31,7 @@ export default function App() {
   const chessRef = useRef(new Chess());
   const engineRef = useRef<Engine | null>(null);
   const evalEngineRef = useRef<Engine | null>(null);
+  const adviceEngineRef = useRef<Engine | null>(null);
   const startFenRef = useRef(START_FEN);
   const [fen, setFen] = useState(chessRef.current.fen());
   const [history, setHistory] = useState<string[]>([]);
@@ -50,6 +52,8 @@ export default function App() {
   const [pgnText, setPgnText] = useState('');
   const [pgnError, setPgnError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [advice, setAdvice] = useState<MoveAdvice | null>(null);
+  const [advising, setAdvising] = useState(false);
 
   useEffect(() => {
     loadBook().then(() => setBookReady(true));
@@ -105,6 +109,7 @@ export default function App() {
     setSelected(null);
     setViewPly(null);
     setPendingPromo(null);
+    setAdvice(null);
     setFen(chessRef.current.fen());
     setHistory(chessRef.current.history());
     const r = recognize(chessRef.current, chessRef.current.history());
@@ -181,6 +186,23 @@ export default function App() {
   const playerCanMove = () => {
     const chess = chessRef.current;
     return isLive && !chess.isGameOver() && (!engineSide || chess.turn() !== engineSide);
+  };
+
+  // ---------- advice (best-move hint with its story) ----------
+
+  // Full-strength Stockfish suggests a move for the player; the atlas and
+  // story library supply the history of the line it leads into. Runs on a
+  // dedicated engine instance so it never blocks the opponent or the eval bar.
+  const requestAdvice = async () => {
+    if (!playerCanMove() || advising) return;
+    adviceEngineRef.current ??= new Engine();
+    const fenAtRequest = chessRef.current.fen();
+    setAdvising(true);
+    const result = await adviceEngineRef.current.advise(fenAtRequest);
+    setAdvising(false);
+    // Stale if the position changed while the engine was thinking.
+    if (chessRef.current.fen() !== fenAtRequest) return;
+    setAdvice(buildAdvice(fenAtRequest, result));
   };
 
   const commitMove = (from: Square, to: Square, promotion?: 'q' | 'r' | 'b' | 'n'): boolean => {
@@ -440,6 +462,10 @@ export default function App() {
     onPieceDrop,
     onSquareClick,
     squareStyles,
+    arrows:
+      advice && isLive
+        ? [{ startSquare: advice.from, endSquare: advice.to, color: 'rgba(96, 153, 84, 0.85)' }]
+        : [],
     boardOrientation: orientation,
     darkSquareStyle: { backgroundColor: boardColors.dark },
     lightSquareStyle: { backgroundColor: boardColors.light },
@@ -577,7 +603,65 @@ export default function App() {
             <button onClick={copyPgn} disabled={moves.length === 0} title="copy this game as PGN">
               {copied ? 'Copied ✓' : 'Copy PGN'}
             </button>
+            {opponent !== 'human' && (
+              <button
+                className={advice ? 'active' : ''}
+                onClick={requestAdvice}
+                disabled={!playerCanMove() || advising}
+                title="ask Stockfish for the best move — and the story behind it"
+              >
+                {advising ? 'Consulting…' : '💡 Advice'}
+              </button>
+            )}
           </div>
+
+          {advice && isLive && (
+            <div className="advice-card" aria-live="polite">
+              <div className="advice-head">
+                <span className="advice-move">
+                  Best move: <strong>{advice.san}</strong>
+                </span>
+                <button className="advice-close" onClick={() => setAdvice(null)} aria-label="dismiss advice">
+                  ×
+                </button>
+              </div>
+              <p className="advice-why">
+                {advice.reasons.length > 0
+                  ? advice.reasons.join('; ').replace(/^./, (c) => c.toUpperCase()) + '.'
+                  : 'The engine likes this move best here.'}
+              </p>
+              {advice.line.length > 1 && (
+                <p className="advice-line">expected line: {advice.line.join(' ')}</p>
+              )}
+              {advice.opening && (
+                <div className="advice-story">
+                  <div className="advice-story-head">
+                    <span className="eco-stamp">{advice.opening.entry.eco}</span>
+                    <span>
+                      this move enters <strong>{advice.opening.entry.name}</strong>
+                    </span>
+                  </div>
+                  {advice.opening.storyResult ? (
+                    <>
+                      <p>{advice.opening.storyResult.story.significance}</p>
+                      <details>
+                        <summary>read the history</summary>
+                        <p>
+                          <em>Named after:</em> {advice.opening.storyResult.story.eponym}
+                        </p>
+                        <p>{advice.opening.storyResult.story.story}</p>
+                      </details>
+                    </>
+                  ) : (
+                    <p>
+                      A named position in the atlas — play it and the full story panel takes over on the
+                      right.
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
 
           {pgnOpen && (
             <div className="pgn-import">
