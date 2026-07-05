@@ -35,7 +35,7 @@ export default function App() {
   const [history, setHistory] = useState<string[]>([]);
   const [orientation, setOrientation] = useState<'white' | 'black'>('white');
   const [view, setView] = useState<View>('opening');
-  const [opponent, setOpponent] = useState<Opponent>('human');
+  const [opponent, setOpponent] = useState<Opponent>('engine-black');
   const [level, setLevel] = useState<EngineLevel>('club');
   const [thinking, setThinking] = useState(false);
   const [selected, setSelected] = useState<Square | null>(null);
