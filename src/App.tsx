@@ -367,6 +367,43 @@ export default function App() {
     }
   };
 
+  // ---------- check / checkmate callout ----------
+
+  // Follows the DISPLAYED position, so it also fires while stepping through
+  // a famous game or browsing history — not just on the live board.
+  const checkState = displayChess.isCheckmate() ? 'CHECKMATE' : displayChess.isCheck() ? 'CHECK' : null;
+
+  // ---------- captured pieces ----------
+
+  // Diff the displayed board against the standard starting set. Clamped at
+  // zero so promotions never produce negative counts; a promoted pawn still
+  // reads as a captured pawn, which matches how players tally material.
+  const captures = useMemo(() => {
+    const counts = {
+      w: { p: 0, n: 0, b: 0, r: 0, q: 0 },
+      b: { p: 0, n: 0, b: 0, r: 0, q: 0 },
+    };
+    for (const row of displayChess.board()) {
+      for (const sq of row) {
+        if (sq && sq.type !== 'k') counts[sq.color][sq.type]++;
+      }
+    }
+    const initial = { p: 8, n: 2, b: 2, r: 2, q: 1 } as const;
+    const value = { p: 1, n: 3, b: 3, r: 5, q: 9 } as const;
+    const order = ['q', 'r', 'b', 'n', 'p'] as const;
+    const missing = (color: 'w' | 'b') =>
+      order.flatMap((t) => Array<keyof typeof value>(Math.max(0, initial[t] - counts[color][t])).fill(t));
+    const byWhite = missing('b'); // black pieces off the board = White's captures
+    const byBlack = missing('w');
+    const points = (list: (keyof typeof value)[]) => list.reduce((s, t) => s + value[t], 0);
+    return { byWhite, byBlack, diff: points(byWhite) - points(byBlack) };
+  }, [displayChess]);
+
+  const glyphs: Record<'w' | 'b', Record<string, string>> = {
+    b: { q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' }, // black pieces (White's captures)
+    w: { q: '♕', r: '♖', b: '♗', n: '♘', p: '♙' }, // white pieces (Black's captures)
+  };
+
   // ---------- status ----------
 
   const gameStatus = (): string | null => {
@@ -469,6 +506,16 @@ export default function App() {
             {evalOn && <EvalBar score={evalScore} orientation={orientation} />}
             <div className="board-frame">
               <Chessboard options={boardOptions} />
+              {checkState && (
+                <div
+                  key={`${checkState}-${displayPly}`}
+                  className={`check-badge${checkState === 'CHECKMATE' ? ' mate' : ''}`}
+                  role="status"
+                  aria-live="assertive"
+                >
+                  {checkState}
+                </div>
+              )}
               {pendingPromo && (
                 <PromotionPicker
                   color={chessRef.current.turn()}
@@ -482,6 +529,21 @@ export default function App() {
               )}
             </div>
           </div>
+
+          {(captures.byWhite.length > 0 || captures.byBlack.length > 0) && (
+            <div className="captures" aria-label="captured pieces">
+              <span className="cap-row">
+                <span className="cap-side">White</span>
+                <span className="cap-glyphs">{captures.byWhite.map((t) => glyphs.b[t]).join('')}</span>
+                {captures.diff > 0 && <span className="cap-diff">+{captures.diff}</span>}
+              </span>
+              <span className="cap-row">
+                <span className="cap-side">Black</span>
+                <span className="cap-glyphs">{captures.byBlack.map((t) => glyphs.w[t]).join('')}</span>
+                {captures.diff < 0 && <span className="cap-diff">+{-captures.diff}</span>}
+              </span>
+            </div>
+          )}
 
           {status && <div className={`game-status${thinking && isLive ? ' thinking' : ''}${!isLive ? ' viewing' : ''}`}>{status}</div>}
 

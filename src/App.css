@@ -259,6 +259,79 @@
   border-radius: 3px;
 }
 
+/* check / checkmate badge over the board */
+
+.check-badge {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.2em;
+  padding: 6px 14px 6px 17px; /* extra left pads the letter-spacing tail */
+  border-radius: 3px;
+  color: #fff;
+  background: rgba(153, 57, 43, 0.92); /* --stamp */
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  animation: badge-pop 240ms ease-out;
+}
+
+.check-badge.mate {
+  font-size: 1.15rem;
+  padding: 9px 18px 9px 22px;
+  animation: badge-pop 240ms ease-out, badge-throb 1.6s ease-in-out 240ms infinite;
+}
+
+@keyframes badge-pop {
+  from {
+    transform: translateX(-50%) scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes badge-throb {
+  50% {
+    box-shadow: 0 4px 26px rgba(153, 57, 43, 0.8);
+  }
+}
+
+/* captured pieces tally under the board */
+
+.captures {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--felt-text-dim);
+  padding: 2px 4px 0;
+}
+
+.cap-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  min-height: 1.2em;
+}
+
+.cap-glyphs {
+  font-family: var(--serif-body); /* piece glyphs need a font that has them */
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  color: var(--felt-text);
+}
+
+.cap-diff {
+  color: var(--brass);
+  font-weight: 700;
+}
+
 /* status line under the board */
 
 .game-status {
