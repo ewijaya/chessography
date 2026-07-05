@@ -603,16 +603,14 @@ export default function App() {
             <button onClick={copyPgn} disabled={moves.length === 0} title="copy this game as PGN">
               {copied ? 'Copied ✓' : 'Copy PGN'}
             </button>
-            {opponent !== 'human' && (
-              <button
-                className={advice ? 'active' : ''}
-                onClick={requestAdvice}
-                disabled={!playerCanMove() || advising}
-                title="ask Stockfish for the best move — and the story behind it"
-              >
-                {advising ? 'Consulting…' : '💡 Advice'}
-              </button>
-            )}
+            <button
+              className={advice ? 'active' : ''}
+              onClick={requestAdvice}
+              disabled={!playerCanMove() || advising}
+              title="ask Stockfish for the best move — and the story behind it"
+            >
+              {advising ? 'Consulting…' : '💡 Advice'}
+            </button>
           </div>
 
           {advice && isLive && (

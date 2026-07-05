@@ -121,6 +121,13 @@ await page.click('.tabs button:has-text("structure")');
 await page.waitForTimeout(200);
 (await page.textContent('.page'))?.includes('French Pawn Chain') ? ok('French chain recognized with story') : fail('French chain missing');
 
+// --- advice works in two-player mode too (advises the side to move) ---
+await page.click('button:has-text("Advice")');
+await page.waitForSelector('.advice-card', { timeout: 20000 });
+(await page.textContent('.advice-card'))?.includes('Best move:') ? ok('advice available in two-player mode') : fail('two-player advice card missing');
+await page.click('.advice-close');
+(await page.$('.advice-card')) ? fail('advice card should close on ×') : ok('advice card dismissed via ×');
+
 // --- Stockfish opponent ---
 await page.click('text=Play White vs');
 await page.waitForTimeout(300);
