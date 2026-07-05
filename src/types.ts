@@ -11,6 +11,8 @@ export interface Story {
   /** What it does strategically and why players care. */
   significance: string;
   notableGames?: string[];
+  /** A complete, verified game score the reader can step through on the board. */
+  famousGame?: { label: string; pgn: string };
 }
 
 export interface OpeningEntry {

@@ -718,6 +718,27 @@
   line-height: 1.6;
 }
 
+.play-famous {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  text-align: left;
+  background: rgba(153, 57, 43, 0.07);
+  color: var(--stamp);
+  border: 1px solid var(--stamp);
+  border-radius: 3px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.play-famous:hover {
+  background: rgba(153, 57, 43, 0.15);
+}
+
 .no-story {
   font-style: italic;
   color: var(--ink-soft);

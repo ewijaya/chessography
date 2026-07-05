@@ -4,9 +4,10 @@ import { d4Stories } from './openings-d4';
 import { flankStories } from './openings-flank';
 import { structureStories, endgameStories } from './patterns';
 
-const openingStoryMap = new Map<string, Story>(
-  [...e4Stories, ...d4Stories, ...flankStories].map((s) => [s.id, s]),
-);
+/** Every authored opening story (exported for validation tests). */
+export const allOpeningStories: Story[] = [...e4Stories, ...d4Stories, ...flankStories];
+
+const openingStoryMap = new Map<string, Story>(allOpeningStories.map((s) => [s.id, s]));
 const patternStoryMap = new Map<string, Story>(
   [...structureStories, ...endgameStories].map((s) => [s.id, s]),
 );

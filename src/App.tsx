@@ -328,6 +328,20 @@ export default function App() {
     adoptGame(chess);
   };
 
+  // Load a story's famous game and rewind to the start, ready to step through.
+  const playFamousGame = (pgn: string) => {
+    const chess = new Chess();
+    try {
+      chess.loadPgn(pgn);
+    } catch {
+      return;
+    }
+    setOpponent('human');
+    adoptGame(chess);
+    setViewPly(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const importPgn = () => {
     const chess = new Chess();
     try {
@@ -572,7 +586,7 @@ export default function App() {
           <AtlasExplorer ready={bookReady} onLoad={loadAtlasLine} />
         </div>
 
-        <StoryPanel recognition={recognition} view={view} onSelectView={setView} />
+        <StoryPanel recognition={recognition} view={view} onSelectView={setView} onPlayGame={playFamousGame} />
       </main>
 
       <footer className="footer">

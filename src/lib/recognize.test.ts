@@ -1,6 +1,7 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { Chess } from 'chess.js';
-import { loadBook, matchOpening } from './openings';
+import { bookEntries, loadBook, matchOpening } from './openings';
+import { allOpeningStories } from '../stories';
 
 beforeAll(() => loadBook());
 import { detectStructure } from './structures';
@@ -177,6 +178,24 @@ describe('recognition priority', () => {
     for (const p of presets) {
       if (p.moves) expect(() => play(p.moves!), p.label).not.toThrow();
       if (p.fen) expect(() => new Chess(p.fen!), p.label).not.toThrow();
+    }
+  });
+});
+
+describe('story data integrity', () => {
+  it('every authored opening story id is an exact dataset name', () => {
+    const names = new Set(bookEntries().map((e) => e.name));
+    for (const s of allOpeningStories) {
+      expect(names.has(s.id), `story id not in dataset: "${s.id}"`).toBe(true);
+    }
+  });
+
+  it('every famousGame PGN is a legal game', () => {
+    for (const s of allOpeningStories) {
+      if (!s.famousGame) continue;
+      const chess = new Chess();
+      expect(() => chess.loadPgn(s.famousGame!.pgn), `${s.id}: ${s.famousGame.label}`).not.toThrow();
+      expect(chess.history().length, s.id).toBeGreaterThan(10);
     }
   });
 });

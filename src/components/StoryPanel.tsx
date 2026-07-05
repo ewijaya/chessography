@@ -1,7 +1,7 @@
 import type { Recognition, Story } from '../types';
 import { getOpeningStory, getPatternStory } from '../stories';
 
-function StorySections({ story }: { story: Story }) {
+function StorySections({ story, onPlayGame }: { story: Story; onPlayGame?: (pgn: string) => void }) {
   return (
     <>
       {story.aliases && story.aliases.length > 0 && (
@@ -33,6 +33,11 @@ function StorySections({ story }: { story: Story }) {
           </ul>
         </div>
       )}
+      {story.famousGame && onPlayGame && (
+        <button className="play-famous" onClick={() => onPlayGame(story.famousGame!.pgn)}>
+          ▶ Step through {story.famousGame.label}
+        </button>
+      )}
     </>
   );
 }
@@ -42,7 +47,7 @@ function plyLabel(ply: number): string {
   return ply % 2 === 1 ? `${moveNo}.` : `${moveNo}…`;
 }
 
-function OpeningView({ recognition }: { recognition: Recognition }) {
+function OpeningView({ recognition, onPlayGame }: { recognition: Recognition; onPlayGame?: (pgn: string) => void }) {
   const opening = recognition.opening!;
   const { entry, lineage, inBook, atPly } = opening;
   const storyResult = getOpeningStory(lineage);
@@ -80,7 +85,7 @@ function OpeningView({ recognition }: { recognition: Recognition }) {
               name recorded, its own story is still to be written
             </div>
           )}
-          <StorySections story={storyResult.story} />
+          <StorySections story={storyResult.story} onPlayGame={onPlayGame} />
         </>
       ) : (
         <p className="no-story">
@@ -92,7 +97,7 @@ function OpeningView({ recognition }: { recognition: Recognition }) {
   );
 }
 
-function PatternView({ recognition, kind }: { recognition: Recognition; kind: 'structure' | 'endgame' }) {
+function PatternView({ recognition, kind, onPlayGame }: { recognition: Recognition; kind: 'structure' | 'endgame'; onPlayGame?: (pgn: string) => void }) {
   const match = kind === 'structure' ? recognition.structure! : recognition.endgame!;
   const story = getPatternStory(match.id);
   return (
@@ -104,7 +109,7 @@ function PatternView({ recognition, kind }: { recognition: Recognition; kind: 's
       <h2>{match.name}</h2>
       <p className="detected-detail">{match.detail}</p>
       {story ? (
-        <StorySections story={story} />
+        <StorySections story={story} onPlayGame={onPlayGame} />
       ) : (
         <p className="no-story">Recognized, but its story has not been written yet.</p>
       )}
@@ -116,10 +121,12 @@ export default function StoryPanel({
   recognition,
   view,
   onSelectView,
+  onPlayGame,
 }: {
   recognition: Recognition;
   view: 'opening' | 'structure' | 'endgame';
   onSelectView: (v: 'opening' | 'structure' | 'endgame') => void;
+  onPlayGame?: (pgn: string) => void;
 }) {
   const available: ('opening' | 'structure' | 'endgame')[] = [];
   if (recognition.opening) available.push('opening');
@@ -159,8 +166,8 @@ export default function StoryPanel({
           ))}
         </div>
       )}
-      {active === 'opening' && <OpeningView recognition={recognition} />}
-      {active !== 'opening' && <PatternView recognition={recognition} kind={active} />}
+      {active === 'opening' && <OpeningView recognition={recognition} onPlayGame={onPlayGame} />}
+      {active !== 'opening' && <PatternView recognition={recognition} kind={active} onPlayGame={onPlayGame} />}
     </section>
   );
 }
