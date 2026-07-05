@@ -190,12 +190,29 @@ describe('story data integrity', () => {
     }
   });
 
-  it('every famousGame PGN is a legal game', () => {
+  it('every famousGame PGN is a legal, substantial game', () => {
     for (const s of allOpeningStories) {
       if (!s.famousGame) continue;
       const chess = new Chess();
       expect(() => chess.loadPgn(s.famousGame!.pgn), `${s.id}: ${s.famousGame.label}`).not.toThrow();
-      expect(chess.history().length, s.id).toBeGreaterThan(10);
+      // A real game, not a fragment: at least a full opening plus middlegame.
+      expect(chess.history().length, `${s.id}: too short`).toBeGreaterThanOrEqual(20);
+    }
+  });
+
+  it('every famousGame resolves to the story it is attached to', () => {
+    // The real invariant behind the "Step through" button: replaying the game
+    // and resolving its opening (exactly as the app does, via getOpeningStory's
+    // ancestor-prefix fallback) must land on THIS story — not a different
+    // opening reached by transposition. Guards against a game being pinned to
+    // the wrong line by move order.
+    for (const s of allOpeningStories) {
+      if (!s.famousGame) continue;
+      const chess = new Chess();
+      chess.loadPgn(s.famousGame.pgn);
+      const match = matchOpening(chess.history());
+      const resolved = match ? getOpeningStory(match.lineage) : null;
+      expect(resolved?.story.id, `${s.id}: famousGame resolves to ${resolved?.story.id ?? 'no story'}`).toBe(s.id);
     }
   });
 });

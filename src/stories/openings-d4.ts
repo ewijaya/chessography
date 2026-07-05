@@ -34,6 +34,10 @@ export const d4Stories: Story[] = [
     significance:
       'The most trusted defense in chess history: an unbreakable central formation whose small concession — the c8 bishop\'s freedom — generates a century of plans (the Tartakower, Lasker and Cambridge Springs systems each "solve" it differently). Still the bedrock of elite repertoires.',
     notableGames: ['Capablanca–Alekhine, WCh 1927 (game 34 decided the title in a QGD)', 'Kasparov–Karpov, Moscow 1984–85 (the endless QGD siege)'],
+    famousGame: {
+      label: 'Botvinnik–Keres, USSR Championship, Moscow 1952',
+      pgn: '1. d4 Nf6 2. c4 e6 3. Nc3 d5 4. cxd5 exd5 5. Bg5 Be7 6. e3 O-O 7. Bd3 Nbd7 8. Qc2 Re8 9. Nge2 Nf8 10. O-O c6 11. Rab1 Bd6 12. Kh1 Ng6 13. f3 Be7 14. Rbe1 Nd7 15. Bxe7 Rxe7 16. Ng3 Nf6 17. Qf2 Be6 18. Nf5 Bxf5 19. Bxf5 Qb6 20. e4 dxe4 21. fxe4 Rd8 22. e5 Nd5 23. Ne4 Nf8 24. Nd6 Qc7 25. Be4 Ne6 26. Qh4 g6 27. Bxd5 cxd5 28. Rc1 Qd7 29. Rc3 Rf8 30. Nf5 Rfe8 31. Nh6+ Kf8 32. Qf6 Ng7 33. Rcf3 Rc8 34. Nxf7 Re6 35. Qg5 Nf5 36. Nh6 Qg7 37. g4',
+    },
   },
   {
     id: 'Queen\'s Gambit Accepted',
@@ -45,6 +49,10 @@ export const d4Stories: Story[] = [
     significance:
       'The dynamic counterpart to the QGD: instead of a fortress, Black chooses piece activity and a clean structure at the cost of the center. The eternal lesson: a "won" pawn returned at the right moment is a tempo invested, not material lost.',
     notableGames: ['Euwe–Alekhine, WCh 1937 (QGA battles)', 'Kasparov\'s QGA in the 1980s'],
+    famousGame: {
+      label: 'Alekhine–Book, Margate 1938',
+      pgn: '1.d4 d5 2.c4 dxc4 3.Nf3 Nf6 4.e3 e6 5.Bxc4 c5 6.O-O Nc6 7.Qe2 a6 8.Nc3 b5 9.Bb3 b4 10.d5 Na5 11.Ba4+ Bd7 12.dxe6 fxe6 13.Rd1 bxc3 14.Rxd7 Nxd7 15.Ne5 Ra7 16.bxc3 Ke7 17.e4 Nf6 18.Bg5 Qc7 19.Bf4 Qb6 20.Rd1 g6 21.Bg5 Bg7 22.Nd7 Rxd7 23.Rxd7+ Kf8 24.Bxf6 Bxf6 25.e5',
+    },
   },
   {
     id: 'Slav Defense',
@@ -56,6 +64,10 @@ export const d4Stories: Story[] = [
     significance:
       'The "improved QGD": same granite center, free bishop. Its cost — the c6 square and a slower queenside — defines the middlegame plans on both sides. With the Semi-Slav it forms the most durable defensive complex in 1.d4 theory.',
     notableGames: ['Euwe–Alekhine, WCh 1935 (the Slav as main battlefield)', 'Kramnik\'s Slav fortress era, 2000s'],
+    famousGame: {
+      label: 'Aratovsky–Smyslov, USSR Ch semifinal, Leningrad 1951',
+      pgn: '1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. a4 Bf5 6. e3 e6 7. Bxc4 Bb4 8. O-O a5 9. Ne2 Nbd7 10. b3 O-O 11. Bb2 Ne4 12. Bd3 Nd6 13. Ng3 Bxd3 14. Qxd3 f5 15. Nh5 Qe8 16. Nf4 Ne4 17. Qc4 Rf6 18. Qc2 Rh6 19. h4 Bd6 20. Rfe1 Ndf6 21. Re2 Nd5 22. g3 Bxf4 23. exf4 Qh5 24. Rxe4 Qxf3 25. Re5 Nxf4',
+    },
   },
   {
     id: 'Semi-Slav Defense',
@@ -78,6 +90,10 @@ export const d4Stories: Story[] = [
     significance:
       'Chess\'s great asymmetric bargain: space now versus attack later. The mutual-races middlegame it produces (Mar del Plata structure) is one of the most studied and most terrifying in theory — engines have blunted it at the top, but below the stratosphere it remains a king-hunter\'s home.',
     notableGames: ['Taimanov–Najdorf, Zurich 1953 (the classic ...g4 avalanche)', 'Kasparov\'s KID masterpieces vs Karpov', 'Fischer\'s "game of the century"-era KIDs'],
+    famousGame: {
+      label: 'Piket–Kasparov, Tilburg 1989',
+      pgn: '1. d4 Nf6 2. Nf3 g6 3. c4 Bg7 4. Nc3 O-O 5. e4 d6 6. Be2 e5 7. O-O Nc6 8. d5 Ne7 9. Ne1 Nd7 10. Be3 f5 11. f3 f4 12. Bf2 g5 13. b4 Nf6 14. c5 Ng6 15. cxd6 cxd6 16. Rc1 Rf7 17. a4 Bf8 18. a5 Bd7 19. Nb5 g4 20. Nc7 g3 21. Nxa8 Nh5 22. Kh1 gxf2 23. Rxf2 Ng3+ 24. Kg1 Qxa8 25. Bc4 a6 26. Qd3 Qa7 27. b5 axb5 28. Bxb5 Nh1',
+    },
   },
   {
     id: 'Nimzo-Indian Defense',
@@ -89,6 +105,10 @@ export const d4Stories: Story[] = [
     significance:
       'The most respected defense to the queen\'s pawn: every world champion since Capablanca has played it. Its themes — bishop-for-structure trades, dark-square blockades, the isolated pawn couple — are core curriculum for positional chess.',
     notableGames: ['Sämisch–Nimzowitsch, Copenhagen 1923 (the "Immortal Zugzwang Game")', 'Botvinnik–Capablanca, AVRO 1938 (the most famous combination in a Nimzo ever played)'],
+    famousGame: {
+      label: 'Botvinnik–Capablanca, AVRO 1938',
+      pgn: '1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. e3 d5 5. a3 Bxc3+ 6. bxc3 c5 7. cxd5 exd5 8. Bd3 O-O 9. Ne2 b6 10. O-O Ba6 11. Bxa6 Nxa6 12. Bb2 Qd7 13. a4 Rfe8 14. Qd3 c4 15. Qc2 Nb8 16. Rae1 Nc6 17. Ng3 Na5 18. f3 Nb3 19. e4 Qxa4 20. e5 Nd7 21. Qf2 g6 22. f4 f5 23. exf6 Nxf6 24. f5 Rxe1 25. Rxe1 Re8 26. Re6 Rxe6 27. fxe6 Kg7 28. Qf4 Qe8 29. Qe5 Qe7 30. Ba3 Qxa3 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 Qc1+ 35. Kf2 Qc2+ 36. Kg3 Qd3+ 37. Kh4 Qe4+ 38. Kxh5 Qe2+ 39. Kh4 Qe4+ 40. g4 Qe1+ 41. Kh5',
+    },
   },
   {
     id: 'Queen\'s Indian Defense',
@@ -111,6 +131,10 @@ export const d4Stories: Story[] = [
     significance:
       'The sharpest scientific answer to 1.d4: an all-in argument that a big center is only as good as its defense. The Exchange Variation main lines are among the most theory-critical battlegrounds in chess.',
     notableGames: ['Alekhine–Grünfeld, Vienna 1922 (the debut — Black won)', 'D. Byrne–Fischer, New York 1956 (the Game of the Century)', 'Kasparov–Karpov WCh Grünfeld duels, 1986–87'],
+    famousGame: {
+      label: 'Spassky–Fischer, Santa Monica 1966',
+      pgn: '1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. cxd5 Nxd5 5. e4 Nxc3 6. bxc3 Bg7 7. Bc4 c5 8. Ne2 Nc6 9. Be3 O-O 10. O-O Qc7 11. Rc1 Rd8 12. Qe1 e6 13. f4 Na5 14. Bd3 f5 15. Rd1 b6 16. Qf2 cxd4 17. Bxd4 Bxd4 18. cxd4 Bb7 19. Ng3 Qf7 20. d5 fxe4 21. dxe6 Qxe6 22. f5 Qf7 23. Bxe4 Rxd1 24. Rxd1 Rf8 25. Bb1 Qf6 26. Qc2 Kh8 27. fxg6 hxg6 28. Qd2 Kg7 29. Rf1 Qe7 30. Qd4+ Rf6 31. Ne4 Bxe4 32. Bxe4 Qc5 33. Qxc5 Rxf1+ 34. Kxf1 bxc5 35. h4 Nc4 36. Ke2 Ne5 37. Ke3 Kf6 38. Kf4 Nf7 39. Ke3 g5 40. h5 Nh6 41. Kd3 Ke5 42. Ba8 Kd6 43. Kc4 g4 44. a4 Ng8 45. a5 Nh6 46. Be4 g3 47. Kb5 Ng8 48. Bb1 Nh6 49. Ka6 Kc6 50. Ba2',
+    },
   },
   {
     id: 'Catalan Opening',
@@ -122,6 +146,10 @@ export const d4Stories: Story[] = [
     significance:
       'The modern professional\'s opening of choice for risk-free pressure: minimal theory-forcing, maximal squeeze. The eternal Catalan question — can Black ever fully free the c8 bishop? — has outlasted a century of answers.',
     notableGames: ['Kramnik\'s Catalan era (2006 WCh vs Topalov)', 'Ding–Nepomniachtchi, WCh 2023 (Catalan battles)'],
+    famousGame: {
+      label: 'Kramnik–Anand, Wijk aan Zee 2007',
+      pgn: '1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 Be7 5.Nf3 O-O 6.O-O dxc4 7.Qc2 a6 8.Qxc4 b5 9.Qc2 Bb7 10.Bd2 Ra7 11.Rc1 Be4 12.Qb3 Nc6 13.e3 Qa8 14.Qd1 Nb8 15.Ba5 Rc8 16.a3 Bd6 17.Nbd2 Bd5 18.Qf1 Nbd7 19.b4 e5 20.dxe5 Bxe5 21.Nxe5 Nxe5 22.f3 Nc4 23.Nxc4 Bxc4 24.Qf2 Re8 25.e4 c6 26.Rd1 Rd7 27.Rxd7 Nxd7 28.Rd1 Qb7 29.Rd6 f6 30.f4 Re6 31.Rd2 Re7 32.Qd4 Nf8 33.Qd8 Rd7 34.Rxd7 Qxd7 35.Qxd7 Nxd7 36.e5 fxe5 37.Bxc6 Nf6 38.Bb7 exf4 39.gxf4 Nd5 40.Kf2 Nxf4 41.Ke3 g5 42.Bxa6 Kf7 43.a4 Ke7 44.Bxb5 Bxb5 45.axb5 Kd7 46.Ke4 Ne2 47.Bb6 g4 48.Bf2 Nc3+ 49.Kf5 Nxb5 50.Kxg4 Ke6 51.Kg5 Kf7 52.Kf5 Ke7 53.Bc5+',
+    },
   },
   {
     id: 'London System',
@@ -144,6 +172,10 @@ export const d4Stories: Story[] = [
     significance:
       'The most committal first move Black can make: an unbalanced, all-three-results fight from move one. Beloved of attacking players and must-win situations; the standing counterexample to "develop before you attack."',
     notableGames: ['Bogoljubov–Alekhine, Hastings 1922 (one of the greatest games ever played — a Dutch)', 'Botvinnik–Bronstein, WCh 1951 (Stonewall battles)'],
+    famousGame: {
+      label: 'Yudovich–Botvinnik, Leningrad 1934',
+      pgn: '1.c4 f5 2.d4 Nf6 3.g3 e6 4.Bg2 Be7 5.Nf3 d5 6.O-O O-O 7.Nc3 c6 8.Qc2 Qe8 9.Bf4 Qh5 10.b3 Nbd7 11.Rad1 Kh8 12.Kh1 Rg8 13.e3 g5 14.Bc7 Ne8 15.Be5+ Nxe5 16.Nxe5 Nf6 17.f3 Bd6 18.e4 Nd7 19.g4 Qe8 20.Nxd7 Bxd7 21.e5 Bb4 22.gxf5 exf5 23.cxd5 Bxc3 24.dxc6 Bxc6 25.Qxc3 Qe6 26.Qd2 Bd5 27.Rc1 Rg7 28.Rc2 f4 29.Qc1 Rag8 30.h3 h5 31.Kg1 g4 32.hxg4 hxg4 33.Kf2 Rh7 34.Rh1 g3+ 35.Ke1 Rxh1+ 36.Bxh1 Qh6 37.Bg2 Bc6 38.a4 Bd7 39.d5 Bf5 40.Rc7 Qh2 41.Qb2 Qg1+ 42.Bf1 Qe3+ 43.Be2 Be6 44.Qc2 Rg7 45.dxe6 Qf2+ 46.Kd2 Qd4+ 47.Ke1 Rxc7',
+    },
   },
   {
     id: 'Benoni Defense',
@@ -166,6 +198,10 @@ export const d4Stories: Story[] = [
     significance:
       'Positional gambit par excellence: compensation measured in file pressure and pawn-structure paralysis rather than mating threats. It rewired theory\'s understanding of what "compensation" can mean.',
     notableGames: ['Benko\'s own model wins, 1960s–70s', 'Topalov\'s Benko revivals in the 1990s'],
+    famousGame: {
+      label: 'Nickoloff–Hodgson, Canadian Open 1994',
+      pgn: '1. d4 Nf6 2. c4 c5 3. d5 b5 4. cxb5 a6 5. f3 axb5 6. e4 Qa5+ 7. Bd2 b4 8. Na3 d6 9. Nc4 Qd8 10. a3 e6 11. dxe6 Bxe6 12. axb4 Rxa1 13. Qxa1 d5 14. exd5 Nxd5 15. Qa4+ Nd7 16. b5 Nb4 17. g3 Be7 18. Nh3 O-O 19. Bc3 Bf6 20. Nf4 Bxc4 21. Bxc4 Nb6 22. Qb3 Bxc3+ 23. Qxc3 Nxc4 24. Qxc4 Re8+ 25. Ne2 Nd3+ 26. Kf1 Re3 27. Nf4 Rxf3+ 28. Ke2 Rf2+ 29. Ke3 Ne5 30. Qd5 Ng4+ 31. Kd3 c4+',
+    },
   },
   {
     id: 'Modern Defense',

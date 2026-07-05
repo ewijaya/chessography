@@ -29,6 +29,10 @@ export const e4Stories: Story[] = [
       'Kramnik\'s Berlin Wall vs Kasparov, London 2000',
       'Capablanca–Marshall, New York 1918 (the Marshall Attack unveiled)',
     ],
+    famousGame: {
+      label: 'Fischer–Spassky, Game 1, Sveti Stefan/Belgrade 1992',
+      pgn: '1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8. c3 d6 9. h3 Nb8 10. d4 Nbd7 11. Nbd2 Bb7 12. Bc2 Re8 13. Nf1 Bf8 14. Ng3 g6 15. Bg5 h6 16. Bd2 Bg7 17. a4 c5 18. d5 c4 19. b4 Nh7 20. Be3 h5 21. Qd2 Rf8 22. Ra3 Ndf6 23. Rea1 Qd7 24. R1a2 Rfc8 25. Qc1 Bf8 26. Qa1 Qe8 27. Nf1 Be7 28. N1d2 Kg7 29. Nb1 Nxe4 30. Bxe4 f5 31. Bc2 Bxd5 32. axb5 axb5 33. Ra7 Kf6 34. Nbd2 Rxa7 35. Rxa7 Ra8 36. g4 hxg4 37. hxg4 Rxa7 38. Qxa7 f4 39. Bxf4 exf4 40. Nh4 Bf7 41. Qd4+ Ke6 42. Nf5 Bf8 43. Qxf4 Kd7 44. Nd4 Qe1+ 45. Kg2 Bd5+ 46. Be4 Bxe4+ 47. Nxe4 Be7 48. Nxb5 Nf8 49. Nbxd6 Ne6 50. Qe5',
+    },
   },
   {
     id: 'Ruy Lopez: Morphy Defense',
@@ -62,6 +66,10 @@ export const e4Stories: Story[] = [
     significance:
       'Black gives a center pawn for a standing kingside initiative — an entire complex where the gambiteer is the strategically respectable side. Its soundness is why 8.a4 and other anti-Marshall moves dominate modern elite play.',
     notableGames: ['Capablanca–Marshall, New York 1918', 'Aronian and Svidler as modern Marshall specialists'],
+    famousGame: {
+      label: 'Capablanca–Marshall, New York 1918',
+      pgn: '1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8. c3 d5 9. exd5 Nxd5 10. Nxe5 Nxe5 11. Rxe5 Nf6 12. Re1 Bd6 13. h3 Ng4 14. Qf3 Qh4 15. d4 Nxf2 16. Re2 Bg4 17. hxg4 Bh2+ 18. Kf1 Bg3 19. Rxf2 Qh1+ 20. Ke2 Bxf2 21. Bd2 Bh4 22. Qh3 Rae8+ 23. Kd3 Qf1+ 24. Kc2 Bf2 25. Qf3 Qg1 26. Bd5 c5 27. dxc5 Bxc5 28. b4 Bd6 29. a4 a5 30. axb5 axb4 31. Ra6 bxc3 32. Nxc3 Bb4 33. b6 Bxc3 34. Bxc3 h6 35. b7 Re3 36. Bxf7+',
+    },
   },
   {
     id: 'Ruy Lopez: Exchange Variation',
@@ -84,6 +92,10 @@ export const e4Stories: Story[] = [
     significance:
       '3.Bc4 develops toward f7 and keeps every option open: the quiet Giuoco Piano, the romantic Evans Gambit, or the tactical chaos of the Two Knights. Today it is arguably the main line of 1.e4 e5 again — a 500-year-old opening back in fashion.',
     notableGames: ['Greco\'s model attacks (1620s)', 'Carlsen, Caruana and So reviving the Giuoco Pianissimo (2015–present)'],
+    famousGame: {
+      label: 'Rossolimo–Reissmann, Puerto Rico 1967',
+      pgn: '1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.c3 Nf6 5.d4 exd4 6.cxd4 Bb4+ 7.Bd2 Bxd2+ 8.Nbxd2 d5 9.exd5 Nxd5 10.Qb3 Nce7 11.O-O c6 12.Rfe1 O-O 13.a4 b6 14.Ne5 Bb7 15.a5 Rc8 16.Ne4 Qc7 17.a6 Ba8 18.Qh3 Nf4 19.Qg4 Ned5 20.Ra3 Ne6 21.Bxd5 cxd5 22.Nf6+ Kh8 23.Qg6 Qc2 24.Rh3',
+    },
   },
   {
     id: 'Italian Game: Giuoco Piano',
@@ -121,6 +133,10 @@ export const e4Stories: Story[] = [
     significance:
       'The sharpest branch of the Italian complex: Black refuses passivity and fights for the initiative from move three. A rite of passage for every improving player learning about f7, tempo and the price of pawn-grabbing.',
     notableGames: ['Polerio\'s 16th-century analysis', 'Morphy\'s Two Knights games', 'Fischer–Bisguier, New York 1963'],
+    famousGame: {
+      label: 'Estrin–Berliner, 5th World Correspondence Ch. 1965',
+      pgn: '1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 b5 6. Bf1 Nd4 7. c3 Nxd5 8. Ne4 Qh4 9. Ng3 Bg4 10. f3 e4 11. cxd4 Bd6 12. Bxb5+ Kd8 13. O-O exf3 14. Rxf3 Rb8 15. Be2 Bxf3 16. Bxf3 Qxd4+ 17. Kh1 Bxg3 18. hxg3 Rb6 19. d3 Ne3 20. Bxe3 Qxe3 21. Bg4 h5 22. Bh3 g5 23. Nd2 g4 24. Nc4 Qxg3 25. Nxb6 gxh3 26. Qf3 hxg2+ 27. Qxg2 Qxg2+ 28. Kxg2 cxb6 29. Rf1 Ke7 30. Re1+ Kd6 31. Rf1 Rc8 32. Rxf7 Rc7 33. Rf2 Ke5 34. a4 Kd4 35. a5 Kxd3 36. Rf3+ Kc2 37. b4 b5 38. a6 Rc4 39. Rf7 Rxb4 40. Rb7 Rg4+ 41. Kf3 b4 42. Rxa7 b3',
+    },
   },
   {
     id: 'Sicilian Defense',
@@ -143,6 +159,10 @@ export const e4Stories: Story[] = [
     significance:
       'The gold standard of fighting defenses: flexible, theoretically dense, and never refuted despite more analytical firepower than any opening in history. Playing the Najdorf well is a professional credential in itself.',
     notableGames: ['Fischer–Spassky, Reykjavík 1972 (game 7... and Spassky\'s Bxh7 win, game 11)', 'Kasparov\'s career-long Najdorfs', 'The "Poisoned Pawn" debates: Spassky–Fischer 1972, rehabilitated by engines'],
+    famousGame: {
+      label: 'Fischer–Najdorf, Varna Olympiad 1962',
+      pgn: '1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. h3 b5 7. Nd5 Bb7 8. Nxf6+ gxf6 9. c4 bxc4 10. Bxc4 Bxe4 11. O-O d5 12. Re1 e5 13. Qa4+ Nd7 14. Rxe4 dxe4 15. Nf5 Bc5 16. Ng7+ Ke7 17. Nf5+ Ke8 18. Be3 Bxe3 19. fxe3 Qb6 20. Rd1 Ra7 21. Rd6 Qd8 22. Qb3 Qc7 23. Bxf7+ Kd8 24. Be6',
+    },
   },
   {
     id: 'Sicilian Defense: Dragon Variation',
@@ -154,6 +174,10 @@ export const e4Stories: Story[] = [
     significance:
       'The archetype of opposite-side castling races and the g7-bishop\'s power. Its theory is a shared cultural artifact — every chess generation learns the Dragon\'s moves the way musicians learn scales.',
     notableGames: ['Fischer–Larsen, Portorož Interzonal 1958 ("sac, sac, mate")', 'Karpov–Korchnoi, Moscow 1974 (game 2, the model h-file win)', 'Topalov and Carlsen\'s modern Dragon revivals'],
+    famousGame: {
+      label: 'Fischer–Larsen, Portoroz Interzonal 1958',
+      pgn: '1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 g6 6. Be3 Bg7 7. f3 O-O 8. Qd2 Nc6 9. Bc4 Nxd4 10. Bxd4 Be6 11. Bb3 Qa5 12. O-O-O b5 13. Kb1 b4 14. Nd5 Bxd5 15. Bxd5 Rac8 16. Bb3 Rc7 17. h4 Qb5 18. h5 Rfc8 19. hxg6 hxg6 20. g4 a5 21. g5 Nh5 22. Rxh5 gxh5 23. g6 e5 24. gxf7+ Kf8 25. Be3 d5 26. exd5 Rxf7 27. d6 Rf6 28. Bg5 Qb7 29. Bxf6 Bxf6 30. d7 Rd8 31. Qd6+',
+    },
   },
   {
     id: 'Sicilian Defense: Alapin Variation',
@@ -198,6 +222,10 @@ export const e4Stories: Story[] = [
     significance:
       'A structural bargain in its purest form: bishop pair and pawn weaknesses traded against dark-square control and attacking chances. The Poisoned Pawn line (7.Qg4) remains one of the sharpest strategic gambles in mainstream theory.',
     notableGames: ['Botvinnik\'s Winawers across three decades', 'Fischer–Tal, Leipzig Olympiad 1960 (a legendary Winawer draw)'],
+    famousGame: {
+      label: 'Tal–Botvinnik, World Championship Game 1, Moscow 1960',
+      pgn: '1. e4 e6 2. d4 d5 3. Nc3 Bb4 4. e5 c5 5. a3 Bxc3+ 6. bxc3 Qc7 7. Qg4 f5 8. Qg3 Ne7 9. Qxg7 Rg8 10. Qxh7 cxd4 11. Kd1 Bd7 12. Qh5+ Ng6 13. Ne2 d3 14. cxd3 Ba4+ 15. Ke1 Qxe5 16. Bg5 Nc6 17. d4 Qc7 18. h4 e5 19. Rh3 Qf7 20. dxe5 Ncxe5 21. Re3 Kd7 22. Rb1 b6 23. Nf4 Rae8 24. Rb4 Bc6 25. Qd1 Nxf4 26. Rxf4 Ng6 27. Rd4 Rxe3+ 28. fxe3 Kc7 29. c4 dxc4 30. Bxc4 Qg7 31. Bxg8 Qxg8 32. h5',
+    },
   },
   {
     id: 'Caro-Kann Defense',
@@ -209,6 +237,10 @@ export const e4Stories: Story[] = [
     significance:
       'The structurally soundest reply to 1.e4: no weaknesses, free development for every piece, endgames a shade more pleasant for Black. Its price — a tempo here, a shade of passivity there — is the cheapest rent in opening theory.',
     notableGames: ['Capablanca\'s Caro-Kann endgames', 'Karpov\'s career-long advocacy', 'Deep Blue–Kasparov, 1997 (game 6 — the Caro-Kann Bxe6 disaster that ended the match)'],
+    famousGame: {
+      label: 'Deep Blue–Kasparov, IBM Match Game 6, New York 1997',
+      pgn: '1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nd7 5. Ng5 Ngf6 6. Bd3 e6 7. N1f3 h6 8. Nxe6 Qe7 9. O-O fxe6 10. Bg6+ Kd8 11. Bf4 b5 12. a4 Bb7 13. Re1 Nd5 14. Bg3 Kc8 15. axb5 cxb5 16. Qd3 Bc6 17. Bf5 exf5 18. Rxe7 Bxe7 19. c4',
+    },
   },
   {
     id: 'Scandinavian Defense',
@@ -220,6 +252,10 @@ export const e4Stories: Story[] = [
     significance:
       'The simplest solution to 1.e4 in existence: one forcing sequence, one solid structure, minimal theory. A standing demonstration that a tempo can be worth less than a plan.',
     notableGames: ['Scachs d\'amor, Valencia c. 1475 (the first recorded game)', 'Kasparov–Anand, New York WCh 1995 (game 14)'],
+    famousGame: {
+      label: 'Canal–NN, Peruvian Immortal, Budapest simul 1934',
+      pgn: '1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5 4. d4 c6 5. Nf3 Bg4 6. Bf4 e6 7. h3 Bxf3 8. Qxf3 Bb4 9. Be2 Nd7 10. a3 O-O-O 11. axb4 Qxa1+ 12. Kd2 Qxh1 13. Qxc6+ bxc6 14. Ba6#',
+    },
   },
   {
     id: 'Alekhine Defense',
@@ -231,6 +267,10 @@ export const e4Stories: Story[] = [
     significance:
       'The purest expression of "the center as a target" — an entire strategic philosophy in one knight tour. Rare at the top but immortal in the textbooks, because no opening teaches the tension between space and overextension better.',
     notableGames: ['Sämisch–Alekhine, Budapest 1921', 'Spassky–Fischer, Reykjavík 1972 (games 13 and 19)'],
+    famousGame: {
+      label: 'Spassky–Fischer, World Championship Game 13, Reykjavik 1972',
+      pgn: '1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Nf3 g6 5. Bc4 Nb6 6. Bb3 Bg7 7. Nbd2 O-O 8. h3 a5 9. a4 dxe5 10. dxe5 Na6 11. O-O Nc5 12. Qe2 Qe8 13. Ne4 Ncxa4 14. Bxa4 Nxa4 15. Re1 Nb6 16. Bd2 a4 17. Bg5 h6 18. Bh4 Bf5 19. g4 Be6 20. Nd4 Bc4 21. Qd2 Qd7 22. Rad1 Rfe8 23. f4 Bd5 24. Nc5 Qc8 25. Qc3 e6 26. Kh2 Nd7 27. Nd3 c5 28. Nb5 Qc6 29. Nd6 Qxd6 30. exd6 Bxc3 31. bxc3 f6 32. g5 hxg5 33. fxg5 f5 34. Bg3 Kf7 35. Ne5+ Nxe5 36. Bxe5 b5 37. Rf1 Rh8 38. Bf6 a3 39. Rf4 a2 40. c4 Bxc4 41. d7 Bd5 42. Kg3 Ra3+ 43. c3 Rha8 44. Rh4 e5 45. Rh7+ Ke6 46. Re7+ Kd6 47. Rxe5 Rxc3+ 48. Kf2 Rc2+ 49. Ke1 Kxd7 50. Rexd5+ Kc6 51. Rd6+ Kb7 52. Rd7+ Ka6 53. R7d2 Rxd2 54. Kxd2 b4 55. h4 Kb5 56. h5 c4 57. Ra1 gxh5 58. g6 h4 59. g7 h3 60. Be7 Rg8 61. Bf8 h2 62. Kc2 Kc6 63. Rd1 h1=Q 64. Rxh1 b3+ 65. Kc3 Kd5 66. Rd1+ Ke4 67. Kb2 f4 68. Rc1 Kd3 69. Rd1+ Ke2 70. Rc1 f3 71. Bc5 Rxg7 72. Rxc4 Rd7 73. Re4+ Kf1 74. Bd4 f2',
+    },
   },
   {
     id: 'Pirc Defense',
@@ -242,6 +282,10 @@ export const e4Stories: Story[] = [
     significance:
       'The workhorse "system defense" against 1.e4: Black\'s setup barely changes whatever White does, which makes it beloved of players who prize understanding over memorization — and of anyone needing a fighting game against a booked-up opponent.',
     notableGames: ['Spassky–Fischer, Reykjavík 1972 (game 21, the title-clincher)'],
+    famousGame: {
+      label: 'Kasparov–Topalov, Wijk aan Zee 1999',
+      pgn: '1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Be3 Bg7 5. Qd2 c6 6. f3 b5 7. Nge2 Nbd7 8. Bh6 Bxh6 9. Qxh6 Bb7 10. a3 e5 11. O-O-O Qe7 12. Kb1 a6 13. Nc1 O-O-O 14. Nb3 exd4 15. Rxd4 c5 16. Rd1 Nb6 17. g3 Kb8 18. Na5 Ba8 19. Bh3 d5 20. Qf4+ Ka7 21. Rhe1 d4 22. Nd5 Nbxd5 23. exd5 Qd6 24. Rxd4 cxd4 25. Re7+ Kb6 26. Qxd4+ Kxa5 27. b4+ Ka4 28. Qc3 Qxd5 29. Ra7 Bb7 30. Rxb7 Qc4 31. Qxf6 Kxa3 32. Qxa6+ Kxb4 33. c3+ Kxc3 34. Qa1+ Kd2 35. Qb2+ Kd1 36. Bf1 Rd2 37. Rd7 Rxd7 38. Bxc4 bxc4 39. Qxh8 Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7',
+    },
   },
   {
     id: 'Philidor Defense',
@@ -305,6 +349,10 @@ export const e4Stories: Story[] = [
     significance:
       'A flexible cousin of the King\'s Gambit: White keeps the attack in reserve. Enjoying a genuine modern revival as a surprise weapon with real bite (the Vienna Gambit scores brutally below master level).',
     notableGames: ['Hamppe–Meitner, Vienna 1872 (the "Immortal Draw")'],
+    famousGame: {
+      label: 'Hamppe–Meitner, the Immortal Draw, Vienna 1872',
+      pgn: '1. e4 e5 2. Nc3 Bc5 3. Na4 Bxf2+ 4. Kxf2 Qh4+ 5. Ke3 Qf4+ 6. Kd3 d5 7. Kc3 Qxe4 8. Kb3 Na6 9. a3 Qxa4+ 10. Kxa4 Nc5+ 11. Kb4 a5+ 12. Kxc5 Ne7 13. Bb5+ Kd8 14. Bc6 b6+ 15. Kb5 Nxc6 16. Kxc6 Bb7+ 17. Kb5 Ba6+ 18. Kc6 Bb7+',
+    },
   },
   {
     id: 'Scotch Game',
@@ -316,5 +364,9 @@ export const e4Stories: Story[] = [
     significance:
       'Immediate central clarification into rich, slightly offbeat middlegames — the standing alternative for 1.e4 players who want open-game activity without Ruy Lopez theory. Proof that no sound opening ever really dies.',
     notableGames: ['Edinburgh–London correspondence 1824–28', 'Kasparov–Karpov, Lyon/New York WCh 1990 (games 14 and 16)'],
+    famousGame: {
+      label: 'Kasparov–Karpov, Game 16, World Ch. 1990',
+      pgn: '1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Nf6 5. Nxc6 bxc6 6. e5 Qe7 7. Qe2 Nd5 8. c4 Nb6 9. Nd2 Qe6 10. b3 a5 11. Bb2 Bb4 12. a3 Bxd2+ 13. Qxd2 d5 14. cxd5 cxd5 15. Rc1 O-O 16. Rxc7 Qg6 17. f3 Bf5 18. g4 Bb1 19. Bb5 Rac8 20. Rxc8 Rxc8 21. O-O h5 22. h3 hxg4 23. hxg4 Bc2 24. Qd4 Qe6 25. Rf2 Rc7 26. Rh2 Nd7 27. b4 axb4 28. axb4 Nf8 29. Bf1 Bb3 30. Bd3 Bc4 31. Bf5 Qe7 32. Qd2 Rc6 33. Bd4 Ra6 34. Bb1 Ra3 35. Rh3 Rb3 36. Bc2 Qxb4 37. Qf2 Ng6 38. e6 Rb1+ 39. Bxb1 Qxb1+ 40. Kh2 fxe6 41. Qb2 Qxb2+ 42. Bxb2 Nf4 43. Rh4 Nd3 44. Bc3 e5 45. Kg3 d4 46. Bd2 Bd5 47. Rh5 Kf7 48. Ba5 Ke6 49. Rh8 Nb2 50. Re8+ Kd6 51. Bb4+ Kc6 52. Rc8+ Kd7 53. Rc5 Ke6 54. Rc7 g6 55. Re7+ Kf6 56. Rd7 Ba2 57. Ra7 Bc4 58. Ba5 Bd3 59. f4 exf4+ 60. Kxf4 Bc2 61. Ra6+ Kf7 62. Ke5 Nd3+ 63. Kxd4 Nf2 64. g5 Bf5 65. Bd2 Ke7 66. Kd5 Ne4 67. Ra7+ Ke8 68. Be3 Nc3+ 69. Ke5 Kd8 70. Bb6+ Ke8 71. Rc7 Ne4 72. Be3 Ng3 73. Bf4 Nh5 74. Ra7 Kf8 75. Bh2 Ng7 76. Bg1 Nh5 77. Bc5+ Kg8 78. Kd6 Kf8 79. Bd4 Bg4 80. Be5 Bf5 81. Rh7 Kg8 82. Rc7 Kf8 83. Kc6 Kg8 84. Re7 Kf8 85. Bd6 Kg8 86. Re8+ Kf7 87. Re7+ Kg8 88. Be5 Kf8 89. Ra7 Bg4 90. Kd6 Bh3 91. Ra3 Bg4 92. Re3 Bf5 93. Kc7 Kf7 94. Kd8 Bg4 95. Bb2 Be6 96. Bc3 Bf5 97. Re7+ Kf8 98. Be5 Bd3 99. Ra7 Be4 100. Rc7 Bb1 101. Bd6+ Kg8 102. Ke7',
+    },
   },
 ];

@@ -12,6 +12,10 @@ export const flankStories: Story[] = [
     significance:
       'The most flexible serious first move: it can become a reversed Sicilian, a Catalan, or a unique symmetrical battleground. Its motto is patience — control before occupation, information before commitment.',
     notableGames: ['Staunton–Saint-Amant, Paris 1843', 'Fischer–Spassky, Reykjavík 1972 (game 6)', 'Kasparov–Karpov, Seville 1987 (game 24 — Kasparov saved his title with 1.c4)'],
+    famousGame: {
+      label: 'Botvinnik–Portisch, Monte Carlo 1968',
+      pgn: '1.c4 e5 2.Nc3 Nf6 3.g3 d5 4.cxd5 Nxd5 5.Bg2 Be6 6.Nf3 Nc6 7.O-O Nb6 8.d3 Be7 9.a3 a5 10.Be3 O-O 11.Na4 Nxa4 12.Qxa4 Bd5 13.Rfc1 Re8 14.Rc2 Bf8 15.Rac1 Nb8 16.Rxc7 Bc6 17.R1xc6 bxc6 18.Rxf7 h6 19.Rb7 Qc8 20.Qc4+ Kh8 21.Nh4 Qxb7 22.Ng6+ Kh7 23.Be4 Bd6 24.Nxe5+ g6 25.Bxg6+ Kg7 26.Bxh6+',
+    },
   },
   {
     id: 'Réti Opening',
