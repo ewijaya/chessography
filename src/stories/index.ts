@@ -3,13 +3,14 @@ import { e4Stories } from './openings-e4';
 import { d4Stories } from './openings-d4';
 import { flankStories } from './openings-flank';
 import { structureStories, endgameStories } from './patterns';
+import { tacticStories } from './tactics';
 
 /** Every authored opening story (exported for validation tests). */
 export const allOpeningStories: Story[] = [...e4Stories, ...d4Stories, ...flankStories];
 
 const openingStoryMap = new Map<string, Story>(allOpeningStories.map((s) => [s.id, s]));
 const patternStoryMap = new Map<string, Story>(
-  [...structureStories, ...endgameStories].map((s) => [s.id, s]),
+  [...structureStories, ...endgameStories, ...tacticStories].map((s) => [s.id, s]),
 );
 
 export function getPatternStory(id: string): Story | undefined {
@@ -67,4 +68,5 @@ export const storyCounts = {
   openings: openingStoryMap.size,
   structures: structureStories.length,
   endgames: endgameStories.length,
+  tactics: tacticStories.length,
 };

@@ -97,14 +97,20 @@ function OpeningView({ recognition, onPlayGame }: { recognition: Recognition; on
   );
 }
 
-function PatternView({ recognition, kind, onPlayGame }: { recognition: Recognition; kind: 'structure' | 'endgame'; onPlayGame?: (pgn: string) => void }) {
-  const match = kind === 'structure' ? recognition.structure! : recognition.endgame!;
+const PATTERN_EYEBROW = {
+  structure: { stamp: 'PATTERN', text: 'pawn structure · detected on the board' },
+  endgame: { stamp: 'ENDGAME', text: 'named endgame · recognized from the position' },
+  tactic: { stamp: 'TACTIC', text: 'named pattern · struck on this board' },
+} as const;
+
+function PatternView({ recognition, kind, onPlayGame }: { recognition: Recognition; kind: 'structure' | 'endgame' | 'tactic'; onPlayGame?: (pgn: string) => void }) {
+  const match = recognition[kind]!;
   const story = getPatternStory(match.id);
   return (
     <div className="story-fade" key={match.id}>
       <div className="eyebrow">
-        <span className="eco-stamp">{kind === 'structure' ? 'PATTERN' : 'ENDGAME'}</span>
-        <span>{kind === 'structure' ? 'pawn structure · detected on the board' : 'named endgame · recognized from the position'}</span>
+        <span className="eco-stamp">{PATTERN_EYEBROW[kind].stamp}</span>
+        <span>{PATTERN_EYEBROW[kind].text}</span>
       </div>
       <h2>{match.name}</h2>
       <p className="detected-detail">{match.detail}</p>
@@ -117,6 +123,8 @@ function PatternView({ recognition, kind, onPlayGame }: { recognition: Recogniti
   );
 }
 
+export type StoryView = 'opening' | 'structure' | 'endgame' | 'tactic';
+
 export default function StoryPanel({
   recognition,
   view,
@@ -124,11 +132,12 @@ export default function StoryPanel({
   onPlayGame,
 }: {
   recognition: Recognition;
-  view: 'opening' | 'structure' | 'endgame';
-  onSelectView: (v: 'opening' | 'structure' | 'endgame') => void;
+  view: StoryView;
+  onSelectView: (v: StoryView) => void;
   onPlayGame?: (pgn: string) => void;
 }) {
-  const available: ('opening' | 'structure' | 'endgame')[] = [];
+  const available: StoryView[] = [];
+  if (recognition.tactic) available.push('tactic');
   if (recognition.opening) available.push('opening');
   if (recognition.structure) available.push('structure');
   if (recognition.endgame) available.push('endgame');

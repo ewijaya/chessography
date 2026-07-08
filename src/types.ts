@@ -46,6 +46,8 @@ export interface Recognition {
   opening: OpeningMatch | null;
   structure: PatternMatch | null;
   endgame: PatternMatch | null;
+  /** Named checkmate pattern or sacrifice that just landed. */
+  tactic: PatternMatch | null;
   /** Which panel should lead the display. */
-  primary: 'opening' | 'structure' | 'endgame' | null;
+  primary: 'opening' | 'structure' | 'endgame' | 'tactic' | null;
 }

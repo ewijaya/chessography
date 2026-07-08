@@ -1,23 +1,27 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Chess, type Square } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
-import StoryPanel from './components/StoryPanel';
+import StoryPanel, { type StoryView } from './components/StoryPanel';
 import EvalBar from './components/EvalBar';
 import PromotionPicker from './components/PromotionPicker';
 import AtlasExplorer from './components/AtlasExplorer';
+import GameImporter from './components/GameImporter';
+import Trainer, { type DrillState } from './components/Trainer';
 import { recognize } from './lib/recognize';
-import { loadBook, bookSize } from './lib/openings';
+import { loadBook, bookSize, bookEntries } from './lib/openings';
 import { presets, type Preset } from './lib/presets';
 import { Engine, LEVELS, type EngineLevel, type Eval } from './lib/engine';
 import { buildAdvice, type MoveAdvice } from './lib/advice';
 import { detectEnding, journeyMilestones } from './lib/postmortem';
+import { encodeGame, decodeGame } from './lib/share';
+import { buildDeck, grade, loadProgress, saveProgress, type Grade, type ProgressMap, type TrainerCard } from './lib/trainer';
 import Postmortem from './components/Postmortem';
 import { playSound } from './lib/sound';
-import { storyCounts } from './stories';
+import { storyCounts, allOpeningStories } from './stories';
 import type { OpeningEntry } from './types';
 import './App.css';
 
-type View = 'opening' | 'structure' | 'endgame';
+type View = StoryView;
 type Opponent = 'human' | 'engine-black' | 'engine-white';
 type Theme = 'dark' | 'light';
 
@@ -29,24 +33,44 @@ const initialTheme = (): Theme => {
   return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
 };
 
+/**
+ * A shared game arriving in the URL fragment. Decoded during state
+ * INITIALIZATION (not in an effect) so the engine-opponent effect never
+ * sees the shared position with the default engine opponent still set.
+ */
+const sharedArrival = (): { chess: Chess; startFen: string } | null => {
+  const g = decodeGame(window.location.hash);
+  if (!g) return null;
+  const chess = new Chess();
+  try {
+    if (g.startFen) chess.load(g.startFen);
+    for (const san of g.sans) chess.move(san);
+  } catch {
+    return null;
+  }
+  return { chess, startFen: g.startFen ?? START_FEN };
+};
+
 export default function App() {
-  const chessRef = useRef(new Chess());
+  const [arrived] = useState(sharedArrival);
+  const chessRef = useRef(arrived?.chess ?? new Chess());
   const engineRef = useRef<Engine | null>(null);
   const evalEngineRef = useRef<Engine | null>(null);
   const adviceEngineRef = useRef<Engine | null>(null);
   const postmortemEngineRef = useRef<Engine | null>(null);
-  const startFenRef = useRef(START_FEN);
+  const startFenRef = useRef(arrived?.startFen ?? START_FEN);
   const [fen, setFen] = useState(chessRef.current.fen());
-  const [history, setHistory] = useState<string[]>([]);
+  const [history, setHistory] = useState<string[]>(chessRef.current.history());
   const [orientation, setOrientation] = useState<'white' | 'black'>('white');
   const [view, setView] = useState<View>('opening');
-  const [opponent, setOpponent] = useState<Opponent>('engine-black');
+  const [opponent, setOpponent] = useState<Opponent>(arrived ? 'human' : 'engine-black');
   const [level, setLevel] = useState<EngineLevel>('club');
   const [thinking, setThinking] = useState(false);
   const [selected, setSelected] = useState<Square | null>(null);
   const [theme, setTheme] = useState<Theme>(initialTheme);
   const [bookReady, setBookReady] = useState(false);
-  const [viewPly, setViewPly] = useState<number | null>(null); // null = live tip
+  // null = live tip; a shared game arrives rewound to the start.
+  const [viewPly, setViewPly] = useState<number | null>(arrived ? 0 : null);
   const [pendingPromo, setPendingPromo] = useState<{ from: Square; to: Square } | null>(null);
   const [muted, setMuted] = useState(() => localStorage.getItem('chessography-muted') === '1');
   const [evalOn, setEvalOn] = useState(() => localStorage.getItem('chessography-eval') !== '0');
@@ -57,6 +81,9 @@ export default function App() {
   const [copied, setCopied] = useState(false);
   const [advice, setAdvice] = useState<MoveAdvice | null>(null);
   const [advising, setAdvising] = useState(false);
+  const [shared, setShared] = useState(false);
+  const [drill, setDrill] = useState<DrillState | null>(null);
+  const [trainerProgress, setTrainerProgress] = useState<ProgressMap>(() => loadProgress());
 
   useEffect(() => {
     loadBook().then(() => setBookReady(true));
@@ -97,7 +124,14 @@ export default function App() {
   const displayChess = useMemo(() => new Chess(displayFen), [displayFen]);
 
   const recognition = useMemo(
-    () => recognize(displayChess, history.slice(0, displayPly)),
+    () =>
+      recognize(
+        displayChess,
+        // The opening atlas is keyed to games from the standard start; a
+        // custom-FEN game's SANs don't replay from move one.
+        startFenRef.current === START_FEN ? history.slice(0, displayPly) : [],
+        verboseHistory[displayPly - 1],
+      ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [displayFen, history, bookReady],
   );
@@ -115,7 +149,12 @@ export default function App() {
     setAdvice(null);
     setFen(chessRef.current.fen());
     setHistory(chessRef.current.history());
-    const r = recognize(chessRef.current, chessRef.current.history());
+    const chess = chessRef.current;
+    const r = recognize(
+      chess,
+      startFenRef.current === START_FEN ? chess.history() : [],
+      chess.history({ verbose: true }).at(-1),
+    );
     setView(r.primary ?? 'opening');
   };
 
@@ -209,6 +248,20 @@ export default function App() {
   };
 
   const commitMove = (from: Square, to: Square, promotion?: 'q' | 'r' | 'b' | 'n'): boolean => {
+    // Drill mode: the move must be the line's next move, or the board
+    // snaps back and the slip is counted.
+    if (drill && !drill.done) {
+      let san: string;
+      try {
+        san = new Chess(chessRef.current.fen()).move({ from, to, promotion }).san;
+      } catch {
+        return false;
+      }
+      if (san !== drill.card.sans[drill.idx]) {
+        setDrill({ ...drill, errors: drill.errors + 1, flash: `${san} isn't the line — try again, or ask for the move below.` });
+        return false;
+      }
+    }
     try {
       const mv = chessRef.current.move({ from, to, promotion });
       soundFor(Boolean(mv.captured));
@@ -216,6 +269,10 @@ export default function App() {
       return false;
     }
     sync();
+    if (drill && !drill.done) {
+      const idx = drill.idx + 1;
+      setDrill({ ...drill, idx, flash: null, done: idx >= drill.card.sans.length });
+    }
     return true;
   };
 
@@ -304,6 +361,7 @@ export default function App() {
   const adoptGame = (chess: Chess, startFen = START_FEN) => {
     chessRef.current = chess;
     startFenRef.current = startFen;
+    setDrill(null);
     sync();
   };
 
@@ -323,6 +381,8 @@ export default function App() {
     chessRef.current.undo();
     if (engineSide && chessRef.current.turn() === engineSide) chessRef.current.undo();
     sync();
+    // In a drill, stepping back rewinds the recitation too.
+    setDrill((d) => (d ? { ...d, idx: Math.max(0, d.idx - 1), flash: null, done: false } : d));
   };
 
   const loadPreset = (p: Preset) => {
@@ -336,8 +396,8 @@ export default function App() {
     adoptGame(chess, p.fen ?? START_FEN);
     // A preset promises its group ("Pawn structures" → structure story), so
     // open that tab if the recognizer found it, even while still in book.
-    const r = recognize(chess, chess.history());
-    if ((p.group === 'structure' && r.structure) || (p.group === 'endgame' && r.endgame)) {
+    const r = recognize(chess, chess.history(), chess.history({ verbose: true }).at(-1));
+    if (p.group !== 'opening' && r[p.group]) {
       setView(p.group);
     }
   };
@@ -390,6 +450,60 @@ export default function App() {
     } catch {
       // Clipboard unavailable — leave the button state alone.
     }
+  };
+
+  // The whole game rides in the URL fragment — the link IS the chronicle.
+  const shareGame = async () => {
+    const hash = encodeGame({
+      sans: history,
+      startFen: startFenRef.current === START_FEN ? undefined : startFenRef.current,
+    });
+    const url = `${window.location.origin}${window.location.pathname}${hash}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      window.history.replaceState(null, '', hash);
+      setShared(true);
+      setTimeout(() => setShared(false), 1500);
+    } catch {
+      // Clipboard unavailable — leave the button state alone.
+    }
+  };
+
+  // A game fetched from lichess / chess.com, rewound for stepping through.
+  const loadImported = (sans: string[]) => {
+    const chess = new Chess();
+    try {
+      for (const san of sans) chess.move(san);
+    } catch {
+      return;
+    }
+    setOpponent('human');
+    adoptGame(chess);
+    setViewPly(0);
+  };
+
+  // ---------- opening trainer ----------
+
+  const trainerDeck = useMemo(() => (bookReady ? buildDeck(bookEntries(), allOpeningStories) : []), [bookReady]);
+
+  const startDrill = (card: TrainerCard) => {
+    setOpponent('human');
+    adoptGame(new Chess());
+    setDrill({ card, idx: 0, errors: 0, flash: null, done: false });
+  };
+
+  const drillHint = () => {
+    setDrill((d) =>
+      d && !d.done ? { ...d, errors: d.errors + 1, flash: `The line continues ${d.card.sans[d.idx]}.` } : d,
+    );
+  };
+
+  const gradeDrill = (q: Grade) => {
+    if (!drill) return;
+    const next = { ...trainerProgress, [drill.card.id]: grade(trainerProgress[drill.card.id], q, Date.now()) };
+    setTrainerProgress(next);
+    saveProgress(next);
+    setDrill(null);
   };
 
   // ---------- post-mortem chronicle ----------
@@ -629,6 +743,9 @@ export default function App() {
             <button onClick={copyPgn} disabled={moves.length === 0} title="copy this game as PGN">
               {copied ? 'Copied ✓' : 'Copy PGN'}
             </button>
+            <button onClick={shareGame} disabled={moves.length === 0} title="copy a link that carries this whole game">
+              {shared ? 'Link copied ✓' : '🔗 Share'}
+            </button>
             <button
               className={advice ? 'active' : ''}
               onClick={requestAdvice}
@@ -687,6 +804,18 @@ export default function App() {
             </div>
           )}
 
+          <Trainer
+            ready={bookReady}
+            deck={trainerDeck}
+            progress={trainerProgress}
+            drill={drill}
+            now={Date.now()}
+            onStart={startDrill}
+            onGrade={gradeDrill}
+            onHint={drillHint}
+            onQuit={() => setDrill(null)}
+          />
+
           {pgnOpen && (
             <div className="pgn-import">
               <textarea
@@ -737,10 +866,16 @@ export default function App() {
 
           <details className="presets">
             <summary>Visit a famous position…</summary>
-            {(['opening', 'structure', 'endgame'] as const).map((group) => (
+            {(['opening', 'structure', 'endgame', 'tactic'] as const).map((group) => (
               <div key={group}>
                 <div className="preset-group">
-                  {group === 'opening' ? 'Openings' : group === 'structure' ? 'Pawn structures' : 'Endgames'}
+                  {group === 'opening'
+                    ? 'Openings'
+                    : group === 'structure'
+                      ? 'Pawn structures'
+                      : group === 'endgame'
+                        ? 'Endgames'
+                        : 'Named mates & tactics'}
                 </div>
                 {presets
                   .filter((p) => p.group === group)
@@ -754,6 +889,8 @@ export default function App() {
           </details>
 
           <AtlasExplorer ready={bookReady} onLoad={loadAtlasLine} />
+
+          <GameImporter ready={bookReady} onLoad={loadImported} />
         </div>
 
         <StoryPanel recognition={recognition} view={view} onSelectView={setView} onPlayGame={playFamousGame} />
@@ -761,9 +898,9 @@ export default function App() {
 
       <footer className="footer">
         {storyCounts.openings} opening stories · {storyCounts.structures} structures ·{' '}
-        {storyCounts.endgames} endgames ·{' '}
+        {storyCounts.endgames} endgames · {storyCounts.tactics} named tactics ·{' '}
         {bookReady ? `${bookSize().toLocaleString()} named positions` : 'opening atlas loading…'} from the
-        lichess opening atlas (CC0) · engine: Stockfish 18 lite
+        lichess opening atlas (CC0) · engine: Stockfish 18 lite · <a href="/atlas/">read the story atlas</a>
       </footer>
     </div>
   );

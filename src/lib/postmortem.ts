@@ -3,6 +3,7 @@ import type { Engine } from './engine';
 import { matchOpening } from './openings';
 import { detectStructure } from './structures';
 import { detectEndgame } from './endgames';
+import { detectTactic } from './tactics';
 
 // ---------- the ending, named and given its history ----------
 
@@ -87,7 +88,7 @@ export function detectEnding(chess: Chess): Ending | null {
 export interface Milestone {
   ply: number;
   label: string;
-  kind: 'opening' | 'structure' | 'endgame';
+  kind: 'opening' | 'structure' | 'endgame' | 'tactic';
 }
 
 const STANDARD_START = new Chess().fen();
@@ -107,9 +108,11 @@ export function journeyMilestones(sans: string[], startFen = STANDARD_START): Mi
   const chess = new Chess(startFen);
   let sawStructure = false;
   let sawEndgame = false;
+  const seenTactics = new Set<string>();
   sans.forEach((san, i) => {
+    let mv;
     try {
-      chess.move(san);
+      mv = chess.move(san);
     } catch {
       return;
     }
@@ -126,6 +129,11 @@ export function journeyMilestones(sans: string[], startFen = STANDARD_START): Mi
         sawEndgame = true;
         out.push({ ply: i + 1, label: e.name, kind: 'endgame' });
       }
+    }
+    const t = detectTactic(chess, mv);
+    if (t && !seenTactics.has(t.id)) {
+      seenTactics.add(t.id);
+      out.push({ ply: i + 1, label: t.name, kind: 'tactic' });
     }
   });
   return out.sort((a, b) => a.ply - b.ply);

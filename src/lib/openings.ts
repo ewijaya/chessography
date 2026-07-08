@@ -48,11 +48,17 @@ export function lookupPosition(fen: string): OpeningEntry | undefined {
 export function matchOpening(sanHistory: string[]): OpeningMatch | null {
   const chess = new Chess();
   const hits: { entry: OpeningEntry; atPly: number }[] = [];
-  sanHistory.forEach((san, i) => {
-    chess.move(san);
+  for (let i = 0; i < sanHistory.length; i++) {
+    // A history that doesn't replay from the standard start (custom-FEN
+    // games, malformed imports) simply has no opening to name.
+    try {
+      chess.move(sanHistory[i]);
+    } catch {
+      break;
+    }
     const entry = lookupPosition(chess.fen());
     if (entry) hits.push({ entry, atPly: i + 1 });
-  });
+  }
   if (hits.length === 0) return null;
 
   const last = hits[hits.length - 1];

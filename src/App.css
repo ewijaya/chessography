@@ -1186,3 +1186,289 @@
 .footer a {
   color: var(--felt-text-dim);
 }
+
+/* opening trainer — the drill card and the deck */
+
+.drill-card {
+  border: 1px solid var(--felt-line);
+  border-left: 3px solid var(--brass);
+  border-radius: 3px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: storyfade 260ms ease;
+}
+
+.drill-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.drill-name {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: var(--felt-text);
+  flex: 1;
+}
+
+.drill-ask {
+  margin: 0;
+  font-family: var(--serif-body);
+  font-size: 0.9rem;
+  color: var(--felt-text);
+}
+
+.drill-errors {
+  color: var(--stamp);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.drill-progress {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.9;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+
+.drill-progress .move-no {
+  color: var(--felt-text-dim);
+  margin-right: 3px;
+}
+
+.drill-progress .played {
+  color: var(--felt-text);
+}
+
+.drill-progress .pending {
+  color: var(--felt-text-dim);
+}
+
+.drill-flash {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--stamp);
+}
+
+.drill-hint {
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  background: transparent;
+  color: var(--felt-text-dim);
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.drill-hint:hover {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+
+.drill-grades {
+  display: flex;
+  gap: 8px;
+}
+
+.drill-grades button {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  background: transparent;
+  color: var(--felt-text);
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.drill-grades button:hover {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+
+.trainer-blurb {
+  font-family: var(--serif-body);
+  font-size: 0.82rem;
+  color: var(--felt-text-dim);
+  margin: 8px 6px;
+}
+
+.trainer-next {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  background: transparent;
+  color: var(--brass);
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 8px 10px;
+  margin: 0 0 8px;
+  cursor: pointer;
+  transition: border-color 120ms ease;
+}
+
+.trainer-next:hover {
+  border-color: var(--brass);
+}
+
+.trainer-list {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.presets button.trainer-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  width: 100%;
+  padding: 4px 6px;
+}
+
+.trainer-row-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trainer-due {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--felt-text-dim);
+}
+
+.trainer-due.is-due {
+  color: var(--stamp);
+}
+
+/* game importer — chronicle your own games */
+
+.importer-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 6px;
+}
+
+.importer-sites {
+  display: flex;
+  gap: 4px;
+}
+
+.importer-sites button {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  background: transparent;
+  color: var(--felt-text-dim);
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.importer-sites button.active {
+  color: var(--brass);
+  border-color: var(--brass);
+}
+
+.importer-user {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  background: transparent;
+  color: var(--felt-text);
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 7px 10px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.importer-fetch {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  background: transparent;
+  color: var(--felt-text);
+  border: 1px solid var(--felt-line);
+  border-radius: 3px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.importer-fetch:hover:not(:disabled) {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+
+.importer-fetch:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.importer-home {
+  font-family: var(--serif-body);
+  font-size: 0.85rem;
+  color: var(--felt-text);
+  margin: 4px 6px 8px;
+}
+
+.importer-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.presets button.importer-game {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  width: 100%;
+  padding: 7px 6px;
+  border-bottom: 1px dashed var(--felt-line);
+}
+
+.imp-players {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 0.82rem;
+}
+
+.imp-players .imp-you {
+  color: var(--brass);
+}
+
+.imp-result {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--felt-text-dim);
+  margin-left: auto;
+}
+
+.imp-meta {
+  display: flex;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--felt-text-dim);
+}
+
+.imp-chronicle {
+  font-family: var(--serif-body);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--felt-text-dim);
+}

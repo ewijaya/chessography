@@ -63,3 +63,39 @@ nothing; query descendants too. Click-to-move = onSquareClick + squareStyles
 ## Endgames are unreachable by normal play in a demo
 Added demo presets (FEN/moves) so recognizers 2 and 3 are demonstrable without
 playing 40 moves. This was the only way to make the MVP reviewable.
+
+## Decode shared-game URLs during state init, not in an effect
+The first version decoded `#g=` in a mount effect: it mutated chessRef and
+queued setOpponent('human'), but the engine-opponent effect ran in the same
+mount pass, read the already-mutated chessRef while opponent state was still
+the default 'engine-black', and played a move into the shared game. Anything
+that must beat the engine effect to the board belongs in useState/useRef
+initializers, where it commits atomically with the first render.
+
+## Tactic recognition is two different problems
+Named mates (smothered, Anastasia's, Boden's…) are pure functions of the
+mated position — same discipline as endgames, detectable from a FEN. The
+Greek Gift is an *event*: it needs the move that just landed, so recognize()
+takes an optional last verbose Move and pattern presets that demo it must be
+move sequences, not FENs. Negatives matter: a ladder mate must not read as
+back-rank (require own-piece blocks), scholar's mate must not read as
+epaulette (require queen at distance two).
+
+## Importing the TS story modules from a Node build script
+Node 22's type stripping can't follow the app's extensionless imports, so
+scripts/build-story-pages.mjs transpiles the story modules with the installed
+typescript package (transpileModule) into dist/.stories-tmp, rewrites
+relative specifiers to ./x.mjs, imports, and deletes the scratch dir. No new
+deps, works on whatever Node CI uses.
+
+## lichess + chess.com public APIs are CORS-open
+Both can be fetched straight from the browser with no auth or proxy:
+lichess `GET /api/games/user/{u}` (Accept: application/x-ndjson, `moves=true`
+gives SAN strings; filter variant!=='standard'), chess.com
+`/pub/player/{u}/games/archives` → month URLs → games[].pgn (filter
+rules!=='chess'). Verified live against real accounts.
+
+## Three <details> panels share the .presets styling
+Trainer and GameImporter reuse `presets` as a base class. E2E scripts must
+select by summary text ("Visit a famous position…"), not `.presets summary`
+— the first match in DOM order is now the trainer.

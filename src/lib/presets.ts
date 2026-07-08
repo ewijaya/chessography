@@ -1,6 +1,6 @@
 export interface Preset {
   label: string;
-  group: 'opening' | 'structure' | 'endgame';
+  group: 'opening' | 'structure' | 'endgame' | 'tactic';
   /** Either a move sequence from the start... */
   moves?: string[];
   /** ...or a raw position. */
@@ -71,5 +71,40 @@ export const presets: Preset[] = [
     label: 'Bishop & knight mate',
     group: 'endgame',
     fen: '4k3/8/8/8/8/8/8/2B1KN2 w - - 0 1',
+  },
+  {
+    label: 'Smothered mate (Philidor’s Legacy)',
+    group: 'tactic',
+    fen: '6rk/5Npp/8/8/8/8/8/6K1 b - - 0 1',
+  },
+  {
+    label: 'Back-rank mate',
+    group: 'tactic',
+    fen: '3R2k1/5ppp/8/8/8/8/8/6K1 b - - 0 1',
+  },
+  {
+    label: 'Anastasia’s mate',
+    group: 'tactic',
+    fen: '8/4N1pk/8/8/8/8/8/6KR b - - 0 1',
+  },
+  {
+    label: 'The Arabian mate',
+    group: 'tactic',
+    fen: '7k/7R/5N2/8/8/8/8/6K1 b - - 0 1',
+  },
+  {
+    label: 'Boden’s mate',
+    group: 'tactic',
+    fen: '2kr4/3p4/B7/8/5B2/8/8/4K3 b - - 0 1',
+  },
+  {
+    label: 'The Epaulette mate',
+    group: 'tactic',
+    fen: '3rkr2/8/4Q3/8/8/8/8/4K3 b - - 0 1',
+  },
+  {
+    label: 'The Greek Gift (Bxh7+, the pattern)',
+    group: 'tactic',
+    moves: ['d4', 'd5', 'Nf3', 'Nf6', 'e3', 'e6', 'Bd3', 'Be7', 'O-O', 'O-O', 'Bxh7+'],
   },
 ];

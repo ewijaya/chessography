@@ -18,18 +18,33 @@ Naming is move-level: as a game walks deeper into theory the app shows the
 naming lineage (King's Pawn Game → Ruy Lopez → Morphy Defense → Marshall
 Attack), so you watch the name narrow with each move.
 
-## The three recognition problems
+## The four recognition problems
 
 | Phase | Method |
 | --- | --- |
 | Openings | Position-keyed lookup (transposition-safe) against the lichess CC0 dataset of 3,732 named lines |
 | Middlegame | Pawn-structure detection on board state: IQP, hanging pawns, Carlsbad, Maróczy Bind, Hedgehog, Stonewall |
 | Endgame | Material signature + placement: Lucena, Philidor, K+P opposition, wrong rook's pawn, B+N mate |
+| Tactics | Named mates from the mated position (smothered, back-rank, Anastasia's, Arabian, Boden's, epaulette) plus the Greek Gift from the move that lands it |
 
 Story content is first-class data (`src/stories/`): 46 opening lines plus all
-structures and endgames have full authored stories (eponym, origin, narrative,
-significance, notable games). Named lines without an authored story still
-resolve, show their lineage, and inherit the nearest ancestor's story.
+structures, endgames and tactics have full authored stories (eponym, origin,
+narrative, significance, notable games). Named lines without an authored story
+still resolve, show their lineage, and inherit the nearest ancestor's story.
+
+## Beyond the board
+
+- **Chronicle your own games** — pull your last 20 games from lichess or
+  chess.com (public APIs, no auth) and see each one resolved against the
+  atlas, plus your most-visited opening territory.
+- **Share links** — the whole game rides in the URL fragment (`#g=…`), so a
+  finished chronicle is a link you can send. No backend.
+- **Opening trainer** — every storied line is a spaced-repetition card:
+  recite it on the board from memory, graded on an SM-2 schedule
+  (localStorage).
+- **The story atlas** — `npm run build` also generates a static, indexable
+  page per story under `dist/atlas/` (plus `sitemap.xml`), each linking back
+  into the app via a share link.
 
 ## Develop
 
