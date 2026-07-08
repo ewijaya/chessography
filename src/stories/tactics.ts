@@ -55,7 +55,7 @@ export const tacticStories: Story[] = [
       'Samuel Boden was the quintessential Victorian gentleman-amateur — a railway man and painter who played chess brilliantly on the side, beat Morphy in their first casual encounter, and declined to make the game a profession. History repaid the modesty by attaching his name to one of the most beautiful mating patterns in chess, delivered in an otherwise forgettable 1853 skittles game: a queen sacrifice on c3 ripped open the castled queenside, and two bishops closed on the king like scissors — one slicing along each diagonal, the king\'s own rook and pawn blocking every retreat. The pattern is the great argument for the bishop pair as an ATTACKING force: two pieces that never guard each other, arriving from opposite corners of the board, meeting only at the enemy king. Queenside castlers fear it to this day; the ...Qxc3 (or Qxc6) demolition sacrifice against the long-castled king is checked move by move in every Sicilian and Caro-Kann attack.',
     significance:
       'THE pattern that makes queenside castling dangerous: c3/c6 is the permanent soft spot, and every long-castled player calculates the demolition sacrifice by reflex. Also the purest demonstration of criss-crossing bishops as a mating force.',
-    notableGames: ['Schulder–Boden, London 1853 (the original)', 'Canal–NN, Budapest 1934 ("the Peruvian Immortal" — two rooks and the queen sacrificed for the same mate)'],
+    notableGames: ['Schulder–Boden, London 1853 (the original: 14...Qxc3+!! 15.bxc3 Ba3#)', 'Alekhine–Vasić, Banja Luka 1931 (10.Qxe6+!! fxe6 11.Bg6# — the most famous later example)'],
   },
   {
     id: 'epaulette-mate',
