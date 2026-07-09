@@ -137,6 +137,22 @@ await page.waitForTimeout(300);
   ? ok('atlas CTA opens the line on the board with its story')
   : fail('atlas CTA did not load the line');
 
+// --- offline support (runs last: it cuts the network) ---
+await page.goto('http://localhost:4173/', { waitUntil: 'networkidle' });
+await page.waitForFunction(() => !!navigator.serviceWorker?.controller, { timeout: 30000 }).catch(() => null);
+if (await page.evaluate(() => !!navigator.serviceWorker?.controller)) {
+  await page.context().setOffline(true);
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  const offlineOk = await page
+    .waitForFunction(() => document.querySelector('.footer')?.textContent?.includes('3,732'), { timeout: 15000 })
+    .then(() => true)
+    .catch(() => false);
+  offlineOk ? ok('offline: app boots and the book loads from the service worker') : fail('offline boot failed');
+  await page.context().setOffline(false);
+} else {
+  fail('service worker never took control');
+}
+
 await browser.close();
 console.log(failures === 0 ? '\nALL NEW-FEATURE CHECKS PASSED' : `\n${failures} FAILURES`);
 process.exit(failures === 0 ? 0 : 1);

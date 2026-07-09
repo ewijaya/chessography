@@ -106,3 +106,14 @@ to '/#g=…' in Playwright (same origin, fragment-only change) never re-runs
 the decode — the test sees an empty board and times out. E2E scripts must
 page.reload() after setting a hash URL, or make the share URL the FIRST
 navigation. Real users always arrive fresh, so the app itself is unaffected.
+
+## Service worker: Vary: Origin breaks Cache API matching
+vite preview (sirv) serves assets with `Vary: Origin`; the Cache API
+respects Vary, so responses stored by cache.addAll (no Origin header) never
+match the page's crossorigin script requests — precached files "exist" in
+cache.keys() but every match() misses and offline dies with ERR_FAILED.
+All SW cache lookups use { ignoreVary: true } (the cache is same-origin
+static content; Vary semantics don't apply). Second gotcha: without
+clients.claim() the first-visit page is uncontrolled and offline only works
+from the second visit; claim() is safe here because the SW never calls
+skipWaiting, so it can't hijack a live session mid-deploy.

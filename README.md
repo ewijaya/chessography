@@ -45,6 +45,9 @@ still resolve, show their lineage, and inherit the nearest ancestor's story.
 - **The story atlas** — `npm run build` also generates a static, indexable
   page per story under `dist/atlas/` (plus `sitemap.xml`), each linking back
   into the app via a share link.
+- **Offline** — a build-time service worker (`scripts/build-sw.mjs`)
+  precaches the app, the engine and the atlas; after one visit the whole
+  site works with no connection, installable via the PWA manifest.
 
 ## Develop
 
