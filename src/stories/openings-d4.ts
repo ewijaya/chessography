@@ -119,18 +119,18 @@ export const d4Stories: Story[] = [
       'When White dodges the Nimzo-Indian pin with 3.Nf3, Black fianchettoes the OTHER bishop: ...b6 and ...Bb7 train x-ray fire on e4, continuing the same hypermodern argument — the center will be controlled from a distance, occupied only when convenient. For decades the QID was the twin pillar (with the Nimzo) of "correct" chess: Karpov wielded it like a scalpel, and the Kasparov–Karpov matches gave it some of its deepest pages. Petrosian\'s 4.a3 — a "beginner\'s move" spending a whole tempo to stop a pin — becoming the critical main line is one of theory\'s best jokes.',
     significance:
       'The solid half of the Nimzo/QID repertoire that has anchored Black\'s classical play against 1.d4 for a century. Its light-square strategy — b7-bishop versus White\'s e4 ambitions — is a running seminar in piece-pressure over pawn-occupation.',
-    notableGames: ['Karpov\'s QID model games of the 1970s–80s', 'Kasparov–Karpov, WCh 1985 (game 16 arose from a QID move order)'],
+    notableGames: ['Karpov\'s QID model games of the 1970s–80s', 'Kasparov–Karpov, WCh 1984–85 (QID battles across the two matches)'],
   },
   {
     id: 'Grünfeld Defense',
     aliases: ['Gruenfeld'],
     eponym: 'Ernst Grünfeld (1893–1962), Viennese grandmaster and walking opening encyclopedia, said to have "lived in the opening books" of the Vienna Chess Club.',
-    origin: 'Introduced at Vienna 1922, where Grünfeld used the newborn defense to defeat Alekhine himself.',
+    origin: 'First seen in 1922 (Sämisch–Grünfeld, Bad Pistyan); its calling card came months later at Vienna, where Grünfeld used the young defense to defeat Alekhine himself.',
     story:
-      'The Grünfeld is hypermodernism at maximum voltage: 3...d5 invites 4.cxd5 Nxd5 5.e4, when Black\'s knight retreats and White erects the largest legal pawn center — which Black then treats as a shooting-gallery target for the g7 bishop, ...c5 and the c-file. Its birth announcement was beating a future world champion; its coming-of-age was the thirteen-year-old Bobby Fischer\'s "Game of the Century" against Donald Byrne in 1956, a Grünfeld with a queen sacrifice schoolchildren still replay. Kasparov trusted it in world championship matches; engines adore its concrete logic.',
+      'The Grünfeld is hypermodernism at maximum voltage: 3...d5 invites 4.cxd5 Nxd5 5.e4, when Black\'s knight retreats and White erects the largest legal pawn center — which Black then treats as a shooting-gallery target for the g7 bishop, ...c5 and the c-file. Its calling-card was an early win over Alekhine, a future world champion; its coming-of-age was the thirteen-year-old Bobby Fischer\'s "Game of the Century" against Donald Byrne in 1956, a Grünfeld with a queen sacrifice schoolchildren still replay. Kasparov trusted it in world championship matches; engines adore its concrete logic.',
     significance:
       'The sharpest scientific answer to 1.d4: an all-in argument that a big center is only as good as its defense. The Exchange Variation main lines are among the most theory-critical battlegrounds in chess.',
-    notableGames: ['Alekhine–Grünfeld, Vienna 1922 (the debut — Black won)', 'D. Byrne–Fischer, New York 1956 (the Game of the Century)', 'Kasparov–Karpov WCh Grünfeld duels, 1986–87'],
+    notableGames: ['Alekhine–Grünfeld, Vienna 1922 (Grünfeld himself beats Alekhine with his defense)', 'D. Byrne–Fischer, New York 1956 (the Game of the Century)', 'Kasparov–Karpov WCh Grünfeld duels, 1986–87'],
     famousGame: {
       label: 'Spassky–Fischer, Santa Monica 1966',
       pgn: '1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. cxd5 Nxd5 5. e4 Nxc3 6. bxc3 Bg7 7. Bc4 c5 8. Ne2 Nc6 9. Be3 O-O 10. O-O Qc7 11. Rc1 Rd8 12. Qe1 e6 13. f4 Na5 14. Bd3 f5 15. Rd1 b6 16. Qf2 cxd4 17. Bxd4 Bxd4 18. cxd4 Bb7 19. Ng3 Qf7 20. d5 fxe4 21. dxe6 Qxe6 22. f5 Qf7 23. Bxe4 Rxd1 24. Rxd1 Rf8 25. Bb1 Qf6 26. Qc2 Kh8 27. fxg6 hxg6 28. Qd2 Kg7 29. Rf1 Qe7 30. Qd4+ Rf6 31. Ne4 Bxe4 32. Bxe4 Qc5 33. Qxc5 Rxf1+ 34. Kxf1 bxc5 35. h4 Nc4 36. Ke2 Ne5 37. Ke3 Kf6 38. Kf4 Nf7 39. Ke3 g5 40. h5 Nh6 41. Kd3 Ke5 42. Ba8 Kd6 43. Kc4 g4 44. a4 Ng8 45. a5 Nh6 46. Be4 g3 47. Kb5 Ng8 48. Bb1 Nh6 49. Ka6 Kc6 50. Ba2',
@@ -157,10 +157,10 @@ export const d4Stories: Story[] = [
     eponym: 'Named for the London tournament of 1922, where several masters (Alekhine, Rubinstein and Capablanca among the field) employed the early Bf4 setup.',
     origin: 'The 1922 event fixed the name; the setup existed earlier as a workmanlike anti-Indian formation.',
     story:
-      'For ninety years the London was the accountant of openings — solid, safe, and mocked ("the system for people who don\'t want to learn openings"). The internet era transformed it: online blitz rewards low-maintenance setups, Gata Kamsky proved it could beat anyone, and then Magnus Carlsen started winning brilliancies with it — including a 2016 World Championship game and his famous 2019 demolitions — at which point the sneering stopped. The same Bf4-e3-c3 triangle now appears at every level from beginner to world champion, the most dramatic status climb of any opening in the modern era.',
+      'For ninety years the London was the accountant of openings — solid, safe, and mocked ("the system for people who don\'t want to learn openings"). The internet era transformed it: online blitz rewards low-maintenance setups, Gata Kamsky proved it could beat anyone, and then Magnus Carlsen started winning brilliancies with it — his celebrated 2019 demolitions among them — at which point the sneering stopped. The same Bf4-e3-c3 triangle now appears at every level from beginner to world champion, the most dramatic status climb of any opening in the modern era.',
     significance:
       'The definitive "system" opening: nearly identical development against any Black setup, minimal forced theory, real attacking schemes (the h4 lunges, the e5 clamp). Its rise is also a story about how internet chess changed what openings are FOR.',
-    notableGames: ['Carlsen–Karjakin, WCh 2016 (game 9 territory — Carlsen\'s London period)', 'Kamsky\'s decades of London wins'],
+    notableGames: ['Carlsen\'s 2019 London brilliancies (the opening\'s status-climb made visible)', 'Kamsky\'s decades of London wins'],
   },
   {
     id: 'Dutch Defense',

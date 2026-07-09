@@ -33,7 +33,7 @@ export const structureStories: Story[] = [
       'A spa town where Europe\'s masters gathered between the wars lent its name to the most PLANNED structure in chess. White\'s pawns (a2,b2,d4,e3) face Black\'s (a7,b7,c6,d5) with the c- and e-files half-open in opposite directions, and each side\'s correct plan is practically constitutional law: White plays b4–b5xc6, the "minority attack," sacrificing spatial modesty to leave Black one weak pawn on an open file; Black attacks the king with pieces or the ...e5 break before the queenside erodes. Generations learned strategy itself from this single tabiya — it is the classroom where "play follows structure" was first taught as gospel.',
     significance:
       'The definitive demonstration that pawn skeletons dictate plans: two pawn moves (b4–b5) constitute a complete winning strategy. Understanding Carlsbad is understanding why grandmasters talk about structures instead of moves.',
-    notableGames: ['Rubinstein\'s Carlsbad-era models', 'Botvinnik–Keres, USSR ch 1952 (minority attack executed to perfection)'],
+    notableGames: ['Rubinstein\'s Carlsbad-era models', 'Botvinnik–Keres, USSR ch 1952 (the central f3–e4 break — the great alternative to the minority attack)'],
   },
   {
     id: 'maroczy-bind',

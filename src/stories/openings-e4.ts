@@ -147,7 +147,7 @@ export const e4Stories: Story[] = [
       'For 300 years 1...c5 was considered slightly disreputable — it concedes the center\'s first rank and accepts a cramped game for the promise of counterplay. The hypermoderns rehabilitated it, but it was the post-war generation — Najdorf, Tal, Fischer, then Kasparov — who turned it into the fighting defense: an asymmetric battlefield where Black plays for a win from move one. By the Fischer and Kasparov eras it was scoring better for Black than any other defense, and "Open Sicilian or chicken?" became the eternal taunt at every level of play.',
     significance:
       'The defining asymmetry of modern chess: Black trades a c-pawn for White\'s d-pawn, gets a half-open c-file and long-term queenside play, and dares White to attack first. Roughly a quarter of all recorded games begin with it.',
-    notableGames: ['Fischer\'s Najdorfs vs the world', 'Kasparov–Topalov, Wijk aan Zee 1999 (a Sicilian-adjacent immortal)', 'Tal\'s sacrificial Sicilians of the 1950s'],
+    notableGames: ['Fischer\'s Najdorfs vs the world', 'Karpov–Kasparov, WCh 1985 game 16 (the immortal "octopus knight" Sicilian)', 'Tal\'s sacrificial Sicilians of the 1950s'],
   },
   {
     id: 'Sicilian Defense: Najdorf Variation',
@@ -158,7 +158,7 @@ export const e4Stories: Story[] = [
       'Najdorf rebuilt his life in Argentina — selling insurance, giving blindfold exhibitions of staggering size partly in hope his family in Poland would read of them — and gave his name to the most analyzed opening variation in chess. The unassuming 5...a6 prepares ...e5 and queenside expansion while taking b5 from White\'s pieces. Fischer adopted it as a "personal religion"; Kasparov called it the Rolls-Royce of openings and made it his lifelong weapon. Its theory now runs deeper than any other line in the game — thirty-move forced sequences are routine.',
     significance:
       'The gold standard of fighting defenses: flexible, theoretically dense, and never refuted despite more analytical firepower than any opening in history. Playing the Najdorf well is a professional credential in itself.',
-    notableGames: ['Fischer–Spassky, Reykjavík 1972 (game 7... and Spassky\'s Bxh7 win, game 11)', 'Kasparov\'s career-long Najdorfs', 'The "Poisoned Pawn" debates: Spassky–Fischer 1972, rehabilitated by engines'],
+    notableGames: ['Fischer–Spassky, Reykjavík 1972 (game 7, a Najdorf; and game 11, where Spassky refuted Fischer\'s Poisoned Pawn)', 'Kasparov\'s career-long Najdorfs', 'The "Poisoned Pawn" debates: Spassky–Fischer 1972, rehabilitated by engines'],
     famousGame: {
       label: 'Fischer–Najdorf, Varna Olympiad 1962',
       pgn: '1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. h3 b5 7. Nd5 Bb7 8. Nxf6+ gxf6 9. c4 bxc4 10. Bxc4 Bxe4 11. O-O d5 12. Re1 e5 13. Qa4+ Nd7 14. Rxe4 dxe4 15. Nf5 Bc5 16. Ng7+ Ke7 17. Nf5+ Ke8 18. Be3 Bxe3 19. fxe3 Qb6 20. Rd1 Ra7 21. Rd6 Qd8 22. Qb3 Qc7 23. Bxf7+ Kd8 24. Be6',
@@ -188,7 +188,7 @@ export const e4Stories: Story[] = [
       'Alapin\'s pragmatic 2.c3 sidesteps the entire Open Sicilian: White simply prepares d4 and says "no" to thirty years of your Najdorf files. Dismissed for decades as harmless, it was Sveshnikov — ironically also the author of Black\'s sharpest Sicilian system — who insisted "2.c3 and White is better" and built the modern theory proving it at least fully respectable. It became the workhorse anti-Sicilian for players who would rather understand structures than memorize refutations.',
     significance:
       'The premier "opt-out" of Sicilian theory: play transposes toward IQP or advance-French structures where ideas beat memory. A lesson that opening choice is also a negotiation about whose preparation gets used.',
-    notableGames: ['Sveshnikov\'s decades of 2.c3 wins', 'Deep Blue–Kasparov, 1996 (game 3, a 2.c3 Sicilian)'],
+    notableGames: ['Sveshnikov\'s decades of 2.c3 wins', 'Kasparov–Deep Blue, 1996 (game 3, a 2.c3 Sicilian — Kasparov won)'],
   },
   {
     id: 'Sicilian Defense: Closed',
@@ -210,7 +210,7 @@ export const e4Stories: Story[] = [
       'When the chess clubs of Paris and London played their grand correspondence match in the 1830s, the Parisians met 1.e4 with 1...e6 and won so convincingly that the defense has been "French" ever since. It is chess\'s great acquired taste: Black voluntarily shuts in the light-squared bishop — the "French bishop," the opening\'s eternal problem child — in exchange for an unbreakable pawn chain and the promise of counterblows ...c5 and ...f6 against White\'s proud center. Botvinnik, Korchnoi and Petrosian built careers on its stubbornness.',
     significance:
       'The classic counterattacking structure: White gets space, Black gets a plan. Every French player learns the same eternal trade-offs — bad bishop versus solid chain, cramped now versus breaking later — which makes it one of the most instructive defenses in chess.',
-    notableGames: ['London–Paris correspondence 1834–36', 'Korchnoi\'s lifelong French battles', 'Short–Timman, Tilburg 1991 (the immortal king walk, born from a French)'],
+    notableGames: ['London–Paris correspondence 1834–36', 'Korchnoi\'s lifelong French battles', 'Nimzowitsch–Salwe, Carlsbad 1911 (the model Advance French — a pawn-chain clinic)'],
   },
   {
     id: 'French Defense: Winawer Variation',
@@ -236,7 +236,7 @@ export const e4Stories: Story[] = [
       'Caro and Kann\'s modest pawn move solves the French Defense\'s eternal problem: Black supports ...d5 with the c-pawn instead of the e-pawn, so the light-squared bishop gets out BEFORE the door closes. For a century it wore the "solid but passive" label — then Capablanca and later Karpov showed that its solidity was a weapon, grinding wins from microscopic advantages. Modern engines adore it, and it has quietly become one of the most trusted defenses at every level, from beginners taught it for its clear plans to World Championship matches.',
     significance:
       'The structurally soundest reply to 1.e4: no weaknesses, free development for every piece, endgames a shade more pleasant for Black. Its price — a tempo here, a shade of passivity there — is the cheapest rent in opening theory.',
-    notableGames: ['Capablanca\'s Caro-Kann endgames', 'Karpov\'s career-long advocacy', 'Deep Blue–Kasparov, 1997 (game 6 — the Caro-Kann Bxe6 disaster that ended the match)'],
+    notableGames: ['Capablanca\'s Caro-Kann endgames', 'Karpov\'s career-long advocacy', 'Deep Blue–Kasparov, 1997 (game 6 — the Caro-Kann Nxe6 disaster that ended the match)'],
     famousGame: {
       label: 'Deep Blue–Kasparov, IBM Match Game 6, New York 1997',
       pgn: '1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nd7 5. Ng5 Ngf6 6. Bd3 e6 7. N1f3 h6 8. Nxe6 Qe7 9. O-O fxe6 10. Bg6+ Kd8 11. Bf4 b5 12. a4 Bb7 13. Re1 Nd5 14. Bg3 Kc8 15. axb5 cxb5 16. Qd3 Bc6 17. Bf5 exf5 18. Rxe7 Bxe7 19. c4',
