@@ -13,6 +13,8 @@ export interface Story {
   notableGames?: string[];
   /** A complete, verified game score the reader can step through on the board. */
   famousGame?: { label: string; pgn: string };
+  /** True for AI-drafted stories (scripts/generate-stories.mjs); authored stories omit it. */
+  generated?: boolean;
 }
 
 export interface OpeningEntry {

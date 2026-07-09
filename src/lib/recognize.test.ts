@@ -205,13 +205,14 @@ describe('story data integrity', () => {
     // and resolving its opening (exactly as the app does, via getOpeningStory's
     // ancestor-prefix fallback) must land on THIS story — not a different
     // opening reached by transposition. Guards against a game being pinned to
-    // the wrong line by move order.
+    // the wrong line by move order. Authored-only: an AI-drafted story for a
+    // deeper branch of the same line may legitimately intercept in the app.
     for (const s of allOpeningStories) {
       if (!s.famousGame) continue;
       const chess = new Chess();
       chess.loadPgn(s.famousGame.pgn);
       const match = matchOpening(chess.history());
-      const resolved = match ? getOpeningStory(match.lineage) : null;
+      const resolved = match ? getOpeningStory(match.lineage, { authoredOnly: true }) : null;
       expect(resolved?.story.id, `${s.id}: famousGame resolves to ${resolved?.story.id ?? 'no story'}`).toBe(s.id);
     }
   });

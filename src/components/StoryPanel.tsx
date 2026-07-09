@@ -122,6 +122,12 @@ function OpeningView({ recognition, onPlayGame }: { recognition: Recognition; on
               name recorded, its own story is still to be written
             </div>
           )}
+          {storyResult.story.generated && (
+            <div className="inherited-note">
+              AI-drafted story — the chess content is grounded in the line itself, but historical
+              details await an editor’s pass
+            </div>
+          )}
           <StorySections story={storyResult.story} onPlayGame={onPlayGame} />
         </>
       ) : (

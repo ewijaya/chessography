@@ -4,11 +4,18 @@ import { d4Stories } from './openings-d4';
 import { flankStories } from './openings-flank';
 import { structureStories, endgameStories } from './patterns';
 import { tacticStories } from './tactics';
+import { generatedOpeningStories } from './generated';
 
-/** Every authored opening story (exported for validation tests). */
+/** Every authored opening story (exported for validation tests and the trainer deck). */
 export const allOpeningStories: Story[] = [...e4Stories, ...d4Stories, ...flankStories];
 
-const openingStoryMap = new Map<string, Story>(allOpeningStories.map((s) => [s.id, s]));
+// Lookup map: AI-drafted stories first, authored stories after so they
+// always win on id collision. The trainer and the static atlas pages use
+// allOpeningStories and stay authored-only.
+const authoredStoryMap = new Map<string, Story>(allOpeningStories.map((s) => [s.id, s]));
+const openingStoryMap = new Map<string, Story>(
+  [...generatedOpeningStories, ...allOpeningStories].map((s) => [s.id, s]),
+);
 const patternStoryMap = new Map<string, Story>(
   [...structureStories, ...endgameStories, ...tacticStories].map((s) => [s.id, s]),
 );
@@ -33,12 +40,16 @@ export interface OpeningStoryResult {
  * Morphy Defense, Anderssen Variation" can inherit from "Ruy Lopez:
  * Morphy Defense" or "Ruy Lopez" even when transposition skipped them).
  */
-export function getOpeningStory(lineage: OpeningEntry[]): OpeningStoryResult | null {
+export function getOpeningStory(
+  lineage: OpeningEntry[],
+  opts?: { authoredOnly?: boolean },
+): OpeningStoryResult | null {
+  const map = opts?.authoredOnly ? authoredStoryMap : openingStoryMap;
   for (let i = lineage.length - 1; i >= 0; i--) {
     const entry = lineage[i];
     const names = [entry.name, ...ancestorNames(entry.name)];
     for (const n of names) {
-      const story = openingStoryMap.get(n);
+      const story = map.get(n);
       if (story) {
         return {
           story,
@@ -65,7 +76,8 @@ function ancestorNames(name: string): string[] {
 }
 
 export const storyCounts = {
-  openings: openingStoryMap.size,
+  openings: allOpeningStories.length,
+  generatedOpenings: openingStoryMap.size - allOpeningStories.length,
   structures: structureStories.length,
   endgames: endgameStories.length,
   tactics: tacticStories.length,

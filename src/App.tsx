@@ -1101,7 +1101,9 @@ export default function App() {
 
       <footer className="footer">
         <div className="footer-meta">
-          {storyCounts.openings} opening stories · {storyCounts.structures} structures ·{' '}
+          {storyCounts.openings} opening stories
+          {storyCounts.generatedOpenings > 0 && ` (+${storyCounts.generatedOpenings.toLocaleString()} AI-drafted)`} ·{' '}
+          {storyCounts.structures} structures ·{' '}
           {storyCounts.endgames} endgames · {storyCounts.tactics} named tactics ·{' '}
           {bookReady ? `${bookSize().toLocaleString()} named positions` : 'opening atlas loading…'} from the
           lichess opening atlas (CC0) · engine: Stockfish 18 lite · <a href="/atlas/">read the story atlas</a> ·{' '}
