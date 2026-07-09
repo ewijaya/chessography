@@ -1036,10 +1036,13 @@ export default function App() {
       )}
 
       <footer className="footer">
-        {storyCounts.openings} opening stories · {storyCounts.structures} structures ·{' '}
-        {storyCounts.endgames} endgames · {storyCounts.tactics} named tactics ·{' '}
-        {bookReady ? `${bookSize().toLocaleString()} named positions` : 'opening atlas loading…'} from the
-        lichess opening atlas (CC0) · engine: Stockfish 18 lite · <a href="/atlas/">read the story atlas</a>
+        <div className="footer-meta">
+          {storyCounts.openings} opening stories · {storyCounts.structures} structures ·{' '}
+          {storyCounts.endgames} endgames · {storyCounts.tactics} named tactics ·{' '}
+          {bookReady ? `${bookSize().toLocaleString()} named positions` : 'opening atlas loading…'} from the
+          lichess opening atlas (CC0) · engine: Stockfish 18 lite · <a href="/atlas/">read the story atlas</a>
+        </div>
+        <div className="footer-copyright">© 2026 Edward Wijaya</div>
       </footer>
     </div>
   );

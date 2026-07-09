@@ -1249,6 +1249,13 @@
   color: var(--felt-text-dim);
 }
 
+.footer-copyright {
+  margin-top: 8px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
 /* opening trainer — the drill card and the deck */
 
 .drill-card {

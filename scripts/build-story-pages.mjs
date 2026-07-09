@@ -166,7 +166,7 @@ ${FONTS}
 <main>
 <nav><a href="/">♞ Chessography</a> · <a href="/atlas/">the story atlas</a></nav>
 ${body}
-<footer>Chessography — every named move carries a story. Openings from the <a href="https://github.com/lichess-org/chess-openings">lichess opening atlas</a> (CC0).</footer>
+<footer>Chessography — every named move carries a story. Openings from the <a href="https://github.com/lichess-org/chess-openings">lichess opening atlas</a> (CC0).<br>© 2026 Edward Wijaya</footer>
 </main>
 </body>
 </html>
