@@ -15,25 +15,38 @@ function label(ev: Eval): string {
   return (pawns > 0 ? '+' : '') + pawns.toFixed(1);
 }
 
+/** True when the side ahead is winning big (≥ ±2 pawns or forced mate). */
+function decisive(ev: Eval): boolean {
+  return 'mateIn' in ev || Math.abs(ev.cp) >= 200;
+}
+
 export default function EvalBar({ score, orientation }: { score: Eval | null; orientation: 'white' | 'black' }) {
   const share = score ? whiteShare(score) : 50;
   const whiteAtBottom = orientation === 'white';
+  // The numeric chip sits at the leading edge of whoever is ahead.
+  const whiteAhead = share >= 50;
+  const chipAtBottom = whiteAhead === whiteAtBottom;
   return (
-    <div
-      className="eval-bar"
-      role="meter"
-      aria-label={`engine evaluation ${score ? label(score) : 'pending'}`}
-      title={score ? `Stockfish: ${label(score)}` : 'evaluating…'}
-    >
+    <div className="eval-wrap">
       <div
-        className="eval-white"
-        style={{
-          height: `${share}%`,
-          top: whiteAtBottom ? 'auto' : 0,
-          bottom: whiteAtBottom ? 0 : 'auto',
-        }}
-      />
-      <span className={`eval-label ${share >= 50 ? 'on-white' : 'on-black'}`}>{score ? label(score) : '·'}</span>
+        className="eval-bar"
+        role="meter"
+        aria-label={`engine evaluation ${score ? label(score) : 'pending'}`}
+        title={score ? `Stockfish: ${label(score)}` : 'evaluating…'}
+      >
+        <div
+          className={`eval-white${score && decisive(score) ? ' decisive' : ''}`}
+          style={{
+            height: `${share}%`,
+            top: whiteAtBottom ? 'auto' : 0,
+            bottom: whiteAtBottom ? 0 : 'auto',
+          }}
+        />
+        <span className="eval-tick" aria-hidden="true" />
+      </div>
+      <span className={`eval-label ${whiteAhead ? 'on-white' : 'on-black'} ${chipAtBottom ? 'at-bottom' : 'at-top'}`}>
+        {score ? label(score) : '·'}
+      </span>
     </div>
   );
 }

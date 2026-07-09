@@ -70,7 +70,13 @@ export default function GameImporter({
 
   return (
     <details className="presets importer">
-      <summary>Chronicle your own games…</summary>
+      <summary>
+        <span className="panel-icon" aria-hidden="true">📜</span>
+        <span className="panel-text">
+          <span className="panel-title">Chronicle your own games</span>
+          <span className="panel-sub">lichess · chess.com — your last 20, resolved against the atlas</span>
+        </span>
+      </summary>
       <div className="importer-form">
         <div className="importer-sites" role="radiogroup" aria-label="game site">
           {(['lichess', 'chess.com'] as const).map((s) => (

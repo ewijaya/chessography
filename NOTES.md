@@ -99,3 +99,10 @@ rules!=='chess'). Verified live against real accounts.
 Trainer and GameImporter reuse `presets` as a base class. E2E scripts must
 select by summary text ("Visit a famous position…"), not `.presets summary`
 — the first match in DOM order is now the trainer.
+
+## Hash-only navigation doesn't reload the app
+Share links decode during React state initialization, so page.goto from '/'
+to '/#g=…' in Playwright (same origin, fragment-only change) never re-runs
+the decode — the test sees an empty board and times out. E2E scripts must
+page.reload() after setting a hash URL, or make the share URL the FIRST
+navigation. Real users always arrive fresh, so the app itself is unaffected.

@@ -92,7 +92,14 @@ export default function Trainer({
   return (
     <details className="presets trainer">
       <summary>
-        Opening trainer{ready && due.length > 0 ? ` — ${due.length} due` : ''}
+        <span className="panel-icon" aria-hidden="true">🎓</span>
+        <span className="panel-text">
+          <span className="panel-title">
+            Opening trainer
+            {ready && due.length > 0 && <span className="panel-badge">{due.length} due</span>}
+          </span>
+          <span className="panel-sub">recite storied lines from memory, on a schedule</span>
+        </span>
       </summary>
       <p className="trainer-blurb">
         Every storied line is a card. Read its story, then recite the moves on the board from memory —

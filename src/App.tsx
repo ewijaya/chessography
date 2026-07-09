@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Chess, type Square } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
-import StoryPanel, { type StoryView } from './components/StoryPanel';
+import StoryPanel, { type StoryView, type Starter } from './components/StoryPanel';
 import EvalBar from './components/EvalBar';
 import PromotionPicker from './components/PromotionPicker';
 import AtlasExplorer from './components/AtlasExplorer';
@@ -14,7 +14,7 @@ import { Engine, LEVELS, type EngineLevel, type Eval } from './lib/engine';
 import { buildAdvice, type MoveAdvice } from './lib/advice';
 import { detectEnding, journeyMilestones } from './lib/postmortem';
 import { encodeGame, decodeGame } from './lib/share';
-import { buildDeck, grade, loadProgress, saveProgress, type Grade, type ProgressMap, type TrainerCard } from './lib/trainer';
+import { buildDeck, grade, loadProgress, nextCard, saveProgress, type Grade, type ProgressMap, type TrainerCard } from './lib/trainer';
 import Postmortem from './components/Postmortem';
 import { playSound } from './lib/sound';
 import { storyCounts, allOpeningStories } from './stories';
@@ -356,6 +356,15 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayPly, history.length]);
 
+  // Keep the scoresheet's current move in view while stepping through.
+  const scoresheetRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    scoresheetRef.current?.querySelector('.san.current')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }, [displayPly]);
+
+  // The story panel, for the mobile peek chip to scroll to.
+  const storyRef = useRef<HTMLDivElement>(null);
+
   // ---------- game management ----------
 
   const adoptGame = (chess: Chess, startFen = START_FEN) => {
@@ -569,7 +578,6 @@ export default function App() {
     if (chess.isThreefoldRepetition()) return 'Draw — threefold repetition';
     if (chess.isInsufficientMaterial()) return 'Draw — insufficient material';
     if (chess.isDraw()) return 'Draw';
-    if (thinking) return 'Stockfish is thinking…';
     if (chess.isCheck()) return 'Check';
     return null;
   };
@@ -597,10 +605,72 @@ export default function App() {
     boardOrientation: orientation,
     darkSquareStyle: { backgroundColor: boardColors.dark },
     lightSquareStyle: { backgroundColor: boardColors.light },
+    // Coordinates readable on both square colors (each label sits on the
+    // opposite color's ink).
+    darkSquareNotationStyle: { color: boardColors.light, fontSize: '11px', fontWeight: 600 },
+    lightSquareNotationStyle: { color: boardColors.dark, fontSize: '11px', fontWeight: 600 },
     animationDurationInMs: 180,
   };
 
   const status = gameStatus();
+
+  // ---------- player plates ----------
+
+  const plateFor = (side: 'w' | 'b') => ({
+    side,
+    name:
+      engineSide === side
+        ? `Stockfish · ${LEVELS[level].label}`
+        : engineSide
+          ? 'You'
+          : side === 'w'
+            ? 'White'
+            : 'Black',
+    engine: engineSide === side,
+    caps: side === 'w' ? captures.byWhite : captures.byBlack,
+    capGlyphs: side === 'w' ? glyphs.b : glyphs.w,
+    ahead: side === 'w' ? captures.diff : -captures.diff,
+  });
+  const topPlate = plateFor(orientation === 'white' ? 'b' : 'w');
+  const bottomPlate = plateFor(orientation === 'white' ? 'w' : 'b');
+
+  // ---------- mobile story peek ----------
+
+  const peekName =
+    recognition.primary === 'opening'
+      ? recognition.opening?.entry.name
+      : recognition.primary
+        ? recognition[recognition.primary]?.name
+        : null;
+
+  // ---------- blank-page starters ----------
+
+  const starters: Starter[] | undefined =
+    history.length === 0 && isLive
+      ? [
+          {
+            label: 'Play 1. e4',
+            hint: 'and watch the first name appear',
+            run: () => commitMove('e2', 'e4'),
+          },
+          {
+            label: 'Visit the Marshall Attack',
+            hint: 'a gambit saved up for a decade',
+            run: () => {
+              const p = presets.find((x) => x.label.includes('Marshall'));
+              if (p) loadPreset(p);
+            },
+          },
+          {
+            label: 'Drill your first line',
+            hint: 'recite a storied opening from memory',
+            run: () => {
+              const card = nextCard(trainerDeck, trainerProgress, Date.now());
+              if (card) startDrill(card);
+            },
+          },
+        ]
+      : undefined;
 
   return (
     <div className="app">
@@ -656,6 +726,18 @@ export default function App() {
             )}
           </div>
 
+          <div className={`player-plate plate-top${topPlate.engine && thinking && isLive ? ' is-thinking' : ''}`}>
+            <span className="plate-name">
+              {topPlate.engine && <span className="plate-dot" aria-hidden="true" />}
+              {topPlate.name}
+              {topPlate.engine && thinking && isLive && <span className="plate-thinking">thinking…</span>}
+            </span>
+            <span className="plate-caps" aria-label={`pieces captured by ${topPlate.name}`}>
+              {topPlate.caps.map((t) => topPlate.capGlyphs[t]).join('')}
+              {topPlate.ahead > 0 && <span className="cap-diff">+{topPlate.ahead}</span>}
+            </span>
+          </div>
+
           <div className="board-row">
             {evalOn && <EvalBar score={evalScore} orientation={orientation} />}
             <div className="board-frame">
@@ -684,22 +766,47 @@ export default function App() {
             </div>
           </div>
 
-          {(captures.byWhite.length > 0 || captures.byBlack.length > 0) && (
-            <div className="captures" aria-label="captured pieces">
-              <span className="cap-row">
-                <span className="cap-side">White</span>
-                <span className="cap-glyphs">{captures.byWhite.map((t) => glyphs.b[t]).join('')}</span>
-                {captures.diff > 0 && <span className="cap-diff">+{captures.diff}</span>}
-              </span>
-              <span className="cap-row">
-                <span className="cap-side">Black</span>
-                <span className="cap-glyphs">{captures.byBlack.map((t) => glyphs.w[t]).join('')}</span>
-                {captures.diff < 0 && <span className="cap-diff">+{-captures.diff}</span>}
-              </span>
-            </div>
-          )}
+          <div className={`player-plate plate-bottom${bottomPlate.engine && thinking && isLive ? ' is-thinking' : ''}`}>
+            <span className="plate-name">
+              {bottomPlate.engine && <span className="plate-dot" aria-hidden="true" />}
+              {bottomPlate.name}
+              {bottomPlate.engine && thinking && isLive && <span className="plate-thinking">thinking…</span>}
+            </span>
+            <span className="plate-caps" aria-label={`pieces captured by ${bottomPlate.name}`}>
+              {bottomPlate.caps.map((t) => bottomPlate.capGlyphs[t]).join('')}
+              {bottomPlate.ahead > 0 && <span className="cap-diff">+{bottomPlate.ahead}</span>}
+            </span>
+          </div>
 
-          {status && <div className={`game-status${thinking && isLive ? ' thinking' : ''}${!isLive ? ' viewing' : ''}`}>{status}</div>}
+          <div className="move-nav" role="group" aria-label="move navigation">
+            <button onClick={() => goToPly(0)} disabled={displayPly === 0} title="start (Home)" aria-label="go to start">
+              ⏮
+            </button>
+            <button onClick={() => goToPly(displayPly - 1)} disabled={displayPly === 0} title="back (←)" aria-label="previous move">
+              ◀
+            </button>
+            <span className="move-nav-pos">
+              {displayPly === 0 ? 'start' : `${Math.ceil(displayPly / 2)}${displayPly % 2 === 1 ? '.' : '…'} ${history[displayPly - 1] ?? ''}`}
+            </span>
+            <button
+              onClick={() => goToPly(displayPly + 1)}
+              disabled={displayPly >= history.length}
+              title="forward (→)"
+              aria-label="next move"
+            >
+              ▶
+            </button>
+            <button
+              onClick={() => goToPly(history.length)}
+              disabled={displayPly >= history.length}
+              title="live position (End)"
+              aria-label="go to live position"
+            >
+              ⏭
+            </button>
+          </div>
+
+          {status && <div className={`game-status${!isLive ? ' viewing' : ''}`}>{status}</div>}
 
           {ending && (
             <Postmortem
@@ -714,46 +821,52 @@ export default function App() {
           )}
 
           <div className="controls">
-            <button onClick={() => newGame()} disabled={moves.length === 0 && fen === START_FEN}>
-              New game
-            </button>
-            <button onClick={undo} disabled={moves.length === 0 || thinking}>
-              Undo move
-            </button>
-            <button onClick={() => setOrientation((o) => (o === 'white' ? 'black' : 'white'))}>
-              Flip board
-            </button>
             <button
-              onClick={() => setMuted((m) => !m)}
-              aria-label={muted ? 'unmute sounds' : 'mute sounds'}
-              title={muted ? 'unmute sounds' : 'mute sounds'}
-            >
-              {muted ? '🔇' : '🔊'}
-            </button>
-            <button
-              className={evalOn ? 'active' : ''}
-              onClick={() => setEvalOn((v) => !v)}
-              title={evalOn ? 'hide evaluation bar' : 'show evaluation bar'}
-            >
-              eval
-            </button>
-            <button onClick={() => { setPgnOpen((v) => !v); setPgnError(null); }} title="import a game">
-              Import PGN
-            </button>
-            <button onClick={copyPgn} disabled={moves.length === 0} title="copy this game as PGN">
-              {copied ? 'Copied ✓' : 'Copy PGN'}
-            </button>
-            <button onClick={shareGame} disabled={moves.length === 0} title="copy a link that carries this whole game">
-              {shared ? 'Link copied ✓' : '🔗 Share'}
-            </button>
-            <button
-              className={advice ? 'active' : ''}
+              className="primary"
               onClick={requestAdvice}
               disabled={!playerCanMove() || advising}
               title="ask Stockfish for the best move — and the story behind it"
             >
               {advising ? 'Consulting…' : '💡 Advice'}
             </button>
+            <span className="ctl-group" role="group" aria-label="game">
+              <button onClick={() => newGame()} disabled={moves.length === 0 && fen === START_FEN}>
+                New game
+              </button>
+              <button onClick={undo} disabled={moves.length === 0 || thinking}>
+                Undo
+              </button>
+              <button onClick={() => setOrientation((o) => (o === 'white' ? 'black' : 'white'))}>
+                Flip
+              </button>
+            </span>
+            <span className="ctl-group" role="group" aria-label="sharing">
+              <button onClick={() => { setPgnOpen((v) => !v); setPgnError(null); }} title="import a game">
+                Import PGN
+              </button>
+              <button onClick={copyPgn} disabled={moves.length === 0} title="copy this game as PGN">
+                {copied ? 'Copied ✓' : 'Copy PGN'}
+              </button>
+              <button onClick={shareGame} disabled={moves.length === 0} title="copy a link that carries this whole game">
+                {shared ? 'Link copied ✓' : '🔗 Share'}
+              </button>
+            </span>
+            <span className="ctl-group ctl-toggles" role="group" aria-label="settings">
+              <button
+                onClick={() => setMuted((m) => !m)}
+                aria-label={muted ? 'unmute sounds' : 'mute sounds'}
+                title={muted ? 'unmute sounds' : 'mute sounds'}
+              >
+                {muted ? '🔇' : '🔊'}
+              </button>
+              <button
+                className={evalOn ? 'active' : ''}
+                onClick={() => setEvalOn((v) => !v)}
+                title={evalOn ? 'hide evaluation bar' : 'show evaluation bar'}
+              >
+                eval
+              </button>
+            </span>
           </div>
 
           {advice && isLive && (
@@ -834,7 +947,7 @@ export default function App() {
             </div>
           )}
 
-          <div className="scoresheet" aria-label="moves played">
+          <div className="scoresheet" aria-label="moves played" ref={scoresheetRef}>
             {movePairs.length === 0 ? (
               <span className="empty">
                 {opponent === 'human'
@@ -865,7 +978,13 @@ export default function App() {
           </div>
 
           <details className="presets">
-            <summary>Visit a famous position…</summary>
+            <summary>
+              <span className="panel-icon" aria-hidden="true">🏛</span>
+              <span className="panel-text">
+                <span className="panel-title">Visit a famous position…</span>
+                <span className="panel-sub">openings, structures, endgames and mates — one click each</span>
+              </span>
+            </summary>
             {(['opening', 'structure', 'endgame', 'tactic'] as const).map((group) => (
               <div key={group}>
                 <div className="preset-group">
@@ -893,8 +1012,28 @@ export default function App() {
           <GameImporter ready={bookReady} onLoad={loadImported} />
         </div>
 
-        <StoryPanel recognition={recognition} view={view} onSelectView={setView} onPlayGame={playFamousGame} />
+        <div className="story-wrap" ref={storyRef}>
+          <StoryPanel
+            recognition={recognition}
+            view={view}
+            onSelectView={setView}
+            onPlayGame={playFamousGame}
+            starters={starters}
+          />
+        </div>
       </main>
+
+      {peekName && (
+        <button
+          className="story-peek"
+          onClick={() => storyRef.current?.scrollIntoView({ behavior: 'smooth' })}
+          aria-label={`read the story of ${peekName}`}
+        >
+          <span className="peek-book" aria-hidden="true">📖</span>
+          <span className="peek-name">{peekName}</span>
+          <span aria-hidden="true">→</span>
+        </button>
+      )}
 
       <footer className="footer">
         {storyCounts.openings} opening stories · {storyCounts.structures} structures ·{' '}

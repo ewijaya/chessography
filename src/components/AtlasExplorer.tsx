@@ -19,7 +19,13 @@ export default function AtlasExplorer({ ready, onLoad }: { ready: boolean; onLoa
 
   return (
     <details className="presets atlas">
-      <summary>Browse the opening atlas…</summary>
+      <summary>
+        <span className="panel-icon" aria-hidden="true">🗺</span>
+        <span className="panel-text">
+          <span className="panel-title">Browse the opening atlas</span>
+          <span className="panel-sub">{ready ? `${entries.length.toLocaleString()} named lines — search, click, the board walks it` : 'loading…'}</span>
+        </span>
+      </summary>
       <div className="atlas-body">
         <input
           type="search"

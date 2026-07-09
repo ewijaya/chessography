@@ -1,5 +1,8 @@
+import { useMemo, useState } from 'react';
+import { Chess } from 'chess.js';
 import type { Recognition, Story } from '../types';
 import { getOpeningStory, getPatternStory } from '../stories';
+import MiniBoard from './MiniBoard';
 
 function StorySections({ story, onPlayGame }: { story: Story; onPlayGame?: (pgn: string) => void }) {
   return (
@@ -51,14 +54,31 @@ function OpeningView({ recognition, onPlayGame }: { recognition: Recognition; on
   const opening = recognition.opening!;
   const { entry, lineage, inBook, atPly } = opening;
   const storyResult = getOpeningStory(lineage);
+  const [previewIdx, setPreviewIdx] = useState<number | null>(null);
+
+  // FEN of each lineage position, computed once per line (replaying the
+  // short book PGNs is cheap; lineage is a handful of entries).
+  const lineageFens = useMemo(
+    () =>
+      lineage.map((l) => {
+        const chess = new Chess();
+        try {
+          chess.loadPgn(l.pgn);
+        } catch {
+          return null;
+        }
+        return chess.fen();
+      }),
+    [lineage],
+  );
 
   return (
     <div className="story-fade" key={entry.name + String(inBook)}>
       <div className="eyebrow">
-        <span className="eco-stamp">{entry.eco}</span>
+        <span className="eco-stamp stamp-press">{entry.eco}</span>
         <span>Opening · named line</span>
       </div>
-      <h2>{entry.name}</h2>
+      <h2 className="named-title">{entry.name}</h2>
       {!inBook && (
         <p className="departed">
           left the book after move {Math.ceil(atPly / 2)} — this is the last named position reached
@@ -66,12 +86,29 @@ function OpeningView({ recognition, onPlayGame }: { recognition: Recognition; on
       )}
       {lineage.length > 1 && (
         <div className="ledger">
-          <div className="ledger-title">Naming lineage — how the name narrowed</div>
+          <div className="ledger-title">Naming lineage — how the name narrowed · hover a line to see its position</div>
           <ol>
             {lineage.map((l, i) => (
-              <li key={l.name} className={i === lineage.length - 1 ? 'current' : ''}>
+              <li
+                key={l.name}
+                className={i === lineage.length - 1 ? 'current' : ''}
+                onMouseEnter={() => setPreviewIdx(i)}
+                onMouseLeave={() => setPreviewIdx((p) => (p === i ? null : p))}
+              >
                 <span className="ply">{plyLabel(l.ply)}</span>
-                <span className="line-name">{l.name}</span>
+                <button
+                  className="line-name"
+                  onClick={() => setPreviewIdx((p) => (p === i ? null : i))}
+                  aria-expanded={previewIdx === i}
+                  title="show this position"
+                >
+                  {l.name}
+                </button>
+                {previewIdx === i && lineageFens[i] && (
+                  <span className="lineage-preview">
+                    <MiniBoard fen={lineageFens[i]!} label={`position of ${l.name}`} />
+                  </span>
+                )}
               </li>
             ))}
           </ol>
@@ -109,10 +146,10 @@ function PatternView({ recognition, kind, onPlayGame }: { recognition: Recogniti
   return (
     <div className="story-fade" key={match.id}>
       <div className="eyebrow">
-        <span className="eco-stamp">{PATTERN_EYEBROW[kind].stamp}</span>
+        <span className="eco-stamp stamp-press">{PATTERN_EYEBROW[kind].stamp}</span>
         <span>{PATTERN_EYEBROW[kind].text}</span>
       </div>
-      <h2>{match.name}</h2>
+      <h2 className="named-title">{match.name}</h2>
       <p className="detected-detail">{match.detail}</p>
       {story ? (
         <StorySections story={story} onPlayGame={onPlayGame} />
@@ -125,16 +162,24 @@ function PatternView({ recognition, kind, onPlayGame }: { recognition: Recogniti
 
 export type StoryView = 'opening' | 'structure' | 'endgame' | 'tactic';
 
+export interface Starter {
+  label: string;
+  hint: string;
+  run: () => void;
+}
+
 export default function StoryPanel({
   recognition,
   view,
   onSelectView,
   onPlayGame,
+  starters,
 }: {
   recognition: Recognition;
   view: StoryView;
   onSelectView: (v: StoryView) => void;
   onPlayGame?: (pgn: string) => void;
+  starters?: Starter[];
 }) {
   const available: StoryView[] = [];
   if (recognition.tactic) available.push('tactic');
@@ -151,6 +196,16 @@ export default function StoryPanel({
             Make a move. The moment the game reaches anything with a name — an opening, a pawn structure, a
             famous endgame — its story appears on this page.
           </p>
+          {starters && starters.length > 0 && (
+            <div className="starters">
+              {starters.map((s) => (
+                <button key={s.label} className="starter" onClick={s.run}>
+                  <span className="starter-label">{s.label}</span>
+                  <span className="starter-hint">{s.hint}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     );
