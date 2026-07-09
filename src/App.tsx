@@ -7,6 +7,7 @@ import PromotionPicker from './components/PromotionPicker';
 import AtlasExplorer from './components/AtlasExplorer';
 import GameImporter from './components/GameImporter';
 import Trainer, { type DrillState } from './components/Trainer';
+import HelpOverlay from './components/HelpOverlay';
 import { recognize } from './lib/recognize';
 import { loadBook, bookSize, bookEntries } from './lib/openings';
 import { presets, type Preset } from './lib/presets';
@@ -83,6 +84,7 @@ export default function App() {
   const [advice, setAdvice] = useState<MoveAdvice | null>(null);
   const [advising, setAdvising] = useState(false);
   const [shared, setShared] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
   const [drill, setDrill] = useState<DrillState | null>(null);
   const [trainerProgress, setTrainerProgress] = useState<ProgressMap>(() => loadProgress());
 
@@ -343,6 +345,7 @@ export default function App() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (helpOpen) return; // the help sheet owns the keyboard while open
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
       if (e.key === 'ArrowLeft') goToPly(displayPly - 1);
@@ -355,7 +358,7 @@ export default function App() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayPly, history.length]);
+  }, [displayPly, history.length, helpOpen]);
 
   // Keep the scoresheet's current move in view while stepping through.
   const scoresheetRef = useRef<HTMLDivElement>(null);
@@ -681,6 +684,14 @@ export default function App() {
         </h1>
         <span className="tagline">every named move carries a story — play, and read it</span>
         <button
+          className="help-toggle"
+          onClick={() => setHelpOpen(true)}
+          aria-label="how this works"
+          title="how this works"
+        >
+          ?
+        </button>
+        <button
           className="theme-toggle"
           onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -689,6 +700,8 @@ export default function App() {
           {theme === 'dark' ? '☀' : '☾'}
         </button>
       </header>
+
+      {helpOpen && <HelpOverlay onClose={() => setHelpOpen(false)} />}
 
       <main className="layout">
         <div className="board-side">
@@ -1041,7 +1054,8 @@ export default function App() {
           {storyCounts.openings} opening stories · {storyCounts.structures} structures ·{' '}
           {storyCounts.endgames} endgames · {storyCounts.tactics} named tactics ·{' '}
           {bookReady ? `${bookSize().toLocaleString()} named positions` : 'opening atlas loading…'} from the
-          lichess opening atlas (CC0) · engine: Stockfish 18 lite · <a href="/atlas/">read the story atlas</a>
+          lichess opening atlas (CC0) · engine: Stockfish 18 lite · <a href="/atlas/">read the story atlas</a> ·{' '}
+          <a href="/about/">about</a>
         </div>
         <div className="footer-copyright">{COPYRIGHT}</div>
       </footer>

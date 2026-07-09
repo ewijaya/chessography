@@ -166,7 +166,7 @@ ${FONTS}
 </head>
 <body>
 <main>
-<nav><a href="/">♞ Chessography</a> · <a href="/atlas/">the story atlas</a></nav>
+<nav><a href="/">♞ Chessography</a> · <a href="/atlas/">the story atlas</a> · <a href="/about/">about</a></nav>
 ${body}
 <footer>Chessography — every named move carries a story. Openings from the <a href="https://github.com/lichess-org/chess-openings">lichess opening atlas</a> (CC0).<br>${esc(COPYRIGHT)}</footer>
 </main>
@@ -201,7 +201,7 @@ ${hash ? `<a class="cta" href="/${hash}">▶ Play this on the board</a>` : `<a c
 
 // ---------- write everything ----------
 
-const urls = [`${SITE}/`, `${SITE}/atlas/`];
+const urls = [`${SITE}/`, `${SITE}/atlas/`, `${SITE}/about/`];
 let pages = 0;
 const indexSections = [];
 
@@ -242,6 +242,56 @@ ${indexSections.join('')}`,
   ),
 );
 
+mkdirSync(join(dist, 'about'), { recursive: true });
+writeFileSync(
+  join(dist, 'about', 'index.html'),
+  shell(
+    'About — how Chessography works · Chessography',
+    'Chessography is a chess app where every named move carries its story: play on the board and read who each opening, structure, endgame and mate is named after.',
+    '/about/',
+    `<div class="eyebrow"><span class="eco">ABOUT</span><span>how this works</span></div>
+<h1>Every named move carries a story</h1>
+<p><a href="/">Chessography</a> is a chessboard with a book beside it. Play a move, and the app resolves
+the most specific <em>named</em> thing on the board — an opening line, a pawn structure, an endgame, a
+famous mate — and opens its story: the person it honours, where the name came from, and how it earned its
+place in the game.</p>
+
+<h2>What gets recognized</h2>
+<ul>
+<li><strong>Openings</strong> — every position is checked against 3,732 named lines from the lichess
+opening atlas. Recognition is by <em>position</em>, not move order, so transpositions resolve correctly,
+and the naming lineage shows the name narrowing move by move (King's Pawn Game → Ruy Lopez → Morphy
+Defense → Marshall Attack).</li>
+<li><strong>Pawn structures</strong> — the Isolated Queen's Pawn, hanging pawns, the Carlsbad, the
+Maróczy Bind, the Hedgehog, the Stonewall and the French chain, detected from the board itself.</li>
+<li><strong>Endgames</strong> — the Lucena and Philidor positions, the Opposition, the wrong rook's pawn,
+the bishop-and-knight mate.</li>
+<li><strong>Named mates &amp; tactics</strong> — the smothered mate, back-rank mate, Anastasia's,
+Arabian, Boden's and epaulette mates, and the Greek Gift sacrifice, recognized the moment they land.</li>
+</ul>
+
+<h2>How to use it</h2>
+<ul>
+<li>Play both sides, or face Stockfish at four strengths; <strong>💡 Advice</strong> explains the best
+move in words and tells the story of the line it enters.</li>
+<li>Step through any game with the arrow keys or on-screen controls; hover a lineage entry to see its
+position.</li>
+<li>When a game ends, the post-game chronicle names the ending, maps the named territory the game
+crossed, and can annotate the finale with the classic ?? / ? / ?! glyphs.</li>
+<li><strong>Share</strong> copies a link that carries the whole game — no accounts, nothing stored.</li>
+<li>The <strong>opening trainer</strong> turns every storied line into a spaced-repetition card you
+recite on the board; the <strong>chronicle</strong> fetches your own recent lichess or chess.com games
+and resolves each against the atlas.</li>
+</ul>
+
+<h2>Credits</h2>
+<p>Opening names from the <a href="https://github.com/lichess-org/chess-openings">lichess chess-openings
+dataset</a> (CC0). Engine: Stockfish 18 lite, running entirely in your browser. Built with chess.js,
+react-chessboard and React. All story text written for this site.</p>
+<a class="cta" href="/">▶ Open the board</a>`,
+  ),
+);
+
 writeFileSync(
   join(dist, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
@@ -252,4 +302,4 @@ writeFileSync(
 // Clean up the transpile scratch dir so it never deploys.
 rmSync(scratch, { recursive: true, force: true });
 
-console.log(`atlas pages=${pages + 1} sitemap urls=${urls.length} -> ${join(dist, 'atlas')}`);
+console.log(`atlas pages=${pages + 1} (+about) sitemap urls=${urls.length} -> ${join(dist, 'atlas')}`);

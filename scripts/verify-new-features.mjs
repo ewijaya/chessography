@@ -103,6 +103,23 @@ await page.waitForTimeout(200);
 await page.click('.importer summary');
 (await page.isVisible('.importer-user')) ? ok('game importer form renders') : fail('importer form missing');
 
+// --- help sheet ---
+await page.goto('http://localhost:4173/', { waitUntil: 'networkidle' });
+await page.waitForFunction(() => document.querySelector('.footer')?.textContent?.includes('3,732'), { timeout: 10000 });
+await page.click('.help-toggle');
+await page.waitForSelector('.help-sheet');
+(await page.textContent('.help-sheet'))?.includes('What gets recognized')
+  ? ok('help sheet opens with content')
+  : fail('help sheet content missing');
+await page.keyboard.press('Escape');
+await page.waitForTimeout(200);
+!(await page.$('.help-sheet')) ? ok('Escape closes the help sheet') : fail('help sheet did not close');
+
+// --- about page ---
+const aboutRes = await page.goto('http://localhost:4173/about/', { waitUntil: 'domcontentloaded' });
+aboutRes?.ok() ? ok('about page serves') : fail(`about page HTTP ${aboutRes?.status()}`);
+(await page.textContent('main'))?.includes('Credits') ? ok('about page carries content') : fail('about content missing');
+
 // --- static story atlas pages ---
 const atlas = await page.goto('http://localhost:4173/atlas/', { waitUntil: 'domcontentloaded' });
 atlas?.ok() ? ok('atlas index serves') : fail(`atlas index HTTP ${atlas?.status()}`);
