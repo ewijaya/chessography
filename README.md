@@ -61,6 +61,30 @@ npm run build      # regenerates src/data/openings.json, then builds to dist/
 The opening dataset is rebuilt from `data/*.tsv` (lichess chess-openings,
 CC0) by `scripts/build-openings.mjs` on every build.
 
+### AI-drafted stories for the unstoried lines
+
+Named lines without an authored story can get an AI-drafted one via the
+Gemini API (the free tier is enough — no card required):
+
+```bash
+export GEMINI_API_KEY=...   # free key from https://aistudio.google.com/apikey
+node scripts/generate-stories.mjs             # generate (resumes automatically)
+node scripts/generate-stories.mjs --dry-run   # just report what remains
+```
+
+The script works through the ~3,100 unstoried lines most-inherited-first,
+checkpointing to `data/generated-stories.json` after every batch and
+re-emitting `src/stories/generated.ts` (the module the app imports), so it
+is safe to interrupt at any point or to hit the daily free-tier quota — just
+run it again later and it picks up where it stopped. At the default batch
+size the whole book fits in about one day of free-tier quota on
+`gemini-2.5-flash-lite`.
+
+Drafts are second-class by design: authored stories always win on id
+collision, the app labels drafts as AI-written, drafts never carry
+`notableGames`/`famousGame`, and the trainer deck and static atlas pages
+remain authored-only. Commit the two generated files to ship the drafts.
+
 ## Deploy
 
 Pushes to `main` auto-deploy to Cloudflare Pages via GitHub Actions

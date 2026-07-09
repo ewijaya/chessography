@@ -32,6 +32,7 @@ const MODULES = [
   'src/stories/openings-e4.ts',
   'src/stories/openings-d4.ts',
   'src/stories/openings-flank.ts',
+  'src/stories/generated.ts',
   'src/stories/patterns.ts',
   'src/stories/tactics.ts',
   'src/lib/share.ts',
