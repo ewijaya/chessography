@@ -18,6 +18,7 @@ import { buildDeck, grade, loadProgress, nextCard, saveProgress, type Grade, typ
 import Postmortem from './components/Postmortem';
 import { playSound } from './lib/sound';
 import { storyCounts, allOpeningStories } from './stories';
+import { COPYRIGHT } from './lib/meta';
 import type { OpeningEntry } from './types';
 import './App.css';
 
@@ -1042,7 +1043,7 @@ export default function App() {
           {bookReady ? `${bookSize().toLocaleString()} named positions` : 'opening atlas loading…'} from the
           lichess opening atlas (CC0) · engine: Stockfish 18 lite · <a href="/atlas/">read the story atlas</a>
         </div>
-        <div className="footer-copyright">© 2026 Edward Wijaya</div>
+        <div className="footer-copyright">{COPYRIGHT}</div>
       </footer>
     </div>
   );

@@ -36,6 +36,7 @@ const MODULES = [
   'src/stories/tactics.ts',
   'src/lib/share.ts',
   'src/lib/presets.ts',
+  'src/lib/meta.ts',
 ];
 
 for (const rel of MODULES) {
@@ -55,6 +56,7 @@ const { structureStories, endgameStories } = await import(pathToFileURL(join(scr
 const { tacticStories } = await import(pathToFileURL(join(scratch, 'tactics.mjs')).href);
 const { encodeGame } = await import(pathToFileURL(join(scratch, 'share.mjs')).href);
 const { presets } = await import(pathToFileURL(join(scratch, 'presets.mjs')).href);
+const { COPYRIGHT } = await import(pathToFileURL(join(scratch, 'meta.mjs')).href);
 
 const book = JSON.parse(readFileSync(join(root, 'src', 'data', 'openings.json'), 'utf8'));
 
@@ -166,7 +168,7 @@ ${FONTS}
 <main>
 <nav><a href="/">♞ Chessography</a> · <a href="/atlas/">the story atlas</a></nav>
 ${body}
-<footer>Chessography — every named move carries a story. Openings from the <a href="https://github.com/lichess-org/chess-openings">lichess opening atlas</a> (CC0).<br>© 2026 Edward Wijaya</footer>
+<footer>Chessography — every named move carries a story. Openings from the <a href="https://github.com/lichess-org/chess-openings">lichess opening atlas</a> (CC0).<br>${esc(COPYRIGHT)}</footer>
 </main>
 </body>
 </html>
