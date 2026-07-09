@@ -1833,10 +1833,6 @@
     font-weight: 600;
   }
 
-  /* keep the chip from covering the footer link */
-  .footer {
-    padding-bottom: 56px;
-  }
 }
 
 /* touch targets: scoresheet moves */
@@ -1966,4 +1962,67 @@
 .help-foot a,
 .help-sheet a {
   color: var(--stamp);
+}
+
+/* ---------- mobile polish batch ---------- */
+
+/* opponent pills never wrap mid-label */
+
+.opponent-modes button {
+  white-space: nowrap;
+}
+
+/* current-lineage marker never wraps under its line */
+
+.ledger li.current::after {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 880px) {
+  /* room for the peek chip everywhere, not just past the footer,
+     and clearance for the iPhone home indicator */
+  .app {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .story-peek {
+    bottom: calc(14px + env(safe-area-inset-bottom));
+  }
+
+  /* long games: the scoresheet scrolls instead of swallowing the page
+     (the current move auto-scrolls into view) */
+  .scoresheet {
+    max-height: 138px;
+    overflow-y: auto;
+  }
+
+  /* iOS zooms into inputs under 16px — keep them at 16 on touch layouts */
+  .atlas-search,
+  .importer-user,
+  .pgn-import textarea {
+    font-size: 16px;
+  }
+
+  /* the ledger's ply column is generous on desktop, tight on phones */
+  .ledger li .ply {
+    min-width: 40px;
+  }
+
+  .lineage-preview {
+    left: 46px;
+  }
+}
+
+/* landscape phones: board and story side by side again */
+
+@media (max-width: 1000px) and (max-height: 520px) and (orientation: landscape) {
+  .layout {
+    grid-template-columns: minmax(280px, 46%) 1fr;
+    gap: 20px;
+  }
+
+  .story-peek {
+    display: none;
+  }
 }

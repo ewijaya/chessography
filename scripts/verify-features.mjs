@@ -129,7 +129,7 @@ await page.click('.advice-close');
 (await page.$('.advice-card')) ? fail('advice card should close on ×') : ok('advice card dismissed via ×');
 
 // --- Stockfish opponent ---
-await page.click('text=Play White vs');
+await page.click('text=White vs');
 await page.waitForTimeout(300);
 await page.click('[data-square="e2"]');
 await page.waitForTimeout(150);

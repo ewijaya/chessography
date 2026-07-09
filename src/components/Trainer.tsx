@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { dueCards, dueLabel, newCards, type Grade, type ProgressMap, type TrainerCard } from '../lib/trainer';
 
 export interface DrillState {
@@ -42,10 +43,19 @@ export default function Trainer({
   const fresh = newCards(deck, progress);
   const next = due[0] ?? fresh[0] ?? null;
 
+  // On a slip (or completion) bring the card into view — on mobile the
+  // feedback would otherwise sit below the fold while eyes are on the board.
+  const cardRef = useRef<HTMLDivElement>(null);
+  const flash = drill?.flash;
+  const done = drill?.done;
+  useEffect(() => {
+    if (flash || done) cardRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [flash, done]);
+
   if (drill) {
     const { card, idx, errors, flash, done } = drill;
     return (
-      <div className="drill-card" aria-live="polite">
+      <div className="drill-card" aria-live="polite" ref={cardRef}>
         <div className="drill-head">
           <span className="eco-stamp">{card.eco}</span>
           <span className="drill-name">{card.name}</span>

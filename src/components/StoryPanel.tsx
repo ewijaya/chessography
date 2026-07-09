@@ -86,7 +86,7 @@ function OpeningView({ recognition, onPlayGame }: { recognition: Recognition; on
       )}
       {lineage.length > 1 && (
         <div className="ledger">
-          <div className="ledger-title">Naming lineage — how the name narrowed · hover a line to see its position</div>
+          <div className="ledger-title">Naming lineage — how the name narrowed · tap or hover a line to see its position</div>
           <ol>
             {lineage.map((l, i) => (
               <li

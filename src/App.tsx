@@ -95,6 +95,10 @@ export default function App() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem('chessography-theme', theme);
+    // Keep the browser chrome (address bar, status bar) on the felt.
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', theme === 'dark' ? '#122018' : '#e4d8bf');
   }, [theme]);
 
   useEffect(() => localStorage.setItem('chessography-muted', muted ? '1' : '0'), [muted]);
@@ -366,8 +370,37 @@ export default function App() {
     scoresheetRef.current?.querySelector('.san.current')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }, [displayPly]);
 
-  // The story panel, for the mobile peek chip to scroll to.
+  // The story panel, for the mobile peek chip to scroll to. The chip is
+  // two-way: once the story is in view it points back at the board.
   const storyRef = useRef<HTMLDivElement>(null);
+  const [storyInView, setStoryInView] = useState(false);
+  useEffect(() => {
+    const el = storyRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const obs = new IntersectionObserver(([entry]) => setStoryInView(entry.isIntersecting), { threshold: 0.15 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  // Horizontal swipe on the reading surfaces (story, scoresheet) steps
+  // through the game — never on the board itself, which owns touch for
+  // dragging pieces.
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  const onSwipeStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    swipeStart.current = { x: t.clientX, y: t.clientY };
+  };
+  const onSwipeEnd = (e: React.TouchEvent) => {
+    const s = swipeStart.current;
+    swipeStart.current = null;
+    if (!s) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - s.x;
+    const dy = t.clientY - s.y;
+    // A deliberate horizontal swipe, not a vertical scroll.
+    if (Math.abs(dx) < 60 || Math.abs(dx) < 2 * Math.abs(dy)) return;
+    goToPly(displayPly + (dx < 0 ? 1 : -1));
+  };
 
   // ---------- game management ----------
 
@@ -715,13 +748,13 @@ export default function App() {
                 className={opponent === 'engine-black' ? 'active' : ''}
                 onClick={() => selectOpponent('engine-black')}
               >
-                Play White vs ♟
+                White vs ♟
               </button>
               <button
                 className={opponent === 'engine-white' ? 'active' : ''}
                 onClick={() => selectOpponent('engine-white')}
               >
-                Play Black vs ♙
+                Black vs ♙
               </button>
             </div>
             {opponent !== 'human' && (
@@ -961,7 +994,13 @@ export default function App() {
             </div>
           )}
 
-          <div className="scoresheet" aria-label="moves played" ref={scoresheetRef}>
+          <div
+            className="scoresheet"
+            aria-label="moves played"
+            ref={scoresheetRef}
+            onTouchStart={onSwipeStart}
+            onTouchEnd={onSwipeEnd}
+          >
             {movePairs.length === 0 ? (
               <span className="empty">
                 {opponent === 'human'
@@ -1026,7 +1065,7 @@ export default function App() {
           <GameImporter ready={bookReady} onLoad={loadImported} />
         </div>
 
-        <div className="story-wrap" ref={storyRef}>
+        <div className="story-wrap" ref={storyRef} onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
           <StoryPanel
             recognition={recognition}
             view={view}
@@ -1037,17 +1076,28 @@ export default function App() {
         </div>
       </main>
 
-      {peekName && (
-        <button
-          className="story-peek"
-          onClick={() => storyRef.current?.scrollIntoView({ behavior: 'smooth' })}
-          aria-label={`read the story of ${peekName}`}
-        >
-          <span className="peek-book" aria-hidden="true">📖</span>
-          <span className="peek-name">{peekName}</span>
-          <span aria-hidden="true">→</span>
-        </button>
-      )}
+      {peekName &&
+        (storyInView ? (
+          <button
+            className="story-peek"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="back to the board"
+          >
+            <span aria-hidden="true">♟</span>
+            <span className="peek-name">back to the board</span>
+            <span aria-hidden="true">↑</span>
+          </button>
+        ) : (
+          <button
+            className="story-peek"
+            onClick={() => storyRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            aria-label={`read the story of ${peekName}`}
+          >
+            <span className="peek-book" aria-hidden="true">📖</span>
+            <span className="peek-name">{peekName}</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        ))}
 
       <footer className="footer">
         <div className="footer-meta">
