@@ -816,7 +816,9 @@
   font-family: var(--mono);
   font-size: 0.72rem;
   color: var(--stamp);
-  margin: -12px 0 20px;
+  /* No negative pull-up: the title above carries a 2px underline drawn at
+     the bottom edge of its padding box, and the note must clear it. */
+  margin: 0 0 20px;
 }
 
 .inherited-note {
