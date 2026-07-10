@@ -70,9 +70,13 @@ describe('opening stories', () => {
   });
 
   it('falls back to the nearest storied ancestor for deep unstoried lines', () => {
-    // Ruy Lopez: Morphy Defense, Cozio Defense — no authored story.
+    // A deep Ruy Lopez sideline with no *authored* story. Tested against the
+    // authored-only map so the assertion holds regardless of whether the
+    // Gemini draft generator has run — with drafts present this exact line
+    // resolves to its own generated story, which is the intended behaviour;
+    // the ancestor-fallback logic itself is what this test pins down.
     const m = matchOpening(['e4', 'e5', 'Nf3', 'Nc6', 'Bb5', 'a6', 'Ba4', 'Nge7'])!;
-    const s = getOpeningStory(m.lineage)!;
+    const s = getOpeningStory(m.lineage, { authoredOnly: true })!;
     expect(s.inherited).toBe(true);
     expect(['Ruy Lopez: Morphy Defense', 'Ruy Lopez']).toContain(s.story.id);
   });
