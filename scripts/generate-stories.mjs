@@ -175,9 +175,14 @@ async function callGemini(prompt) {
       await sleep(wait * 1000);
       continue;
     }
-    if ((res.status >= 500 || res.status === 408) && attempt <= 3) {
-      const wait = 2 ** attempt * 2;
-      console.log(`  HTTP ${res.status}, retry in ${wait}s...`);
+    // Transient server errors (503 high-demand spikes, 500, 408) can last
+    // several minutes. Back off exponentially but cap both the delay and
+    // the total wait so a genuine outage still eventually gives up — a
+    // demand spike of ~15 min is ridden out rather than crashing the run.
+    if (res.status >= 500 || res.status === 408) {
+      if (attempt > 20) throw new Error(`HTTP ${res.status} persisted after ${attempt} attempts: ${body.slice(0, 200)}`);
+      const wait = Math.min(2 ** attempt * 2, 60);
+      console.log(`  HTTP ${res.status} (attempt ${attempt}), retry in ${wait}s...`);
       await sleep(wait * 1000);
       continue;
     }
